@@ -1,0 +1,54 @@
+{
+  "name": "soma-atlas",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Free, installable 3D anatomy PWA for MBBS study. BodyParts3D male body, HRA female organ module, Visible Human cross-sections, quizzes and a tool-using Groq tutor.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "check": "npm run typecheck && npm run lint && npm run test && npm run build",
+    "data:taxonomy": "node scripts/rebuild-taxonomy.mjs",
+    "data:split": "node scripts/split-by-system.mjs",
+    "data:verify": "node scripts/verify-data.mjs",
+    "ingest:slices": "node scripts/process-slices.mjs",
+    "ingest:male": "python scripts/convert-bodyparts3d.py",
+    "ingest:female": "node scripts/convert-hra-female.mjs",
+    "ingest:compress": "node scripts/compress-glb.mjs",
+    "ingest": "python scripts/convert-bodyparts3d.py && node scripts/convert-hra-female.mjs && node scripts/rebuild-taxonomy.mjs && node scripts/split-by-system.mjs && node scripts/process-slices.mjs && node scripts/verify-data.mjs"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.0.6",
+    "@react-three/fiber": "^9.1.2",
+    "next": "^15.3.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "three": "^0.175.0",
+    "zustand": "^5.0.3"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.7",
+    "@gltf-transform/core": "^4.5.0",
+    "@gltf-transform/extensions": "^4.5.0",
+    "@gltf-transform/functions": "^4.5.0",
+    "@types/node": "^22.14.1",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "@types/three": "^0.175.0",
+    "draco3dgltf": "^1.5.7",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^15.5.25",
+    "meshoptimizer": "^1.2.0",
+    "tsx": "^4.23.13",
+    "typescript": "^5.8.3"
+  },
+  "overrides": {
+    "postcss": "^8.5.23"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

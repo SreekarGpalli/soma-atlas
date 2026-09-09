@@ -1,0 +1,5 @@
+# Drop Draco-compressed GLB files here.
+# Suggested names:
+#   male-body.glb
+#   female-pelvis.glb
+# Mesh names inside the GLB should match structure ids in src/data/structures.ts
