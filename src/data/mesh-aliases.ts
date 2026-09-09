@@ -62,33 +62,36 @@ export const MESH_ALIASES: Record<string, (string | RegExp)[]> = {
 
   breast: [/^(left|right) breast$/i],
   mandible: [/^mandible$/i],
-  deltoid: [/^(left|right) deltoid$/i],
   "femoral-artery": [/^(left|right) femoral artery$/i],
   "brachial-artery": [/^(left|right) brachial artery$/i],
   "broad-ligament": [/^broad ligament of uterus$/i],
   ureters: [/^(left|right) ureter$/i],
+
+  // Structures the Z-Anatomy merge gave geometry for. Each of these used to sit
+  // in NO_MESH_REASON below and select nothing in the 3D view.
+  "sciatic-nerve": [/^(left|right) sciatic nerve$/i],
+  "femoral-nerve": [/^(left|right) femoral nerve$/i],
+  "median-nerve": [/^(left|right) median nerve$/i],
+  "ulnar-nerve": [/^(left|right) ulnar nerve$/i],
+  "radial-nerve": [/^(left|right) radial nerve$/i],
+  "pudendal-nerve": [/^(left|right) pudendal nerve$/i],
+  "obturator-nerve": [/^(left|right) obturator nerve$/i],
+  "brachial-plexus": [/trunk of (left|right) brachial plexus$/i, /brachial plexus$/i],
+  temporalis: [/^(left|right) temporalis muscle$/i],
+  masseter: [/^(left|right) (deep|superficial) part of masseter$/i],
+  "rectus-abdominis": [/^(left|right) rectus abdominis muscle$/i],
+  // BodyParts3D splits the deltoid into its three heads and names no whole.
+  "deltoid-muscle": [/part of (left|right) deltoid$/i],
 };
 
 /**
- * High-yield notes whose structure genuinely has no mesh in either open
- * dataset. BodyParts3D 4.0 ships brain and cranial nerves but no peripheral
- * nerves, and no muscles of facial expression or mastication. Rather than
- * silently selecting nothing, the card says so.
+ * High-yield notes whose structure genuinely has no mesh in any source we ship.
+ * Rather than silently selecting nothing, the card says so.
+ *
+ * This list used to hold fifteen entries, including every peripheral nerve and
+ * the muscles of mastication. Merging Z-Anatomy supplied all but two of them.
  */
 export const NO_MESH_REASON: Record<string, string> = {
-  "sciatic-nerve": "peripheral nerves",
-  "femoral-nerve": "peripheral nerves",
-  "median-nerve": "peripheral nerves",
-  "ulnar-nerve": "peripheral nerves",
-  "radial-nerve": "peripheral nerves",
-  "phrenic-nerve": "peripheral nerves",
-  "pudendal-nerve": "peripheral nerves",
-  "obturator-nerve": "peripheral nerves",
-  "brachial-plexus": "peripheral nerves",
-  temporalis: "muscles of mastication",
-  masseter: "muscles of mastication",
-  "rectus-abdominis": "anterior abdominal wall muscles",
+  "phrenic-nerve": "the phrenic nerve",
   "perineal-body": "perineal soft tissue",
-  thyroid: "the thyroid gland (BodyParts3D ships only the thyroid cartilage)",
-  deltoid: "the deltoid muscle",
 };

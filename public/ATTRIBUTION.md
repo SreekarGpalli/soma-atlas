@@ -9,8 +9,19 @@ G.L.S.C Atlas redistributes or will redistribute third-party anatomy data. Keep 
   Source geometry: `isa_BP3D_4.0_obj_99.zip` (99% polygon-reduced IS-A tree).
   Adaptations: millimetres/Z-up converted to metres/Y-up; origin shifted so the feet rest on the stage; meshes named to catalog ids; Draco compression.
   English concept names and element membership follow the official IS-A tables (3,432 FMA concepts over 2,234 meshes).
-- Z-Anatomy adaptations, CC BY-SA 4.0.
-  https://www.z-anatomy.com/
+- Z-Anatomy — the libre 3D atlas of anatomy, licensed under CC BY-SA 4.0.
+  https://www.z-anatomy.com/ — source `Z-Anatomy.zip` from https://github.com/Z-Anatomy/The-blend
+  1,963 meshes in the male module come from Z-Anatomy: the peripheral nerves and
+  named ligaments, plus muscle, vessel and lymphoid detail BodyParts3D does not
+  model. Z-Anatomy is itself derived from BodyParts3D.
+  Adaptations: objects selected where BodyParts3D had no equivalent structure;
+  nerve and vessel curves converted to tube meshes at reduced tessellation;
+  world transforms baked; materials dropped; renamed to catalog ids; Draco compression.
+
+  **Because Z-Anatomy is share-alike, the combined 3D mesh dataset in this
+  application is distributed under CC BY-SA 4.0.** Attribute it as
+  "Z-Anatomy — the libre 3D atlas of anatomy — CC BY-SA 4.0" and license any
+  derivative of the meshes under the same terms.
 - Human Reference Atlas / HuBMAP 3D Reference Organ Set for Female v1.5 (Kristen Browne and Heidi Schlehlein), CC BY 4.0.
   DOI: 10.48539/HBM352.BTSQ.586
   Source: `3d-vh-f-united.glb`. Female module uses these real female meshes only. It is not a complete female whole-body cadaver.

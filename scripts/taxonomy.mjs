@@ -389,6 +389,15 @@ const REGION_RULES = [
         "auditor", "cilia", "nasal", "paranasal", "maxillary sinus", "frontal sinus",
         "ethmoidal", "sphenoidal sinus", "masseter", "temporalis", "pterygoid",
         "gyrus", "gyri", "meninge",
+        // added with the Z-Anatomy merge
+        "sulcus", "sulci", "lobule", "vermis", "culmen", "declive", "uvula",
+        "adenohypophys", "neurohypophys", "infundibul", "occipit", "temporal",
+        "orbital", "zygomatic", "buccinator", "digastric", "mylohyoid",
+        "geniohyoid", "stylohyoid", "angular arter", "angular vein", "facial arter",
+        "facial vein", "auricul", "labyrinth", "vestibul(?!e of vagina)",
+        "mandibul", "retromandibul", "temporomandibul", "premolar", "incisor",
+        "canine tooth", "molar", "labial", "alveolar", "palatine", "lingual",
+        "submandibul", "sublingual", "pterion", "nuchal",
       ],
     ),
   ],
@@ -417,6 +426,8 @@ const REGION_RULES = [
     "abdomen",
     rule(
       ["abdomen", "liver", "stomach", "caecum", "cecum", "colon", "bowel",
+       "pyloric nodes", "retropyloric nodes", "subpyloric nodes",
+       "suprapyloric node",
        "spleen", "kidney", "kidneys", "ureter", "linea alba", "inguinal",
        "gallbladder", "portal vein", "inferior vena cava", "appendix",
        "mesoappendix"],
@@ -465,7 +476,13 @@ const REGION_RULES = [
        "coracoid", "rotator cuff", "teres major", "teres minor"],
       ["axillar", "carpal", "metacarp", "brachi", "antebrach", "palmar",
        "deltoid", "thenar", "hypothenar", "supraspinat", "infraspinat",
-       "subscapular", "latissimus", "subclavius", "opponens"],
+       "subscapular", "latissimus", "subclavius", "opponens",
+       // added with the Z-Anatomy merge
+       "ulnar", "radial(?! fiber)", "acromioclavicular", "coracoclavicular",
+       "coracohumeral", "glenohumeral", "glenoid", "cubital", "anconeus",
+       "musculocutaneous", "median nerve", "pronator", "supinator",
+       "flexor carpi", "extensor carpi", "brachioradialis", "lumbrical",
+       "sternoclavicular", "interosseous membrane of forearm"],
     ),
   ],
   [
@@ -478,7 +495,14 @@ const REGION_RULES = [
        "plantar", "sural", "saphenous", "sciatic", "quadriceps", "vastus",
        "sartorius", "gracilis", "adductor", "gastrocnemius", "soleus",
        "tibialis", "peroneus", "fibularis", "piriformis", "obturator",
-       "iliac(?! artery)", "acetabul", "ischial", "pubic"],
+       "iliac(?! artery)", "acetabul", "ischial", "pubic",
+       // added with the Z-Anatomy merge
+       "tibial", "fibular", "talocalcane", "talonavicular", "talofibular",
+       "calcanea", "calcaneofibular", "patellar", "menisc", "anserine",
+       "iliopectineal", "iliotibial", "cruciate", "collateral ligament of knee",
+       "digitorum longus", "hallucis", "semitendinos", "semimembranos",
+       "biceps femoris", "pectineus", "popliteus", "tibiofibular",
+       "interosseous membrane of leg", "cuneiform", "lacunar node"],
     ),
   ],
   [
@@ -489,7 +513,10 @@ const REGION_RULES = [
        "erector spinae", "multifidus", "trapezius", "rhomboid", "nucleus pulposus"],
       ["vertebra", "vertebral", "intervertebral", "sacrum", "sacral",
        "coccyx", "coccyge", "paraspinal", "epidural", "semispinalis",
-       "splenius", "longissimus", "iliocostalis"],
+       "splenius", "longissimus", "iliocostalis",
+       // added with the Z-Anatomy merge
+       "corticospinal", "spinothalamic", "spinocerebellar", "thoracolumbar",
+       "supraspinous", "interspinous", "ligamentum flavum"],
     ),
   ],
 ];

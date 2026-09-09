@@ -1,17 +1,17 @@
 {
   "male": {
     "cardiovascular": "/models/male/cardiovascular.glb",
-    "muscular": "/models/male/muscular.glb",
     "skeletal": "/models/male/skeletal.glb",
+    "muscular": "/models/male/muscular.glb",
     "nervous": "/models/male/nervous.glb",
     "digestive": "/models/male/digestive.glb",
     "respiratory": "/models/male/respiratory.glb",
+    "lymphatic": "/models/male/lymphatic.glb",
     "sensory": "/models/male/sensory.glb",
     "maleReproductive": "/models/male/maleReproductive.glb",
-    "urinary": "/models/male/urinary.glb",
+    "integumentary": "/models/male/integumentary.glb",
     "endocrine": "/models/male/endocrine.glb",
-    "lymphatic": "/models/male/lymphatic.glb",
-    "integumentary": "/models/male/integumentary.glb"
+    "urinary": "/models/male/urinary.glb"
   },
   "female": {
     "nervous": "/models/female/nervous.glb",

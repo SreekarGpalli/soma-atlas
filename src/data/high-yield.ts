@@ -259,7 +259,7 @@ export const HIGH_YIELD: Structure[] = [
     clinical: "Triceps jerk tests C7–C8.",
   },
   {
-    id: "deltoid",
+    id: "deltoid-muscle",
     name: "Deltoid",
     system: "muscular",
     region: "upperLimb",
@@ -647,7 +647,7 @@ export const HIGH_YIELD: Structure[] = [
   },
 
   {
-    id: "thyroid",
+    id: "thyroid-gland",
     name: "Thyroid gland",
     system: "endocrine",
     region: "neck",
