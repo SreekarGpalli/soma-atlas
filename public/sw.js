@@ -10,16 +10,22 @@
  * document, so a returning user could never receive an app update until the
  * cache name changed.
  *
- * Models are cache-first and never revalidated, so BUMP VERSION whenever the
- * contents of public/models change. Their paths stay the same across a rebuild,
- * which means a returning browser otherwise keeps the old geometry forever —
- * activation is the only thing that drops it.
+ * Models are cache-first and never revalidated, and their paths do not change
+ * across a rebuild, so a returning browser would keep the old geometry forever:
+ * dropping it only happens when the cache name changes on activation. That is
+ * why MEDIA has its own version, stamped from the contents of public/models,
+ * public/slices and public/draco by scripts/stamp-media-version.mjs. Edit
+ * VERSION by hand when the caching strategy changes; leave MEDIA_VERSION alone.
  */
 
 const VERSION = "v7";
+// AUTO-GENERATED — do not edit. `npm run media:stamp`, and automatically by
+// `npm run data:split` and `npm run build`. `npm run data:verify` fails if stale.
+const MEDIA_VERSION = "m-06c94a2fdb9a355b";
+
 const SHELL = `glsc-shell-${VERSION}`;
 const ASSETS = `glsc-assets-${VERSION}`;
-const MEDIA = `glsc-media-${VERSION}`;
+const MEDIA = `glsc-media-${MEDIA_VERSION}`;
 const CACHES = [SHELL, ASSETS, MEDIA];
 
 const PRECACHE = [

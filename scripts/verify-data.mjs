@@ -11,6 +11,7 @@
 import { readFileSync, existsSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { spawnSync } from "node:child_process";
 import { ONTOLOGY_ROOTS } from "./taxonomy.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -161,6 +162,24 @@ if (orphans.length) {
 }
 
 // ---------------------------------------------------------------------------
+// The service worker serves the model packs cache-first and never revalidates
+// them, so a stale MEDIA_VERSION ships new geometry that returning browsers
+// never see. Catch it here rather than in a bug report.
+
+{
+  const stamp = spawnSync(
+    process.execPath,
+    [path.join(ROOT, "scripts/stamp-media-version.mjs"), "--check"],
+    { encoding: "utf8" },
+  );
+  if (stamp.status !== 0) {
+    fail(
+      `service worker MEDIA_VERSION is stale — run \`npm run media:stamp\`. ${(
+        stamp.stderr || ""
+      ).trim().split("\n")[0]}`,
+    );
+  }
+}
 
 for (const w of warnings) console.warn(`warn  ${w}`);
 for (const p of problems) console.error(`FAIL  ${p}`);

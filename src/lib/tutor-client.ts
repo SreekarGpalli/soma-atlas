@@ -18,6 +18,26 @@ interface StreamResult {
   toolCalls: ToolCall[];
 }
 
+const TOOL_NAMES = new Set(GROQ_TOOLS.map((t) => t.function.name));
+
+/**
+ * GPT-OSS speaks OpenAI's Harmony format, and its channel markers can leak into
+ * the streamed function name: "search_structures<|channel|>commentary". That
+ * name goes into the assistant message, the next request replays it, and Groq
+ * rejects the whole conversation with "attempted to call tool ... which was not
+ * in request.tools" — so the tutor stays broken until the chat is cleared.
+ *
+ * Cut the name back to the tool it actually names. Harmony also namespaces
+ * tools as "functions.search_structures".
+ */
+export function cleanToolName(raw: string): string {
+  return raw
+    .split("<|")[0]
+    .replace(/^functions\./, "")
+    .replace(/[^A-Za-z0-9_-]/g, "")
+    .trim();
+}
+
 /**
  * Reads Groq's SSE stream, assembling both the answer text and any tool calls.
  * Tool-call arguments arrive as fragments across many deltas and are keyed by
@@ -102,7 +122,9 @@ async function streamOnce(
           function: { name: "", arguments: "" },
         };
         if (call.id) existing.id = call.id;
-        if (call.function?.name) existing.function.name = call.function.name;
+        if (call.function?.name) {
+          existing.function.name = cleanToolName(call.function.name);
+        }
         if (call.function?.arguments) {
           existing.function.arguments += call.function.arguments;
         }
@@ -113,10 +135,13 @@ async function streamOnce(
 
   return {
     content,
+    // Only tools we actually declared. A name that survives cleaning but still
+    // matches nothing would be replayed in history and rejected by Groq, which
+    // breaks every later turn rather than just this one.
     toolCalls: [...partial.entries()]
       .sort((a, b) => a[0] - b[0])
       .map(([, v]) => v)
-      .filter((c) => c.function.name),
+      .filter((c) => TOOL_NAMES.has(c.function.name)),
   };
 }
 
