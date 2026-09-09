@@ -36,6 +36,9 @@ const RULES: [TissueId, RegExp][] = [
 const CENTRAL = /\b(brain|cerebral|cerebellar|cerebellum|cortex|gyrus|gyri|sulcus|nucleus|nuclei|thalamus|hypothalamus|hippocampus|amygdala|medulla oblongata|pons|midbrain|colliculus|ventricle of|choroid plexus|spinal cord|tract|fasciculus|lemniscus|commissure|decussation|dura|arachnoid|pia|meninx|meninges|lobule|vermis)\b/i;
 
 export function classifyTissue(name: string): TissueId {
+  // Vessels can contain CNS adjectives (e.g. anterior cerebral artery).
+  if (/\b(valve|sinoatrial node|atrioventricular node|choroid plexus)\b/i.test(name)) return "other";
+  for (const [id, re] of RULES.slice(0, 2)) if (re.test(name)) return id;
   if (CENTRAL.test(name)) return "other";
   for (const [id, re] of RULES) if (re.test(name)) return id;
   return "other";

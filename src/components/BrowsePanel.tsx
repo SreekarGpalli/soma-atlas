@@ -3,6 +3,7 @@
 import { useDeferredValue, useMemo, useState } from "react";
 import { STRUCTURES, searchStructures } from "@/data/structures";
 import { REGION_META, SYSTEM_IDS, SYSTEM_META } from "@/lib/systems";
+import { classifyTissue } from "@/lib/tissue";
 import { DEFAULT_SYSTEMS } from "@/lib/systems";
 import { useAtlasStore } from "@/store/useAtlasStore";
 import type { RegionId, Structure, SystemId } from "@/lib/types";
@@ -107,6 +108,7 @@ function SystemFilters() {
 }
 
 function StructureList() {
+  const tissueFocus = useAtlasStore(s => s.tissueFocus);
   const sex = useAtlasStore((s) => s.sex);
   const systems = useAtlasStore((s) => s.systems);
   const focusedId = useAtlasStore((s) => s.focusedId);
@@ -124,6 +126,7 @@ function StructureList() {
       : searchStructures("", { sex });
     const out = base.filter((s) => {
       if (!systems[s.system]) return false;
+      if (tissueFocus !== "all" && classifyTissue(s.name) !== tissueFocus) return false;
       if (region !== "all" && s.region !== region) return false;
       return true;
     });
@@ -139,7 +142,7 @@ function StructureList() {
       );
     }
     return out;
-  }, [deferred, sex, systems, region]);
+  }, [deferred, sex, systems, region, tissueFocus]);
 
   const regions = useMemo(() => {
     const set = new Set<RegionId>();

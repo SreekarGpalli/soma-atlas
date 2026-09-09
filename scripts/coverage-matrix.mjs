@@ -315,7 +315,8 @@ const md = [
   "[mesh-sources.md](mesh-sources.md).",
   "",
   `**${covered} of ${report.reference.counted.structure} Terminologia Anatomica structures — ` +
-    `${pct(covered, report.coverage.structuresTotal)}.** ${report.coverage.missing} have no mesh.`,
+    `${pct(covered, report.coverage.structuresTotal)} candidate name matches.** ${report.coverage.missing} terms have no automatic match.`,
+  "This is a heuristic inventory, not validated anatomical completeness. Exact and partial matches need geometry review; unmatched terms may have differently named geometry. Counts retain the existing denominator for comparison.",
   "",
   "| | |",
   "|---|---|",

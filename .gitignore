@@ -18,3 +18,5 @@ data/work/
 data/backup/
 
 .vercel
+
+.next-dev/

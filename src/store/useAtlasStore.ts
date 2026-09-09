@@ -33,6 +33,9 @@ export interface ToolTrace {
 }
 
 interface AtlasState {
+  tissueFocus: "all" | "artery" | "vein" | "nerve" | "lymph";
+  readable: boolean;
+  turntable: boolean;
   sex: SexModule;
   systems: Record<SystemId, boolean>;
   /** Mesh ids currently highlighted. */
@@ -148,6 +151,9 @@ function systemsForSex(
 }
 
 export const useAtlasStore = create<AtlasState>((set, get) => ({
+  tissueFocus: "all",
+  readable: true,
+  turntable: false,
   sex: "male",
   systems: { ...DEFAULT_SYSTEMS },
   selectedIds: [],
@@ -196,6 +202,7 @@ export const useAtlasStore = create<AtlasState>((set, get) => ({
     // model must be cleared or the new body renders empty.
     set((s) => ({
       sex,
+      tissueFocus: "all",
       systems: systemsForSex(
         sex === "female"
           ? { ...s.systems, femaleReproductive: true }
@@ -217,8 +224,8 @@ export const useAtlasStore = create<AtlasState>((set, get) => ({
   },
 
   toggleSystem: (id) =>
-    set((s) => ({ systems: { ...s.systems, [id]: !s.systems[id] } })),
-  patchSystems: (patch) => set((s) => ({ systems: { ...s.systems, ...patch } })),
+    set((s) => ({ tissueFocus: "all", systems: { ...s.systems, [id]: !s.systems[id] } })),
+  patchSystems: (patch) => set((s) => ({ systems: { ...s.systems, ...patch }, tissueFocus: "all" })),
   soloSystem: (id) =>
     set((s) => {
       const only = Object.fromEntries(
@@ -227,7 +234,7 @@ export const useAtlasStore = create<AtlasState>((set, get) => ({
       // A second click on a solo'd system restores the defaults.
       const alreadySolo =
         s.systems[id] && Object.entries(s.systems).every(([k, v]) => v === (k === id));
-      return { systems: alreadySolo ? { ...DEFAULT_SYSTEMS } : only };
+      return { tissueFocus: "all", systems: alreadySolo ? { ...DEFAULT_SYSTEMS } : only };
     }),
 
   select: (id, opts) => {
@@ -240,6 +247,7 @@ export const useAtlasStore = create<AtlasState>((set, get) => ({
     set((s) => ({
       selectedIds,
       focusedId: id,
+      tissueFocus: "all",
       systems: { ...s.systems, [meta.system]: true },
       // Only take over the sidebar when the caller asks; browsing a list
       // should not yank the list out from under the pointer.
@@ -274,7 +282,7 @@ export const useAtlasStore = create<AtlasState>((set, get) => ({
     if (!next.length) return;
     set({ isolatedIds: next, hiddenIds: [] });
   },
-  resetVisibility: () => set({ hiddenIds: [], isolatedIds: [] }),
+  resetVisibility: () => set({ tissueFocus: "all", hiddenIds: [], isolatedIds: [] }),
 
   setTransparency: (v) => set({ transparency: Math.min(1, Math.max(0, v)) }),
   setXray: (v) => set({ xray: v }),

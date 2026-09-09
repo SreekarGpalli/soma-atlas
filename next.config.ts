@@ -37,6 +37,7 @@ const SECURITY_HEADERS = [
 ];
 
 const nextConfig: NextConfig = {
+  distDir: dev ? ".next-dev" : ".next",
   reactStrictMode: true,
   poweredByHeader: false,
   compress: true,

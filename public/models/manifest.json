@@ -18,14 +18,14 @@
     "skeletal": "/models/female/skeletal.glb",
     "cardiovascular": "/models/female/cardiovascular.glb",
     "urinary": "/models/female/urinary.glb",
+    "digestive": "/models/female/digestive.glb",
     "respiratory": "/models/female/respiratory.glb",
     "sensory": "/models/female/sensory.glb",
     "femaleReproductive": "/models/female/femaleReproductive.glb",
-    "digestive": "/models/female/digestive.glb",
     "lymphatic": "/models/female/lymphatic.glb",
+    "integumentary": "/models/female/integumentary.glb",
     "muscular": "/models/female/muscular.glb",
-    "endocrine": "/models/female/endocrine.glb",
-    "integumentary": "/models/female/integumentary.glb"
+    "endocrine": "/models/female/endocrine.glb"
   },
   "maleBody": "/models/male-body.glb",
   "femalePelvis": "/models/female-pelvis.glb"

@@ -67,13 +67,14 @@ FMA ids. Normalisation drops laterality and redundant head nouns, folds plurals
 and known irregulars, and compares sorted token sets, so TA2's *Sartorius muscle*
 matches a shipped `right-sartorius`.
 
-**Measured false-negative rate: about 5%**, by sampling 40 rows from the missing
-list and hand-searching the mesh names for each. That moves the headline
-percentage by a point or two. It does not change the shape of the gap, and the
-per-kind ordering is robust to it.
-
-Re-run that sample after any change to the matcher. If it climbs above ~10% the
-matcher is doing more harm than the gap it is measuring.
+The error rate has not been established by a reproducible anatomical audit.
+Earlier claims of a measured 5% false-negative rate were unsupported and are
+withdrawn. Both false positives and false negatives are possible. For example,
+a vessel supplying a structure may match that structure's name without
+representing its anatomy. Partial matches do not establish complete geometry.
+Treat both grades as candidates for visual review, and missing as unmatched,
+not proof of absence. The percentage is a search heuristic, not validated
+anatomical completeness; the denominator also excludes selected term classes.
 
 ## Outputs
 

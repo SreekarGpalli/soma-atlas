@@ -7,6 +7,7 @@ import { Box3, Color, Mesh, PerspectiveCamera, Sphere, Vector3 } from "three";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import { AnatomyScene } from "./AnatomyScene";
 import { ViewDock } from "./ViewDock";
+import { SceneModes } from "./SceneModes";
 import { useAtlasStore } from "@/store/useAtlasStore";
 import { STRUCTURE_BY_ID } from "@/data/structures";
 
@@ -89,7 +90,7 @@ function CameraRig({
       box.expandByObject(mesh);
       found = true;
     });
-    return found && frameBox(box, 1.9);
+    return found && frameBox(box, 1.12);
   }, [scene, frameBox]);
 
   const request = useCallback(
@@ -117,6 +118,7 @@ function CameraRig({
   }, [size, invalidate]);
 
   useFrame(() => {
+    if (useAtlasStore.getState().turntable) invalidate();
     const p = pending.current;
     if (p) {
       const done = p.kind === "home" ? tryHome() : tryFocus();
@@ -180,7 +182,8 @@ export function Viewer() {
       s.quiz[s.quizIndex]?.type === "identify",
   );
 
-  const bg = theme === "dark" ? "#080d14" : "#e7e5e2";
+  const turntable = useAtlasStore(s => s.turntable);
+  const bg = theme === "dark" ? "#0b1420" : "#e7e5e2";
 
   const pinned = useMemo(() => {
     if (answerHidden) return null;
@@ -199,7 +202,7 @@ export function Viewer() {
 
   return (
     <div className="viewer">
-      <Canvas
+      <div className="anatomy-stage"><Canvas
         frameloop="demand"
         dpr={[1, 1.75]}
         gl={{ antialias: true, powerPreference: "high-performance" }}
@@ -215,14 +218,18 @@ export function Viewer() {
         <OrbitControls
           ref={controls}
           makeDefault
+          autoRotate={turntable}
+          autoRotateSpeed={0.55}
+          onStart={() => useAtlasStore.setState({ turntable: false })}
           enableDamping
           dampingFactor={0.08}
           minDistance={0.08}
           maxDistance={12}
           zoomSpeed={0.8}
         />
-      </Canvas>
+      </Canvas></div>
 
+      <SceneModes />
       <ViewDock />
 
       <div className="hud hud-tr">

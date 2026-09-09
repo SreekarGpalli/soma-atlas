@@ -10,6 +10,7 @@ const config = [
   {
     ignores: [
       ".next/**",
+      ".next-dev/**",
       // `npx vercel` leaves a compiled copy of the app here. It is build
       // output, not source, and linting it reported 474 errors in bundled
       // vendor code that no one can act on.

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T15:04:48.020Z",
+  "generatedAt": "2026-09-09T17:49:57.110Z",
   "reference": {
     "name": "Terminologia Anatomica 2nd ed. (FIPAT 2019)",
     "citation": "FIPAT. Terminologia Anatomica. 2nd ed. FIPAT.library.dal.ca, 2019.",
@@ -14,13 +14,13 @@
     }
   },
   "shipped": {
-    "meshNodes": 5085,
-    "distinctNames": 4198,
-    "distinctKeys": 2618,
-    "triangles": 10207794,
+    "meshNodes": 5163,
+    "distinctNames": 4251,
+    "distinctKeys": 2664,
+    "triangles": 12565547,
     "male": 4197,
-    "female": 888,
-    "unmatchedMeshes": 1763,
+    "female": 966,
+    "unmatchedMeshes": 1822,
     "bySource": [
       [
         "bodyparts3d",
@@ -33,21 +33,25 @@
       [
         "hra",
         888
+      ],
+      [
+        "hra-v1.10",
+        78
       ]
     ]
   },
   "coverage": {
     "structuresTotal": 5281,
-    "exact": 1516,
-    "partial": 363,
-    "missing": 3402
+    "exact": 1522,
+    "partial": 368,
+    "missing": 3391
   },
   "byChapter": [
     {
       "chapter": "02 Bones",
       "total": 420,
-      "exact": 67,
-      "partial": 36,
+      "exact": 68,
+      "partial": 35,
       "missing": 317,
       "pct": 24.5,
       "missingExamples": [
@@ -127,9 +131,9 @@
       "chapter": "04 Muscular System",
       "total": 649,
       "exact": 306,
-      "partial": 57,
-      "missing": 286,
-      "pct": 55.9,
+      "partial": 58,
+      "missing": 285,
+      "pct": 56.1,
       "missingExamples": [
         "Attachment",
         "Superior attachment",
@@ -166,22 +170,17 @@
     {
       "chapter": "05 Digestive System",
       "total": 283,
-      "exact": 46,
-      "partial": 31,
-      "missing": 206,
-      "pct": 27.2,
+      "exact": 51,
+      "partial": 34,
+      "missing": 198,
+      "pct": 30,
       "missingExamples": [
         "Digestive system",
-        "Mouth",
         "Papilla of parotid duct",
-        "Hard palate",
-        "Soft palate",
         "Palatine raphe",
         "Transverse palatine folds",
         "Incisive papilla",
         "Mucosa of mouth",
-        "Frenulum of upper lip",
-        "Frenulum of lower lip",
         "Sublingual caruncle",
         "Sublingual fold",
         "Gingival papilla",
@@ -200,7 +199,12 @@
         "Palatine glands",
         "Lingual glands",
         "Teeth",
-        "Periodontium"
+        "Periodontium",
+        "Dorsum of tongue",
+        "Anterior part of tongue",
+        "(Thyroglossal duct)",
+        "Lingual tonsil",
+        "Fimbriated fold"
       ]
     },
     {
@@ -602,9 +606,9 @@
       "chapter": "16 The Integument",
       "total": 66,
       "exact": 7,
-      "partial": 6,
-      "missing": 53,
-      "pct": 19.7,
+      "partial": 8,
+      "missing": 51,
+      "pct": 22.7,
       "missingExamples": [
         "Integument",
         "Skin sulci",
@@ -614,7 +618,6 @@
         "Epidermis",
         "Dermis",
         "Papillary layer",
-        "Papillae",
         "Reticular layer",
         "Arrector muscle of hair",
         "Skin appendages",
@@ -635,7 +638,8 @@
         "Nail wall",
         "Nail root",
         "Nail matrix",
-        "Skin glands"
+        "Skin glands",
+        "Sweat glands"
       ]
     }
   ],
@@ -643,10 +647,10 @@
     {
       "kind": "other",
       "total": 1660,
-      "exact": 327,
-      "partial": 107,
-      "missing": 1226,
-      "pct": 26.1,
+      "exact": 332,
+      "partial": 111,
+      "missing": 1217,
+      "pct": 26.7,
       "missingExamples": [
         "Musculoskeletal systems",
         "Neurocranium",
@@ -844,9 +848,9 @@
       "kind": "muscle / tendon",
       "total": 375,
       "exact": 180,
-      "partial": 40,
-      "missing": 155,
-      "pct": 58.7,
+      "partial": 42,
+      "missing": 153,
+      "pct": 59.2,
       "missingExamples": [
         "Muscle fascicle",
         "Muscular trochlea",
@@ -885,9 +889,9 @@
         "Inferior longitudinal lingual muscle",
         "Transversus linguae muscle",
         "Verticalis linguae muscle",
-        "Muscles of soft palate",
         "Palatine aponeurosis",
-        "Palatoglossus muscle"
+        "Palatoglossus muscle",
+        "Anterior fascicle of palatopharyngeus muscle"
       ]
     },
     {
@@ -1043,8 +1047,8 @@
     {
       "kind": "bone / cartilage / joint",
       "total": 266,
-      "exact": 66,
-      "partial": 33,
+      "exact": 67,
+      "partial": 32,
       "missing": 167,
       "pct": 37.2,
       "missingExamples": [
@@ -14913,7 +14917,7 @@
       "class": "structure",
       "kind": "other",
       "match": "partial",
-      "meshCount": 15,
+      "meshCount": 25,
       "meshes": [
         "male:third-cervical-vertebra",
         "male:fourth-cervical-vertebra",
@@ -14934,7 +14938,7 @@
       "class": "structure",
       "kind": "bone / cartilage / joint",
       "match": "partial",
-      "meshCount": 15,
+      "meshCount": 25,
       "meshes": [
         "male:third-cervical-vertebra",
         "male:fourth-cervical-vertebra",
@@ -15292,7 +15296,7 @@
       "class": "structure",
       "kind": "other",
       "match": "partial",
-      "meshCount": 35,
+      "meshCount": 59,
       "meshes": [
         "male:tenth-thoracic-vertebra",
         "male:eleventh-thoracic-vertebra",
@@ -15313,7 +15317,7 @@
       "class": "structure",
       "kind": "bone / cartilage / joint",
       "match": "partial",
-      "meshCount": 35,
+      "meshCount": 59,
       "meshes": [
         "male:tenth-thoracic-vertebra",
         "male:eleventh-thoracic-vertebra",
@@ -15429,7 +15433,7 @@
       "class": "structure",
       "kind": "other",
       "match": "partial",
-      "meshCount": 16,
+      "meshCount": 28,
       "meshes": [
         "male:first-lumbar-vertebra",
         "male:second-lumbar-vertebra",
@@ -15450,7 +15454,7 @@
       "class": "structure",
       "kind": "bone / cartilage / joint",
       "match": "partial",
-      "meshCount": 16,
+      "meshCount": 28,
       "meshes": [
         "male:first-lumbar-vertebra",
         "male:second-lumbar-vertebra",
@@ -16270,14 +16274,13 @@
       "chapterName": "Bones",
       "class": "structure",
       "kind": "bone / cartilage / joint",
-      "match": "partial",
-      "meshCount": 2,
+      "match": "exact",
+      "meshCount": 1,
       "meshes": [
-        "male:body-of-sternum",
-        "male:manubrium-of-sternum"
+        "female:hra10-vh-f-sternum"
       ],
       "sexes": [
-        "male"
+        "female"
       ]
     },
     {
@@ -23947,7 +23950,7 @@
       "class": "structure",
       "kind": "brain / spinal cord / meninges",
       "match": "partial",
-      "meshCount": 23,
+      "meshCount": 47,
       "meshes": [
         "male:nucleus-pulposus-c2-c3",
         "male:nucleus-pulposus-c3-c4",
@@ -23955,7 +23958,8 @@
         "male:nucleus-pulposus-c5-c6"
       ],
       "sexes": [
-        "male"
+        "male",
+        "female"
       ]
     },
     {
@@ -30842,10 +30846,14 @@
       "chapterName": "Muscular System",
       "class": "structure",
       "kind": "muscle / tendon",
-      "match": "none",
-      "meshCount": 0,
-      "meshes": [],
-      "sexes": []
+      "match": "partial",
+      "meshCount": 1,
+      "meshes": [
+        "female:hra10-vh-f-mucosa-of-soft-palate"
+      ],
+      "sexes": [
+        "female"
+      ]
     },
     {
       "ta2Id": 2127,
@@ -40881,10 +40889,14 @@
       "chapterName": "Digestive System",
       "class": "structure",
       "kind": "other",
-      "match": "none",
-      "meshCount": 0,
-      "meshes": [],
-      "sexes": []
+      "match": "partial",
+      "meshCount": 1,
+      "meshes": [
+        "female:hra10-vh-f-mouth-floor"
+      ],
+      "sexes": [
+        "female"
+      ]
     },
     {
       "ta2Id": 2775,
@@ -40938,12 +40950,15 @@
       "class": "structure",
       "kind": "other",
       "match": "partial",
-      "meshCount": 1,
+      "meshCount": 3,
       "meshes": [
-        "male:uvula-of-palate"
+        "male:uvula-of-palate",
+        "female:hra10-vh-f-hard-palate",
+        "female:hra10-vh-f-mucosa-of-soft-palate"
       ],
       "sexes": [
-        "male"
+        "male",
+        "female"
       ]
     },
     {
@@ -40954,10 +40969,14 @@
       "chapterName": "Digestive System",
       "class": "structure",
       "kind": "other",
-      "match": "none",
-      "meshCount": 0,
-      "meshes": [],
-      "sexes": []
+      "match": "exact",
+      "meshCount": 1,
+      "meshes": [
+        "female:hra10-vh-f-hard-palate"
+      ],
+      "sexes": [
+        "female"
+      ]
     },
     {
       "ta2Id": 2780,
@@ -40967,10 +40986,14 @@
       "chapterName": "Digestive System",
       "class": "structure",
       "kind": "other",
-      "match": "none",
-      "meshCount": 0,
-      "meshes": [],
-      "sexes": []
+      "match": "partial",
+      "meshCount": 1,
+      "meshes": [
+        "female:hra10-vh-f-mucosa-of-soft-palate"
+      ],
+      "sexes": [
+        "female"
+      ]
     },
     {
       "ta2Id": 2781,
@@ -41049,10 +41072,14 @@
       "chapterName": "Digestive System",
       "class": "structure",
       "kind": "other",
-      "match": "none",
-      "meshCount": 0,
-      "meshes": [],
-      "sexes": []
+      "match": "exact",
+      "meshCount": 1,
+      "meshes": [
+        "female:hra10-vh-f-frenulum-of-upper-lip"
+      ],
+      "sexes": [
+        "female"
+      ]
     },
     {
       "ta2Id": 2787,
@@ -41062,10 +41089,14 @@
       "chapterName": "Digestive System",
       "class": "structure",
       "kind": "other",
-      "match": "none",
-      "meshCount": 0,
-      "meshes": [],
-      "sexes": []
+      "match": "exact",
+      "meshCount": 1,
+      "meshes": [
+        "female:hra10-vh-f-frenulum-of-lower-lip"
+      ],
+      "sexes": [
+        "female"
+      ]
     },
     {
       "ta2Id": 2788,
@@ -41102,13 +41133,16 @@
       "class": "structure",
       "kind": "other",
       "match": "partial",
-      "meshCount": 2,
+      "meshCount": 4,
       "meshes": [
         "male:gingiva-of-upper-jaw",
-        "male:gingiva-of-lower-jaw"
+        "male:gingiva-of-lower-jaw",
+        "female:hra10-vh-f-ginviva-of-upper-jaw",
+        "female:hra10-vh-f-gingiva-of-lower-jaw"
       ],
       "sexes": [
-        "male"
+        "male",
+        "female"
       ]
     },
     {
@@ -41237,13 +41271,16 @@
       "class": "structure",
       "kind": "gland / endocrine",
       "match": "exact",
-      "meshCount": 2,
+      "meshCount": 4,
       "meshes": [
         "male:left-parotid-gland",
-        "male:right-parotid-gland"
+        "male:right-parotid-gland",
+        "female:hra10-vh-f-parotid-gland-r",
+        "female:hra10-vh-f-parotid-gland-l"
       ],
       "sexes": [
-        "male"
+        "male",
+        "female"
       ]
     },
     {
@@ -41343,13 +41380,16 @@
       "class": "structure",
       "kind": "gland / endocrine",
       "match": "exact",
-      "meshCount": 2,
+      "meshCount": 4,
       "meshes": [
         "male:left-sublingual-gland",
-        "male:right-sublingual-gland"
+        "male:right-sublingual-gland",
+        "female:hra10-vh-f-sublingual-gland-r",
+        "female:hra10-vh-f-sublingual-gland-l"
       ],
       "sexes": [
-        "male"
+        "male",
+        "female"
       ]
     },
     {
@@ -41387,13 +41427,16 @@
       "class": "structure",
       "kind": "gland / endocrine",
       "match": "exact",
-      "meshCount": 2,
+      "meshCount": 4,
       "meshes": [
         "male:left-submandibular-gland",
-        "male:right-submandibular-gland"
+        "male:right-submandibular-gland",
+        "female:hra10-vh-f-submandibular-gland-l",
+        "female:hra10-vh-f-submandibular-gland-r"
       ],
       "sexes": [
-        "male"
+        "male",
+        "female"
       ]
     },
     {
@@ -41621,10 +41664,14 @@
       "chapterName": "Digestive System",
       "class": "structure",
       "kind": "other",
-      "match": "none",
-      "meshCount": 0,
-      "meshes": [],
-      "sexes": []
+      "match": "exact",
+      "meshCount": 1,
+      "meshes": [
+        "female:hra10-vh-f-posterior-part-of-tongue"
+      ],
+      "sexes": [
+        "female"
+      ]
     },
     {
       "ta2Id": 2828,
@@ -41777,10 +41824,14 @@
       "chapterName": "Digestive System",
       "class": "structure",
       "kind": "other",
-      "match": "none",
-      "meshCount": 0,
-      "meshes": [],
-      "sexes": []
+      "match": "exact",
+      "meshCount": 1,
+      "meshes": [
+        "female:hra10-vh-f-fungiform-papillae"
+      ],
+      "sexes": [
+        "female"
+      ]
     },
     {
       "ta2Id": 2840,
@@ -41984,10 +42035,14 @@
       "chapterName": "Digestive System",
       "class": "structure",
       "kind": "muscle / tendon",
-      "match": "none",
-      "meshCount": 0,
-      "meshes": [],
-      "sexes": []
+      "match": "partial",
+      "meshCount": 1,
+      "meshes": [
+        "female:hra10-vh-f-mucosa-of-soft-palate"
+      ],
+      "sexes": [
+        "female"
+      ]
     },
     {
       "ta2Id": 2855,
@@ -43713,7 +43768,7 @@
       "class": "structure",
       "kind": "viscus (thorax / abdomen / pelvis)",
       "match": "partial",
-      "meshCount": 11,
+      "meshCount": 12,
       "meshes": [
         "male:marginal-artery-of-colon",
         "male:ascending-colon",
@@ -102762,10 +102817,15 @@
       "chapterName": "The Integument",
       "class": "structure",
       "kind": "other",
-      "match": "none",
-      "meshCount": 0,
-      "meshes": [],
-      "sexes": []
+      "match": "partial",
+      "meshCount": 2,
+      "meshes": [
+        "female:hra10-vh-f-fungiform-papillae",
+        "female:hra10-vh-f-circumvallate-papillae"
+      ],
+      "sexes": [
+        "female"
+      ]
     },
     {
       "ta2Id": 7050,
@@ -103218,15 +103278,14 @@
       "class": "structure",
       "kind": "other",
       "match": "partial",
-      "meshCount": 4,
+      "meshCount": 3,
       "meshes": [
-        "male:left-superficial-investing-cervical-fascia",
-        "male:right-superficial-investing-cervical-fascia",
-        "male:left-superficial-layer-of-temporal-fascia",
-        "male:right-superficial-layer-of-temporal-fascia"
+        "female:hra10-vh-f-subcutaneous-abdominal-adipose-tissue-umbilicus-area",
+        "female:hra10-vh-f-subcutaneous-abdominal-adipose-tissue-ruq-area",
+        "female:hra10-vh-f-subcutaneous-abdominal-adipose-tissue-luq-area"
       ],
       "sexes": [
-        "male"
+        "female"
       ]
     },
     {
@@ -103328,10 +103387,16 @@
       "chapterName": "The Integument",
       "class": "structure",
       "kind": "other",
-      "match": "none",
-      "meshCount": 0,
-      "meshes": [],
-      "sexes": []
+      "match": "partial",
+      "meshCount": 3,
+      "meshes": [
+        "female:hra10-vh-f-subcutaneous-abdominal-adipose-tissue-umbilicus-area",
+        "female:hra10-vh-f-subcutaneous-abdominal-adipose-tissue-ruq-area",
+        "female:hra10-vh-f-subcutaneous-abdominal-adipose-tissue-luq-area"
+      ],
+      "sexes": [
+        "female"
+      ]
     },
     {
       "ta2Id": 7092,

@@ -12,10 +12,10 @@ import { IconChevron, IconSliders } from "./Icons";
 export function ViewDock() {
   // On a phone the dock would cover most of the model, so it starts collapsed
   // there and expanded on a desktop where there is room beside the body.
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     const narrow = window.matchMedia("(max-width: 900px)");
-    setOpen(!narrow.matches);
+    if (narrow.matches) setOpen(false);
   }, []);
 
   const transparency = useAtlasStore((s) => s.transparency);

@@ -39,23 +39,9 @@ interface Entry {
   sex: "both" | "male" | "female";
 }
 
-/**
- * A nerve or a small vessel is a tube about 5 mm across. On a 1.73 m body drawn
- * 600 px tall that is under one pixel, so the whole peripheral nervous system
- * rasterises into a faint haze and the brain is the only thing that reads.
- *
- * Rather than thickening the meshes — which would be a lie at every zoom level,
- * and would turn the median nerve into a hosepipe at the wrist — the vertex
- * shader grows each tube along its normal by however much it takes to reach a
- * floor of MIN_TUBE_PIXELS on screen, and no more. Zoom in and the growth falls
- * to zero and you are looking at true calibre again. This is how vector maps
- * keep roads visible and how CAD keeps edges visible; the eye reads it as
- * normal because thin things are *expected* to stop shrinking.
- *
- * The correction is computed for a NOMINAL_TUBE_RADIUS tube, so a structure
- * that is already thick barely moves: at overview zoom the aorta gains about
- * 0.4 mm on a 12 mm radius, which is 3% and invisible.
- */
+/** Optional normal extrusion improves distant visibility. It uses a nominal
+ * radius, not measured calibre, and is not a guaranteed pixel-width floor.
+ * Disable the display aid when assessing original surface geometry. */
 const MIN_TUBE_PIXELS = 2.4;
 const NOMINAL_TUBE_RADIUS = 0.0025;   // metres; Z-Anatomy's authored tube radius
 const MAX_TUBE_GROWTH = 0.006;        // never add more than 6 mm of radius
@@ -112,45 +98,45 @@ function useSystemMaterials() {
   const materials = useMemo(() => {
     const base = {} as Record<string, MeshStandardMaterial>;
     const make = (color: string) =>
-      applyMinWidth(
         new MeshStandardMaterial({
           color: new Color(color),
           roughness: 0.55,
           metalness: 0.04,
           side: FrontSide,
           clipShadows: true,
-        }),
-      );
+        });
     for (const id of Object.keys(SYSTEM_META) as SystemId[]) {
       base[id] = make(SYSTEM_META[id].color);
       // Arteries red, veins blue, nerves yellow: the convention a student
       // already reads, so a vein stops hiding inside the arterial tree.
       for (const [tissue, color] of Object.entries(TISSUE_COLOR)) {
-        base[`${id}:${tissue}`] = make(color as string);
+        base[`${id}:${tissue}`] = applyMinWidth(make(color as string));
       }
     }
-    const selected = applyMinWidth(new MeshStandardMaterial({
+    const selected = new MeshStandardMaterial({
       color: new Color(SELECTED_COLOR),
       emissive: new Color(SELECTED_EMISSIVE),
       roughness: 0.4,
       metalness: 0.05,
       side: FrontSide,
       clipShadows: true,
-    }));
-    const hover = applyMinWidth(new MeshStandardMaterial({
+    });
+    const hover = new MeshStandardMaterial({
       color: new Color(HOVER_COLOR),
       emissive: new Color(HOVER_EMISSIVE),
       roughness: 0.45,
       metalness: 0.05,
       side: FrontSide,
       clipShadows: true,
-    }));
-    const fallback = applyMinWidth(new MeshStandardMaterial({
+    });
+    const fallback = new MeshStandardMaterial({
       color: new Color("#a9b2be"),
       roughness: 0.6,
       side: FrontSide,
-    }));
-    return { base, selected, hover, fallback, pixelScale };
+    });
+    const tubeSelected = applyMinWidth(selected.clone());
+    const tubeHover = applyMinWidth(hover.clone());
+    return { base, selected, hover, fallback, tubeSelected, tubeHover, pixelScale };
   }, [applyMinWidth]);
 
   useEffect(() => {
@@ -159,6 +145,8 @@ function useSystemMaterials() {
       materials.selected,
       materials.hover,
       materials.fallback,
+      materials.tubeSelected,
+      materials.tubeHover,
     ];
     return () => all.forEach((m) => m.dispose());
   }, [materials]);
@@ -227,22 +215,22 @@ function SystemPack({ url }: { url: string }) {
   // A perspective camera spans 2*tan(fov/2) world units per unit of depth, over
   // the viewport's height in pixels. Recomputed on resize and on any camera
   // change, which is also every frame the user is dragging.
+  const readable = useAtlasStore((s) => s.readable);
   const size = useThree((s) => s.size);
   const camera = useThree((s) => s.camera);
   useEffect(() => {
     const update = () => {
       const cam = camera as PerspectiveCamera;
       if (!cam.isPerspectiveCamera || !size.height) return;
-      const next = (2 * Math.tan((cam.fov * Math.PI) / 360)) / size.height;
+      const next = readable ? 2 / (cam.projectionMatrix.elements[5] * size.height) : 0;
       if (Math.abs(next - materials.pixelScale.current.value) > 1e-9) {
         materials.pixelScale.current.value = next;
         invalidate();
       }
     };
     update();
-    const id = setInterval(update, 500);
-    return () => clearInterval(id);
-  }, [camera, size, materials, invalidate]);
+
+  }, [camera, size, readable, materials, invalidate]);
 
   // --- shared appearance: clipping + fade --------------------------------
   const transparency = useAtlasStore((s) => s.transparency);
@@ -253,6 +241,8 @@ function SystemPack({ url }: { url: string }) {
       materials.selected,
       materials.hover,
       materials.fallback,
+      materials.tubeSelected,
+      materials.tubeHover,
     ];
     for (const m of all) {
       m.clippingPlanes = clippingPlanes;
@@ -275,12 +265,14 @@ function SystemPack({ url }: { url: string }) {
   const isolatedIds = useAtlasStore((s) => s.isolatedIds);
   const sex = useAtlasStore((s) => s.sex);
   const muscleLayer = useAtlasStore((s) => s.muscleLayer);
+  const tissueFocus = useAtlasStore((s) => s.tissueFocus);
 
   useLayoutEffect(() => {
     const hidden = new Set(hiddenIds);
     const isolated = isolatedIds.length ? new Set(isolatedIds) : null;
     for (const e of entries) {
       let visible = systems[e.system] !== false;
+      if (tissueFocus !== "all" && e.tissue !== tissueFocus) visible = false;
       if (visible && e.sex !== "both" && e.sex !== sex) visible = false;
       if (visible && e.system === "muscular" && e.layer > muscleLayer) {
         visible = false;
@@ -290,18 +282,19 @@ function SystemPack({ url }: { url: string }) {
       e.mesh.visible = visible;
     }
     invalidate();
-  }, [entries, systems, hiddenIds, isolatedIds, sex, muscleLayer, invalidate]);
+  }, [entries, systems, hiddenIds, isolatedIds, sex, muscleLayer, tissueFocus, invalidate]);
 
   // --- selection ----------------------------------------------------------
   // Most structures worth selecting sit inside the body. Without an x-ray
   // pass, flying the camera to the left lung just shows the chest wall.
   const xray = useAtlasStore((s) => s.xray);
   useLayoutEffect(() => {
-    const m = materials.selected;
+    for (const m of [materials.selected, materials.tubeSelected]) {
     m.depthTest = !xray;
     m.transparent = xray;
     m.opacity = xray ? 0.94 : 1;
     m.needsUpdate = true;
+    }
     invalidate();
   }, [xray, materials, invalidate]);
 
@@ -314,14 +307,14 @@ function SystemPack({ url }: { url: string }) {
       if (next.has(id)) continue;
       const e = byMeshId.get(id);
       if (e) {
-        e.mesh.material = materials.base[e.system];
+        e.mesh.material = materials.base[`${e.system}:${e.tissue}`] ?? materials.base[e.system];
         e.mesh.renderOrder = 0;
       }
     }
     for (const id of next) {
       const e = byMeshId.get(id);
       if (e) {
-        e.mesh.material = materials.selected;
+        e.mesh.material = TISSUE_COLOR[e.tissue] ? materials.tubeSelected : materials.selected;
         // Drawn last so the x-ray pass lands on top of the body.
         e.mesh.renderOrder = 10;
       }
@@ -338,12 +331,12 @@ function SystemPack({ url }: { url: string }) {
     if (prev && prev !== hoveredId) {
       const e = byMeshId.get(prev);
       if (e && !selectedRef.current.has(prev)) {
-        e.mesh.material = materials.base[e.system];
+        e.mesh.material = materials.base[`${e.system}:${e.tissue}`] ?? materials.base[e.system];
       }
     }
     if (hoveredId && !selectedRef.current.has(hoveredId)) {
       const e = byMeshId.get(hoveredId);
-      if (e) e.mesh.material = materials.hover;
+      if (e) e.mesh.material = TISSUE_COLOR[e.tissue] ? materials.tubeHover : materials.hover;
     }
     hoveredRef.current = hoveredId;
     invalidate();

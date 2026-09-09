@@ -40,7 +40,7 @@ function parseName(raw) {
   const side = /\.(l|ol)$/i.test(n) ? "left" : /\.(r|or)$/i.test(n) ? "right" : null;
   n = n.replace(/\.(l|r|ol|or|m)$/i, "").replace(/\.\d{3}$/, "").trim();
   const optional = /^\(.*\)$/.test(n);
-  n = n.replace(/^\(/, "").replace(/\)$/, "").trim();
+  if (optional) n = n.slice(1, -1).trim();
   if (!n) return null;
   const display = side ? `${side[0].toUpperCase()}${side.slice(1)} ${n[0].toLowerCase()}${n.slice(1)}` : n;
   return { base: n, side, optional, display };

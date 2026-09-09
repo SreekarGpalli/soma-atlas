@@ -1,0 +1,916 @@
+{
+  "source": "https://cdn.humanatlas.io/digital-objects/ref-organ/united-female/v1.10/assets/3d-vh-f-united.glb",
+  "license": "CC BY 4.0",
+  "sha256": "95f0c3d2f918582608692ca1139e8bdb18c147a16470e9ee9af8b276bd77c422",
+  "anchors": [
+    "VH_F_renal_pelvis_R",
+    "VH_F_renal_pelvis_L",
+    "VH_F_trachea",
+    "VH_F_tracheal_cartilage",
+    "VH_F_sacrum",
+    "VH_F_thoracic_vertebra_1",
+    "VH_F_thoracic_vertebra_2",
+    "VH_F_thoracic_vertebra_3",
+    "VH_F_thoracic_vertebra_4",
+    "VH_F_thoracic_vertebra_5",
+    "VH_F_thoracic_vertebra_6",
+    "VH_F_thoracic_vertebra_7",
+    "VH_F_thoracic_vertebra_8",
+    "VH_F_thoracic_vertebra_9",
+    "VH_F_thoracic_vertebra_10",
+    "VH_F_thoracic_vertebra_11",
+    "VH_F_thoracic_vertebra_12",
+    "VH_F_cervical_vertebra_1",
+    "VH_F_cervical_vertebra_2",
+    "VH_F_cervical_vertebra_3",
+    "VH_F_cervical_vertebra_4",
+    "VH_F_cervical_vertebra_5",
+    "VH_F_cervical_vertebra_6",
+    "VH_F_cervical_vertebra_7",
+    "VH_F_lumbar_vertebra_6",
+    "VH_F_lumbar_vertebra_5",
+    "VH_F_lumbar_vertebra_4",
+    "VH_F_lumbar_vertebra_3",
+    "VH_F_lumbar_vertebra_2",
+    "VH_F_lumbar_vertebra_1",
+    "VH_F_femur_R",
+    "VH_F_medial_condyle_of_right_femur_sup",
+    "VH_F_lateral_condyle_of_femur_sup_R",
+    "VH_F_medial_condyle_of_right_femur_inf",
+    "VH_F_lateral_condyle_of_femur_inf_R",
+    "VH_F_lateral_condyle_of_femur_frontal_R",
+    "VH_F_femur_L",
+    "VH_F_medial_condyle_of_left_femur_inf",
+    "VH_F_lateral_condyle_of_femur_inf_L",
+    "VH_F_lateral_condyle_of_femur_frontal_L",
+    "VH_F_lateral_condyle_of_femur_sup_L",
+    "VH_F_medial_condyle_of_left_femur_sup"
+  ],
+  "scale": 0.9999954074403976,
+  "offset": [
+    0.005841365357079199,
+    0.7947630919724055,
+    -0.005023209833734277
+  ],
+  "maxResidual": 0.00007734238785978978,
+  "additions": [
+    {
+      "id": "hra10-vh-f-subcutaneous-abdominal-adipose-tissue-umbilicus-area",
+      "name": "Subcutaneous abdominal adipose tissue umbilicus area",
+      "system": "integumentary",
+      "region": "abdomen",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_subcutaneous_abdominal_adipose_tissue_umbilicus_area"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-subcutaneous-abdominal-adipose-tissue-ruq-area",
+      "name": "Subcutaneous abdominal adipose tissue RUQ area",
+      "system": "integumentary",
+      "region": "abdomen",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_subcutaneous_abdominal_adipose_tissue_RUQ_area"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-subcutaneous-abdominal-adipose-tissue-luq-area",
+      "name": "Subcutaneous abdominal adipose tissue LUQ area",
+      "system": "integumentary",
+      "region": "abdomen",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_subcutaneous_abdominal_adipose_tissue_LUQ_area"
+      ]
+    },
+    {
+      "id": "hra10-allen-primary-motor-cortex-l",
+      "name": "Primary motor cortex left",
+      "system": "nervous",
+      "region": "thorax",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "Allen_primary_motor_cortex_L"
+      ]
+    },
+    {
+      "id": "hra10-allen-primary-motor-cortex-r",
+      "name": "Primary motor cortex right",
+      "system": "nervous",
+      "region": "thorax",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "Allen_primary_motor_cortex_R"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-omentum",
+      "name": "Omentum",
+      "system": "digestive",
+      "region": "abdomen",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_omentum"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-epiploic-appendage-of-transverse-colon",
+      "name": "Epiploic appendage of transverse colon",
+      "system": "digestive",
+      "region": "abdomen",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_epiploic_appendage_of_transverse_colon"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-submandibular-gland-l",
+      "name": "Submandibular gland left",
+      "system": "digestive",
+      "region": "head",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_submandibular_gland_L"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-submandibular-gland-r",
+      "name": "Submandibular gland right",
+      "system": "digestive",
+      "region": "head",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_submandibular_gland_R"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-parotid-gland-r",
+      "name": "Parotid gland right",
+      "system": "digestive",
+      "region": "head",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_parotid_gland_R"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-parotid-gland-l",
+      "name": "Parotid gland left",
+      "system": "digestive",
+      "region": "head",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_parotid_gland_L"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-sublingual-gland-r",
+      "name": "Sublingual gland right",
+      "system": "digestive",
+      "region": "head",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_sublingual_gland_R"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-sublingual-gland-l",
+      "name": "Sublingual gland left",
+      "system": "digestive",
+      "region": "head",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_sublingual_gland_L"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-buccal-mucosa",
+      "name": "Buccal mucosa",
+      "system": "digestive",
+      "region": "thorax",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_buccal_mucosa"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-frenulum-of-upper-lip",
+      "name": "Frenulum of upper lip",
+      "system": "digestive",
+      "region": "thorax",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_frenulum_of_upper_lip"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-frenulum-of-lower-lip",
+      "name": "Frenulum of lower lip",
+      "system": "digestive",
+      "region": "thorax",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_frenulum_of_lower_lip"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-mouth-floor",
+      "name": "Mouth floor",
+      "system": "digestive",
+      "region": "thorax",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_mouth_floor"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-ginviva-of-upper-jaw",
+      "name": "Gingiva of upper jaw",
+      "system": "digestive",
+      "region": "head",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_ginviva_of_upper_jaw"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-gingiva-of-lower-jaw",
+      "name": "Gingiva of lower jaw",
+      "system": "digestive",
+      "region": "head",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_gingiva_of_lower_jaw"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-posterior-part-of-tongue",
+      "name": "Posterior part of tongue",
+      "system": "digestive",
+      "region": "head",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_posterior_part_of_tongue"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-dorsal-tongue",
+      "name": "Dorsal tongue",
+      "system": "digestive",
+      "region": "head",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_dorsal_tongue"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-ventral-tongue",
+      "name": "Ventral tongue",
+      "system": "digestive",
+      "region": "head",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_ventral_tongue"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-fungiform-papillae",
+      "name": "Fungiform papillae",
+      "system": "digestive",
+      "region": "thorax",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_fungiform_papillae"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-circumvallate-papillae",
+      "name": "Circumvallate papillae",
+      "system": "digestive",
+      "region": "thorax",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_circumvallate_papillae"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-hard-palate",
+      "name": "Hard palate",
+      "system": "digestive",
+      "region": "head",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_hard_palate"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-mucosa-of-soft-palate",
+      "name": "Mucosa of soft palate",
+      "system": "digestive",
+      "region": "head",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_mucosa_of_soft_palate"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-set-of-lower-jaw-teeth",
+      "name": "Set of lower jaw teeth",
+      "system": "digestive",
+      "region": "head",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_set_of_lower_jaw_teeth"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-set-of-upper-jaw-teeth",
+      "name": "Set of upper jaw teeth",
+      "system": "digestive",
+      "region": "head",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_set_of_upper_jaw_teeth"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-sternum",
+      "name": "Sternum",
+      "system": "skeletal",
+      "region": "thorax",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_sternum"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-manubrium",
+      "name": "Manubrium",
+      "system": "skeletal",
+      "region": "thorax",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_manubrium"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-intervertebral-disk-of-axis",
+      "name": "Intervertebral disk of axis",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_intervertebral_disk_of_axis"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-intervertebral-disk-of-third-cervical-vertebra",
+      "name": "Intervertebral disk of third cervical vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_intervertebral_disk_of_third_cervical_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-intervertebral-disk-of-fourth-cervical-vertebra",
+      "name": "Intervertebral disk of fourth cervical vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_intervertebral_disk_of_fourth_cervical_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-intervertebral-disk-of-fifth-cervical-vertebra",
+      "name": "Intervertebral disk of fifth cervical vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_intervertebral_disk_of_fifth_cervical_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-intervertebral-disk-of-sixth-cervical-vertebra",
+      "name": "Intervertebral disk of sixth cervical vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_intervertebral_disk_of_sixth_cervical_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-intervertebral-disk-of-seventh-cervical-vertebra",
+      "name": "Intervertebral disk of seventh cervical vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_intervertebral_disk_of_seventh_cervical_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-nucleus-pulposus-of-intervertebral-disk-of-axis",
+      "name": "Nucleus pulposus of intervertebral disk of axis",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_nucleus_pulposus_of_intervertebral_disk_of_axis"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-nucleus-pulposus-of-intervertebral-disk-of-third-cervical-vertebra",
+      "name": "Nucleus pulposus of intervertebral disk of third cervical vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_nucleus_pulposus_of_intervertebral_disk_of_third_cervical_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-nucleus-pulposus-of-intervertebral-disk-of-fourth-cervical-vertebra",
+      "name": "Nucleus pulposus of intervertebral disk of fourth cervical vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_nucleus_pulposus_of_intervertebral_disk_of_fourth_cervical_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-nucleus-pulposus-of-intervertebral-disk-of-fifth-cervical-vertebra",
+      "name": "Nucleus pulposus of intervertebral disk of fifth cervical vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_nucleus_pulposus_of_intervertebral_disk_of_fifth_cervical_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-nucleus-pulposus-of-intervertebral-disk-of-sixth-cervical-vertebra",
+      "name": "Nucleus pulposus of intervertebral disk of sixth cervical vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_nucleus_pulposus_of_intervertebral_disk_of_sixth_cervical_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-nucleus-pulposus-of-intervertebral-disk-of-seventh-cervical-vertebra",
+      "name": "Nucleus pulposus of intervertebral disk of seventh cervical vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_nucleus_pulposus_of_intervertebral_disk_of_seventh_cervical_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-nucleus-pulposus-of-intervertebral-disk-of-first-thoracic-vertebra",
+      "name": "Nucleus pulposus of intervertebral disk of first thoracic vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_nucleus_pulposus_of_intervertebral_disk_of_first_thoracic_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-nucleus-pulposus-of-intervertebral-disk-of-second-thoracic-vertebra",
+      "name": "Nucleus pulposus of intervertebral disk of second thoracic vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_nucleus_pulposus_of_intervertebral_disk_of_second_thoracic_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-nucleus-pulposus-of-intervertebral-disk-of-third-thoracic-vertebra",
+      "name": "Nucleus pulposus of intervertebral disk of third thoracic vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_nucleus_pulposus_of_intervertebral_disk_of_third_thoracic_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-nucleus-pulposus-of-intervertebral-disk-of-fourth-thoracic-vertebra",
+      "name": "Nucleus pulposus of intervertebral disk of fourth thoracic vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_nucleus_pulposus_of_intervertebral_disk_of_fourth_thoracic_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-nucleus-pulposus-of-intervertebral-disk-of-fifth-thoracic-vertebra",
+      "name": "Nucleus pulposus of intervertebral disk of fifth thoracic vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_nucleus_pulposus_of_intervertebral_disk_of_fifth_thoracic_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-nucleus-pulposus-of-intervertebral-disk-of-sixth-thoracic-vertebra",
+      "name": "Nucleus pulposus of intervertebral disk of sixth thoracic vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_nucleus_pulposus_of_intervertebral_disk_of_sixth_thoracic_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-nucleus-pulposus-of-intervertebral-disk-of-seventh-thoracic-vertebra",
+      "name": "Nucleus pulposus of intervertebral disk of seventh thoracic vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_nucleus_pulposus_of_intervertebral_disk_of_seventh_thoracic_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-nucleus-pulposus-of-intervertebral-disk-of-eighth-thoracic-vertebra",
+      "name": "Nucleus pulposus of intervertebral disk of eighth thoracic vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_nucleus_pulposus_of_intervertebral_disk_of_eighth_thoracic_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-nucleus-pulposus-of-intervertebral-disk-of-ninth-thoracic-vertebra",
+      "name": "Nucleus pulposus of intervertebral disk of ninth thoracic vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_nucleus_pulposus_of_intervertebral_disk_of_ninth_thoracic_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-nucleus-pulposus-of-intervertebral-disk-of-tenth-thoracic-vertebra",
+      "name": "Nucleus pulposus of intervertebral disk of tenth thoracic vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_nucleus_pulposus_of_intervertebral_disk_of_tenth_thoracic_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-nucleus-pulposus-of-intervertebral-disk-of-eleventh-thoracic-vertebra",
+      "name": "Nucleus pulposus of intervertebral disk of eleventh thoracic vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_nucleus_pulposus_of_intervertebral_disk_of_eleventh_thoracic_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-nucleus-pulposus-of-intervertebral-disk-of-twelfth-thoracic-vertebra",
+      "name": "Nucleus pulposus of intervertebral disk of twelfth thoracic vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_nucleus_pulposus_of_intervertebral_disk_of_twelfth_thoracic_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-intervertebral-disk-of-first-thoracic-vertebra",
+      "name": "Intervertebral disk of first thoracic vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_intervertebral_disk_of_first_thoracic_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-intervertebral-disk-of-second-thoracic-vertebra",
+      "name": "Intervertebral disk of second thoracic vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_intervertebral_disk_of_second_thoracic_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-intervertebral-disk-of-third-thoracic-vertebra",
+      "name": "Intervertebral disk of third thoracic vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_intervertebral_disk_of_third_thoracic_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-intervertebral-disk-of-fourth-thoracic-vertebra",
+      "name": "Intervertebral disk of fourth thoracic vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_intervertebral_disk_of_fourth_thoracic_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-intervertebral-disk-of-fifth-thoracic-vertebra",
+      "name": "Intervertebral disk of fifth thoracic vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_intervertebral_disk_of_fifth_thoracic_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-intervertebral-disk-of-sixth-thoracic-vertebra",
+      "name": "Intervertebral disk of sixth thoracic vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_intervertebral_disk_of_sixth_thoracic_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-intervertebral-disk-of-seventh-thoracic-vertebra",
+      "name": "Intervertebral disk of seventh thoracic vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_intervertebral_disk_of_seventh_thoracic_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-intervertebral-disk-of-eighth-thoracic-vertebra",
+      "name": "Intervertebral disk of eighth thoracic vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_intervertebral_disk_of_eighth_thoracic_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-intervertebral-disk-of-ninth-thoracic-vertebra",
+      "name": "Intervertebral disk of ninth thoracic vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_intervertebral_disk_of_ninth_thoracic_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-intervertebral-disk-of-tenth-thoracic-vertebra",
+      "name": "Intervertebral disk of tenth thoracic vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_intervertebral_disk_of_tenth_thoracic_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-intervertebral-disk-of-eleventh-thoracic-vertebra",
+      "name": "Intervertebral disk of eleventh thoracic vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_intervertebral_disk_of_eleventh_thoracic_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-intervertebral-disk-of-twelfth-thoracic-vertebra",
+      "name": "Intervertebral disk of twelfth thoracic vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_intervertebral_disk_of_twelfth_thoracic_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-nucleus-pulposus-of-intervertebral-disk-of-first-lumbar-vertebra",
+      "name": "Nucleus pulposus of intervertebral disk of first lumbar vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_nucleus_pulposus_of_intervertebral_disk_of_first_lumbar_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-nucleus-pulposus-of-intervertebral-disk-of-second-lumbar-vertebra",
+      "name": "Nucleus pulposus of intervertebral disk of second lumbar vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_nucleus_pulposus_of_intervertebral_disk_of_second_lumbar_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-nucleus-pulposus-of-intervertebral-disk-of-third-lumbar-vertebra",
+      "name": "Nucleus pulposus of intervertebral disk of third lumbar vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_nucleus_pulposus_of_intervertebral_disk_of_third_lumbar_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-nucleus-pulposus-of-intervertebral-disk-of-fourth-lumbar-vertebra",
+      "name": "Nucleus pulposus of intervertebral disk of fourth lumbar vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_nucleus_pulposus_of_intervertebral_disk_of_fourth_lumbar_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-nucleus-pulposus-of-intervertebral-disk-of-fifth-lumbar-vertebra",
+      "name": "Nucleus pulposus of intervertebral disk of fifth lumbar vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_nucleus_pulposus_of_intervertebral_disk_of_fifth_lumbar_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-nucleus-pulposus-of-intervertebral-disk-of-sixth-lumbar-vertebra",
+      "name": "Nucleus pulposus of intervertebral disk of sixth lumbar vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_nucleus_pulposus_of_intervertebral_disk_of_sixth_lumbar_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-intervertebral-disk-of-first-lumbar-vertebra",
+      "name": "Intervertebral disk of first lumbar vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_intervertebral_disk_of_first_lumbar_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-intervertebral-disk-of-second-lumbar-vertebra",
+      "name": "Intervertebral disk of second lumbar vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_intervertebral_disk_of_second_lumbar_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-intervertebral-disk-of-third-lumbar-vertebra",
+      "name": "Intervertebral disk of third lumbar vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_intervertebral_disk_of_third_lumbar_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-intervertebral-disk-of-fourth-lumbar-vertebra",
+      "name": "Intervertebral disk of fourth lumbar vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_intervertebral_disk_of_fourth_lumbar_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-intervertebral-disk-of-fifth-lumbar-vertebra",
+      "name": "Intervertebral disk of fifth lumbar vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_intervertebral_disk_of_fifth_lumbar_vertebra"
+      ]
+    },
+    {
+      "id": "hra10-vh-f-intervertebral-disk-of-sixth-lumbar-vertebra",
+      "name": "Intervertebral disk of sixth lumbar vertebra",
+      "system": "skeletal",
+      "region": "back",
+      "sex": "female",
+      "source": "hra-v1.10",
+      "aliases": [
+        "VH_F_intervertebral_disk_of_sixth_lumbar_vertebra"
+      ]
+    }
+  ]
+}

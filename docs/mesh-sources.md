@@ -108,3 +108,7 @@ by `scripts/merge-z-anatomy.mjs` — at the cost of returning to 18.1% coverage.
 
 `public/ATTRIBUTION.md` must ship in every build and must name every source used.
 Adding a mesh source means adding it there too.
+
+## HRA v1.10 supplement
+
+See [expansion and reproducibility record](coverage-expansion-2026-09-09.md): 78 added female meshes, official source links, registration evidence and review handoff.

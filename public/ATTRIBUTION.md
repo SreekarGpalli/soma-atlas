@@ -28,6 +28,16 @@ G.L.S.C Atlas redistributes or will redistribute third-party anatomy data. Keep 
 - Oklahoma State University bony pelvis and pelvic organs (Audrey Byrd et al.), CC BY 4.0, published on Sketchfab.
   Direct download requires a Sketchfab account; HRA female pelvis is shipped as the open female bony pelvis until that file can be fetched.
 
+## Additional female geometry
+
+Human Reference Atlas / HuBMAP 3D Reference Organ Set, United Female v1.10,
+CC BY 4.0. Seventy-eight additional mesh objects.
+Source: https://cdn.humanatlas.io/digital-objects/ref-organ/united-female/v1.10/assets/3d-vh-f-united.glb
+Record: https://lod.humanatlas.io/ref-organ/united-female/v1.10
+Adaptations: shared-landmark registration, world transforms baked,
+simplification, uniform materials, renamed identifiers and Draco compression.
+Provenance: data/hra-supplement.json.
+
 ## Cross-sections
 
 - Visible Human Project images courtesy of the U.S. National Library of Medicine.
