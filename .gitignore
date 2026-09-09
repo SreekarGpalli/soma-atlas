@@ -16,3 +16,5 @@ tsconfig.tsbuildinfo
 data/raw/
 data/work/
 data/backup/
+
+.vercel
