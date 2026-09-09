@@ -2,6 +2,8 @@
 
 A free, installable 3D anatomy atlas for MBBS study. Web only, English only.
 
+🌐 **Live Site:** [https://glscatlas.vercel.app/](https://glscatlas.vercel.app/)
+
 - **Male whole body** — BodyParts3D 4.0, 2,234 meshes streamed as per-system Draco packs
 - **Female organ module** — Human Reference Atlas / Visible Human Female, 888 real female meshes. Not a fabricated whole-body female cadaver
 - **Cross-sections** — Visible Human cryosection, MRI and CT plates, plus a live clip plane through the 3D model
