@@ -94,3 +94,7 @@ The gap is a property of the source meshes, not of this pipeline. Raising
 coverage means adding a mesh source — see [mesh-sources.md](mesh-sources.md) for
 what has been evaluated, what each one is worth in coverage points, and the
 share-alike obligations that come with them.
+
+That is how coverage went from 18.1% to 35.6%: merging Z-Anatomy added 924
+structures, and `data/coverage-history.csv` holds both measurements. Both
+adopted sources are now fully ingested, so the next step up needs a third one.

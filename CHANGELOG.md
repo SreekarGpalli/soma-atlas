@@ -1,5 +1,112 @@
 # Changelog
 
+## Coverage: measured honestly, then nearly doubled
+
+The atlas felt thin against commercial products, so this pass established what
+"complete" actually means, measured against it, and closed as much of the gap as
+open data allows.
+
+### The old coverage check was circular
+
+`scripts/coverage-matrix.mjs` compared BodyParts3D against
+`data/raw/ashemag-atlas.json` — a file that declares `"source": "BodyParts3D"`
+and holds the same 2,234 parts. It measured the data against itself and always
+reported 100%. A reference has to come from outside the data being measured.
+
+### Measuring against Terminologia Anatomica
+
+`scripts/extract-ta2.py` parses the official Terminologia Anatomica 2nd ed.
+(FIPAT 2019) PDF — the international standard inventory of gross anatomy — into
+7,113 terms. It is a six-column table at fixed x positions, so rows are rebuilt
+by binding words to column bands and folding wrapped lines onto the row above.
+Two checks guard the parse: ids must come out contiguous 1–7113 with no gaps,
+and UK and US English must agree on ~95% of rows.
+
+Not all 7,113 are modelable. 1,832 name a landmark *on* another structure (a
+margin, foramen, fossa), a space, an abstract class like "long bone", or a
+section heading. **5,281 remain**, and that is the denominator.
+
+The rewritten `coverage-matrix.mjs` counts a structure as present only when a
+GLB node carrying real triangles exists for it — a catalog row is not coverage.
+
+Real coverage was **955 / 5,281 — 18.1%**. Peripheral nerves were 3.5%.
+
+### Closing the gap with Z-Anatomy
+
+Z-Anatomy is a libre atlas (CC BY-SA 4.0) built on BodyParts3D with years of
+manual additions. Because it derives from the same body it shares the coordinate
+space — verified by comparing bounding boxes on shared landmarks — so the two
+overlay without re-registration.
+
+Five reproducible steps, `npm run ingest:z-anatomy`: dump the objects, plan which
+ones add a structure BodyParts3D lacks, export through Blender, merge. It skipped
+928 duplicates and the two collections that are not anatomical structures, and
+merged **1,963 meshes**: peripheral nerves, named ligaments, joint capsules,
+muscle and lymphoid detail.
+
+Two things needed care:
+
+- **Curve tessellation.** Z-Anatomy authors nerves and vessels as curves beveled
+  at 12 samples × 20 sides — 207k triangles for one retinal artery. Cutting
+  tessellation at source rather than decimating afterwards keeps clean tubes and
+  took the import from 6.0M to 3.2M triangles.
+- **Mesh groups are positional.** 1,752 catalog rows store their group as
+  *indices* into the file, and `rebuild-taxonomy.mjs` reads a field the compacted
+  rows no longer have. So rows are appended, never inserted, and classified
+  inline — re-running `data:taxonomy` afterwards would flatten every group. The
+  `ingest` chain now orders the steps accordingly.
+
+```
+coverage   955 -> 1,879 of 5,281    18.1% -> 35.6%
+meshes     3,122 -> 5,085
+nerves     3.5% -> 27.9%     ligaments  9.8% -> 56.7%
+joints     4.4% -> 48.4%     lymphoid   4.0% -> 62.5%
+```
+
+**12 of the 15 notes that said "no mesh available" now select real geometry** —
+sciatic, median, ulnar, radial, pudendal and obturator nerves, brachial plexus,
+temporalis, masseter, rectus abdominis, thyroid gland, deltoid. Only the phrenic
+nerve and perineal body remain without any.
+
+### Bugs this exposed
+
+- **Two note ids collided with unrelated meshes.** The `thyroid` note was
+  overwriting the thyroid *cartilage* row, and `deltoid` collided with the
+  deltoid branch of the thoraco-acromial artery. Now `thyroid-gland` and
+  `deltoid-muscle`; the cartilage and the artery keep their own identities.
+- **A test asserted `x === x`.** "loads a plausible number of structures"
+  compared the mesh count against `2234 + 888 - overlapCount()`, where
+  `overlapCount()` was itself `2234 + 888 - meshCount`. It passed for any data.
+  Replaced with the invariant that actually matters and that a second mesh source
+  could break: every shipped mesh must resolve to a structure, or clicking it in
+  the 3D view selects nothing.
+- **Region rules did not know this vocabulary.** 876 merged rows fell through to
+  the default region. Extending `scripts/taxonomy.mjs` with the forearm, leg,
+  skull-base and brain-surface terms Z-Anatomy introduced brought that to 473.
+- **`npm run check` failed on 474 lint errors**, every one inside `.vercel/output`
+  build output that eslint was not ignoring.
+
+### Licence — read this one
+
+BodyParts3D and the HRA female organs are CC BY 4.0. **Z-Anatomy is CC BY-SA
+4.0**, so the combined mesh dataset is now share-alike where it was not before.
+Recorded in `public/ATTRIBUTION.md`, the README and `docs/mesh-sources.md`.
+`data/backup/models/male-body.bodyparts3d.glb` is the way back if that is ever
+unacceptable, at the cost of returning to 18.1%.
+
+### Tracking
+
+- `docs/anatomy-coverage.md` — the method, the denominator, and the measured ~5%
+  false-negative rate of name matching.
+- `docs/mesh-sources.md` — every source evaluated, adopted or rejected, and why.
+- `docs/coverage-snapshot.md` and `data/coverage-history.csv` — regenerated by
+  `npm run data:coverage`; the history gains a row only when numbers move.
+
+100% is not reachable from open data: both adopted sources are fully ingested,
+and the commercial atlases publish no parts list and are proprietary.
+
+---
+
 ## Renamed to G.L.S.C Atlas
 
 Was "Soma Atlas". Updated everywhere it was user-visible or machine-readable:

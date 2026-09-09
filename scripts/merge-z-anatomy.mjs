@@ -65,8 +65,11 @@ const incoming = zdoc.getRoot().listNodes().filter((n) => n.getMesh()).map((n) =
 
 const clash = incoming.filter((n) => existing.has(n));
 if (clash.length) {
-  console.error(`refusing to merge: ${clash.length} node names already in the master`);
-  console.error(`  ${clash.slice(0, 10).join(", ")}`);
+  console.error(`refusing to merge: ${clash.length} of ${incoming.length} node names are already in the master.`);
+  console.error(`  ${clash.slice(0, 6).join(", ")}${clash.length > 6 ? ", ..." : ""}`);
+  console.error("\nThe master already carries this merge. To redo it from a clean base:");
+  console.error(`  cp ${path.relative(ROOT, BACKUP)} ${path.relative(ROOT, MASTER)}`);
+  console.error("  git checkout src/data/catalog-male.json   # drop the previous Z-Anatomy rows");
   process.exit(1);
 }
 

@@ -46,8 +46,15 @@ method. Last reviewed: 2026-09-09.
   space — the two can be overlaid in one body without re-registration. Object
   names follow TA2 English, and the repo ships `TA2.csv` keyed by the same TA2
   ids this project extracts.
-- **Measured gain** 18.1% → 35.2% coverage; 905 TA2 structures gained.
-  Peripheral nerves 3.5% → 27.7%, ligaments 9.8% → 54.9%.
+- **Ingested** 1,963 meshes — every structure it models that BodyParts3D does
+  not. 928 duplicates and two non-anatomical collections (muscle attachment
+  footprints, body-surface regions) were skipped.
+- **Measured gain** 18.1% → 35.6% coverage; 924 TA2 structures gained.
+  Peripheral nerves 3.5% → 27.9%, ligaments 9.8% → 56.7%, joints 4.4% → 48.4%.
+- **Caveat** Z-Anatomy remodelled the BodyParts3D meshes rather than reusing them
+  verbatim, so a Z-Anatomy structure can sit 1–2 cm from the BodyParts3D bone it
+  attaches to. Measured on shared landmarks: mandible within millimetres, femur
+  and sacrum within ~2 cm.
 
 ## Evaluated and not adopted
 
@@ -60,11 +67,12 @@ CC BY-ND 4.0; the individual terms are public domain. Extracted by
 
 ### `ashemag/human-atlas` — rejected, circular
 
-`data/raw/ashemag-atlas.json` declares `"source": "BodyParts3D"` and contains the
-same 2,234 parts. The first version of the coverage script compared BodyParts3D
+`ashemag-atlas.json` declares `"source": "BodyParts3D"` and contains the same
+2,234 parts. The first version of the coverage script compared BodyParts3D
 against this file and reported 100%, which measured the data against itself.
-Kept in `data/raw/` only so that mistake stays documented; **do not use it as a
-reference.**
+It lives in the gitignored `data/raw/`, so it is not in the repository; this
+entry is the record. **Do not use it as a reference** — a reference has to come
+from outside the data being measured.
 
 ### Open3DModel (AnatomyTOOL)
 

@@ -43,7 +43,7 @@ user pastes in Setup and never stores it.
 | `src/data/catalog-{male,female}.json` | Generated rows. Mesh references are stored as integer indices, not repeated id strings |
 | `src/data/high-yield.ts` | Hand-written exam notes overlaid on generated rows |
 | `src/data/mesh-aliases.ts` | Maps note names to real mesh groups, and records which structures have no mesh at all |
-| `src/lib/taxonomy` (`scripts/taxonomy.mjs`) | System and region classification rules |
+| `scripts/taxonomy.mjs` | System and region classification rules, shared by the ingest scripts |
 | `src/lib/quiz.ts` | Question generation and answer grading |
 | `src/lib/tools.ts` | Tutor tool definitions and their execution against the live atlas |
 | `src/lib/tutor-client.ts` | Streaming SSE client and the tool-calling loop |
@@ -52,6 +52,9 @@ user pastes in Setup and never stores it.
 | `src/components/Viewer.tsx` | Canvas, camera framing, HUD |
 | `src/store/useAtlasStore.ts` | All UI state |
 | `public/sw.js` | Offline caching |
+| `scripts/coverage-matrix.mjs` | Measures the atlas against Terminologia Anatomica |
+| `scripts/*-z-anatomy.*` | The Z-Anatomy ingest: dump, plan, export, merge |
+| `docs/` | How coverage is measured, where the meshes come from, the current numbers |
 
 ### Model packs
 
@@ -71,14 +74,22 @@ npm run ingest          # everything below, in order
 ```
 
 ```bash
-npm run ingest:male     # BodyParts3D OBJ  -> masters + catalog-male.json
-npm run ingest:female   # HRA female GLB   -> masters + catalog-female.json
+npm run ingest:male      # BodyParts3D OBJ  -> master + catalog-male.json
+npm run ingest:female    # HRA female GLB   -> master + catalog-female.json
+npm run data:taxonomy    # reclassify system/region, drop ontology roots, compact
 npm run ingest:z-anatomy # Z-Anatomy .blend -> merged into the male master
-npm run data:taxonomy   # reclassify system/region, drop ontology roots, compact
-npm run data:split      # re-split the masters into per-system packs
-npm run ingest:slices   # NLM Visible Human samples -> public/slices/*.jpg
-npm run data:verify     # fail loudly if catalogs and GLBs disagree
+npm run data:split       # re-split the masters into per-system packs
+npm run ingest:slices    # NLM Visible Human samples -> public/slices/*.jpg
+npm run data:verify      # fail loudly if catalogs and GLBs disagree
+npm run data:coverage    # remeasure against TA2, update the snapshot and history
 ```
+
+**The order is load-bearing.** `data:taxonomy` compacts each row's mesh group
+into positional indices, and it reads a field the compacted rows no longer have,
+so running it a second time would flatten every group. The Z-Anatomy merge
+therefore comes after it and classifies its own rows inline. Running
+`ingest:male` on its own rebuilds the master from BodyParts3D alone and drops
+the merge — follow it with `ingest:z-anatomy`, or just run `npm run ingest`.
 
 `npm run data:verify` is the important one. It checks that every GLB node has a
 catalog row, that each mesh sits in the pack its system names, that the manifest
@@ -91,7 +102,9 @@ Raw inputs live in `data/raw/` (gitignored):
 - BodyParts3D 4.0 `isa_BP3D_4.0_obj_99.zip`
 - HRA united-female v1.5 `3d-vh-f-united.glb`
 - Z-Anatomy `Z-Anatomy.zip` from https://github.com/Z-Anatomy/The-blend, unzipped to
-  `data/work/z-anatomy/`. Needs Blender on PATH; only `npm run ingest:z-anatomy` uses it
+  `data/work/z-anatomy/`. Needs Blender installed — `scripts/run-blender.mjs` finds
+  it on PATH or in the usual install locations, or set `BLENDER` to the binary.
+  Only `npm run ingest:z-anatomy` uses it
 - NLM Visible Human samples — https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Sample-Data/
 - `ta2.pdf` — Terminologia Anatomica 2nd ed., from FIPAT.library.dal.ca. Only
   `npm run data:ta2` needs it; the extracted `data/ta2-terms.json` is committed,

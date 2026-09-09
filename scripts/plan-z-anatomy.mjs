@@ -85,11 +85,15 @@ if (!existsSync(path.join(ROOT, src))) {
 }
 const objects = rd(src);
 
-// What the atlas already ships, by the same key coverage uses.
+// What the atlas already ships from other sources, keyed the way coverage keys
+// it. Rows from a previous Z-Anatomy merge are deliberately excluded: dedupe
+// against them and re-planning an already-merged catalog would yield an empty
+// plan, so the same plan comes out whether or not the merge has been run.
 const male = rd("src/data/catalog-male.json");
 const haveKeys = new Set();
 const haveIds = new Set();
 for (const r of male) {
+  if (r.source === "z-anatomy") continue;
   haveIds.add(r.id);
   const k = keyOf(r.name);
   if (k) haveKeys.add(k);

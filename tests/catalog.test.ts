@@ -9,13 +9,30 @@ import {
   searchStructures,
 } from "@/data/structures";
 import { NO_MESH_REASON } from "@/data/mesh-aliases";
+import maleCatalog from "@/data/catalog-male.json";
+import femaleCatalog from "@/data/catalog-female.json";
 import { SYSTEM_IDS } from "@/lib/systems";
 
 describe("catalog", () => {
   it("loads a plausible number of structures", () => {
     assert.ok(CATALOG_STATS.structures > 4000, "expected >4000 structures");
-    assert.equal(CATALOG_STATS.meshes, 2234 + 888 - overlapCount());
     assert.ok(CATALOG_STATS.curated >= 60, "high-yield notes should survive merge");
+  });
+
+  it("gives every shipped mesh a structure to resolve to", () => {
+    // The other mesh tests run structure -> mesh. This is the reverse, and it
+    // is the one a click in the 3D view depends on: every GLB node name is a
+    // catalog leaf id, so a leaf without a structure is a mesh that selects
+    // nothing. Merging a second source is exactly how that breaks.
+    const leaves = new Set<string>();
+    for (const rows of [maleCatalog, femaleCatalog]) {
+      for (const row of rows as { id: string; m?: number[]; elementId?: string }[]) {
+        if (row.elementId || !row.m) leaves.add(row.id);
+      }
+    }
+    assert.ok(leaves.size > 4500, `only ${leaves.size} leaf meshes; a pack may be missing`);
+    const orphans = [...leaves].filter((id) => !STRUCTURE_BY_ID[id]);
+    assert.deepEqual(orphans, [], `${orphans.length} meshes resolve to no structure`);
   });
 
   it("gives every structure a valid system and a summary", () => {
@@ -177,8 +194,3 @@ describe("search", () => {
   });
 });
 
-/** Structures present in both packs are counted once. */
-function overlapCount() {
-  const leaves = STRUCTURES.filter((s) => s.isLeafMesh);
-  return 2234 + 888 - new Set(leaves.map((s) => s.id)).size;
-}
