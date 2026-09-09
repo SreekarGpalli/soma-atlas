@@ -9,6 +9,7 @@ import {
   Object3D,
   Plane,
   Vector3,
+  type PerspectiveCamera,
   type BufferGeometry,
 } from "three";
 import { useGLTF } from "@react-three/drei";
@@ -20,6 +21,7 @@ import { SYSTEM_META } from "@/lib/systems";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { useModelPacks } from "@/lib/useModelPacks";
 import type { SystemId } from "@/lib/types";
+import { TISSUE_COLOR, classifyTissue, type TissueId } from "@/lib/tissue";
 
 useGLTF.setDecoderPath("/draco/");
 
@@ -32,9 +34,31 @@ interface Entry {
   mesh: Mesh;
   meshId: string;
   system: SystemId;
+  tissue: TissueId;
   layer: number;
   sex: "both" | "male" | "female";
 }
+
+/**
+ * A nerve or a small vessel is a tube about 5 mm across. On a 1.73 m body drawn
+ * 600 px tall that is under one pixel, so the whole peripheral nervous system
+ * rasterises into a faint haze and the brain is the only thing that reads.
+ *
+ * Rather than thickening the meshes — which would be a lie at every zoom level,
+ * and would turn the median nerve into a hosepipe at the wrist — the vertex
+ * shader grows each tube along its normal by however much it takes to reach a
+ * floor of MIN_TUBE_PIXELS on screen, and no more. Zoom in and the growth falls
+ * to zero and you are looking at true calibre again. This is how vector maps
+ * keep roads visible and how CAD keeps edges visible; the eye reads it as
+ * normal because thin things are *expected* to stop shrinking.
+ *
+ * The correction is computed for a NOMINAL_TUBE_RADIUS tube, so a structure
+ * that is already thick barely moves: at overview zoom the aorta gains about
+ * 0.4 mm on a 12 mm radius, which is 3% and invisible.
+ */
+const MIN_TUBE_PIXELS = 2.4;
+const NOMINAL_TUBE_RADIUS = 0.0025;   // metres; Z-Anatomy's authored tube radius
+const MAX_TUBE_GROWTH = 0.006;        // never add more than 6 mm of radius
 
 /**
  * Draco meshes already carry normals. The previous code recomputed them for
@@ -51,40 +75,83 @@ function ensureNormals(geometry: BufferGeometry) {
  * 981 shader uniform blocks and a full re-upload on every hover.
  */
 function useSystemMaterials() {
+  // One shared uniform object, so every material's minimum-width correction is
+  // driven by the same camera without touching 5,000 meshes each frame.
+  const pixelScale = useRef({ value: 0.002 });
+
+  /** Grow thin geometry along its normal until it clears MIN_TUBE_PIXELS. */
+  const applyMinWidth = useMemo(
+    () => (material: MeshStandardMaterial) => {
+      material.onBeforeCompile = (shader) => {
+        shader.uniforms.uPixelScale = pixelScale.current;
+        shader.vertexShader = shader.vertexShader
+          .replace(
+            "#include <common>",
+            `#include <common>
+             uniform float uPixelScale;`,
+          )
+          .replace(
+            "#include <begin_vertex>",
+            `#include <begin_vertex>
+             {
+               vec4 mvp = modelViewMatrix * vec4( transformed, 1.0 );
+               float depth = max( -mvp.z, 0.001 );
+               float wantRadius = ${MIN_TUBE_PIXELS.toFixed(2)} * depth * uPixelScale * 0.5;
+               float grow = clamp( wantRadius - ${NOMINAL_TUBE_RADIUS.toFixed(5)}, 0.0, ${MAX_TUBE_GROWTH.toFixed(5)} );
+               transformed += normalize( objectNormal ) * grow;
+             }`,
+          );
+      };
+      // Distinct key or three.js reuses one compiled program for all of them.
+      material.customProgramCacheKey = () => "min-width-v1";
+      return material;
+    },
+    [],
+  );
+
   const materials = useMemo(() => {
-    const base = {} as Record<SystemId, MeshStandardMaterial>;
+    const base = {} as Record<string, MeshStandardMaterial>;
+    const make = (color: string) =>
+      applyMinWidth(
+        new MeshStandardMaterial({
+          color: new Color(color),
+          roughness: 0.55,
+          metalness: 0.04,
+          side: FrontSide,
+          clipShadows: true,
+        }),
+      );
     for (const id of Object.keys(SYSTEM_META) as SystemId[]) {
-      base[id] = new MeshStandardMaterial({
-        color: new Color(SYSTEM_META[id].color),
-        roughness: 0.55,
-        metalness: 0.04,
-        side: FrontSide,
-        clipShadows: true,
-      });
+      base[id] = make(SYSTEM_META[id].color);
+      // Arteries red, veins blue, nerves yellow: the convention a student
+      // already reads, so a vein stops hiding inside the arterial tree.
+      for (const [tissue, color] of Object.entries(TISSUE_COLOR)) {
+        base[`${id}:${tissue}`] = make(color as string);
+      }
     }
-    const selected = new MeshStandardMaterial({
+    const selected = applyMinWidth(new MeshStandardMaterial({
       color: new Color(SELECTED_COLOR),
       emissive: new Color(SELECTED_EMISSIVE),
       roughness: 0.4,
       metalness: 0.05,
       side: FrontSide,
       clipShadows: true,
-    });
-    const hover = new MeshStandardMaterial({
+    }));
+    const hover = applyMinWidth(new MeshStandardMaterial({
       color: new Color(HOVER_COLOR),
       emissive: new Color(HOVER_EMISSIVE),
       roughness: 0.45,
       metalness: 0.05,
       side: FrontSide,
       clipShadows: true,
-    });
-    const fallback = new MeshStandardMaterial({
+    }));
+    const fallback = applyMinWidth(new MeshStandardMaterial({
       color: new Color("#a9b2be"),
       roughness: 0.6,
       side: FrontSide,
-    });
-    return { base, selected, hover, fallback };
-  }, []);
+    }));
+    return { base, selected, hover, fallback, pixelScale };
+  }, [applyMinWidth]);
 
   useEffect(() => {
     const all = [
@@ -136,6 +203,7 @@ function SystemPack({ url }: { url: string }) {
         mesh,
         meshId: mesh.name,
         system: meta?.system ?? "skeletal",
+        tissue: classifyTissue(meta?.name ?? mesh.name),
         layer: meta?.layer ?? 1,
         sex: meta?.sex ?? "both",
       };
@@ -149,11 +217,32 @@ function SystemPack({ url }: { url: string }) {
   useLayoutEffect(() => {
     for (const e of entries) {
       e.mesh.material = STRUCTURE_BY_ID[e.meshId]
-        ? materials.base[e.system]
+        ? materials.base[`${e.system}:${e.tissue}`] ?? materials.base[e.system]
         : materials.fallback;
     }
     invalidate();
   }, [entries, materials, invalidate]);
+
+  // --- minimum tube width: world units per pixel at unit depth ------------
+  // A perspective camera spans 2*tan(fov/2) world units per unit of depth, over
+  // the viewport's height in pixels. Recomputed on resize and on any camera
+  // change, which is also every frame the user is dragging.
+  const size = useThree((s) => s.size);
+  const camera = useThree((s) => s.camera);
+  useEffect(() => {
+    const update = () => {
+      const cam = camera as PerspectiveCamera;
+      if (!cam.isPerspectiveCamera || !size.height) return;
+      const next = (2 * Math.tan((cam.fov * Math.PI) / 360)) / size.height;
+      if (Math.abs(next - materials.pixelScale.current.value) > 1e-9) {
+        materials.pixelScale.current.value = next;
+        invalidate();
+      }
+    };
+    update();
+    const id = setInterval(update, 500);
+    return () => clearInterval(id);
+  }, [camera, size, materials, invalidate]);
 
   // --- shared appearance: clipping + fade --------------------------------
   const transparency = useAtlasStore((s) => s.transparency);
