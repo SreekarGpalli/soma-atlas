@@ -9,9 +9,14 @@
  * The previous worker was cache-first for every GET including the HTML
  * document, so a returning user could never receive an app update until the
  * cache name changed.
+ *
+ * Models are cache-first and never revalidated, so BUMP VERSION whenever the
+ * contents of public/models change. Their paths stay the same across a rebuild,
+ * which means a returning browser otherwise keeps the old geometry forever —
+ * activation is the only thing that drops it.
  */
 
-const VERSION = "v6";
+const VERSION = "v7";
 const SHELL = `glsc-shell-${VERSION}`;
 const ASSETS = `glsc-assets-${VERSION}`;
 const MEDIA = `glsc-media-${VERSION}`;
