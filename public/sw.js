@@ -21,7 +21,7 @@
 const VERSION = "v7";
 // AUTO-GENERATED — do not edit. `npm run media:stamp`, and automatically by
 // `npm run data:split` and `npm run build`. `npm run data:verify` fails if stale.
-const MEDIA_VERSION = "m-4ff1ba92294e748d";
+const MEDIA_VERSION = "m-3e4aec09a6935166";
 
 const SHELL = `glsc-shell-${VERSION}`;
 const ASSETS = `glsc-assets-${VERSION}`;

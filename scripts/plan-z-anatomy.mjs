@@ -105,6 +105,7 @@ const stats = { total: objects.length, skippedCollection: 0, unnamed: 0, duplica
   alreadyShipped: 0, kept: 0, curves: 0 };
 
 for (const o of objects) {
+  if (o.name.endsWith(".g")) continue; // Authored collection text, not anatomy.
   if (!o.system || SKIP_COLLECTIONS.has(o.system) || !SYSTEM_OF[o.system]) {
     stats.skippedCollection += 1;
     continue;

@@ -128,7 +128,41 @@ describe("buildQuiz", () => {
     }
   });
 
-  it("builds a female-module quiz", () => {
-    assert.ok(buildQuiz({ sex: "female" }).length > 0);
+  it("builds a female-module quiz with valid geometry and answers", () => {
+    for (let run = 0; run < 25; run++) {
+      const quiz = buildQuiz({ sex: "female" });
+      assert.ok(quiz.length > 0);
+      for (const q of quiz) {
+        const s = STRUCTURE_BY_ID[q.structureId];
+        assert.ok(s, `${q.structureId} is not in the catalog`);
+        assert.ok(
+          meshesFor(q.structureId).length > 0,
+          `${q.structureId} has no geometry to highlight`,
+        );
+        if (!q.choices) continue;
+        assert.equal(
+          new Set(q.choices.map((c) => c.toLowerCase())).size,
+          q.choices.length,
+          `duplicate choices in "${q.prompt}"`,
+        );
+        assert.ok(
+          q.choices.includes(q.answer),
+          `answer missing from choices in "${q.prompt}"`,
+        );
+        assert.equal(
+          q.choices.filter((c) => checkAnswer(q, c)).length,
+          1,
+          `exactly one choice should grade correct in "${q.prompt}"`,
+        );
+      }
+    }
+  });
+
+  it("builds a female-module reproductive system quiz", () => {
+    const quiz = buildQuiz({ sex: "female", system: "femaleReproductive" });
+    assert.ok(quiz.length > 0);
+    for (const q of quiz) {
+      assert.equal(STRUCTURE_BY_ID[q.structureId]?.system, "femaleReproductive");
+    }
   });
 });

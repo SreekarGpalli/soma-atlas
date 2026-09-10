@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAtlasStore } from "@/store/useAtlasStore";
 import { IconChevron, IconSliders } from "./Icons";
 
@@ -10,14 +10,8 @@ import { IconChevron, IconSliders } from "./Icons";
  * their effect is visible, and collapse out of the way on small screens.
  */
 export function ViewDock() {
-  // On a phone the dock would cover most of the model, so it starts collapsed
-  // there and expanded on a desktop where there is room beside the body.
   const [open, setOpen] = useState(false);
-  useEffect(() => {
-    const narrow = window.matchMedia("(max-width: 900px)");
-    if (narrow.matches) setOpen(false);
-  }, []);
-
+  const readable = useAtlasStore(s => s.readable);
   const transparency = useAtlasStore((s) => s.transparency);
   const setTransparency = useAtlasStore((s) => s.setTransparency);
   const muscleLayer = useAtlasStore((s) => s.muscleLayer);
@@ -61,7 +55,7 @@ export function ViewDock() {
       </div>
 
       {open && (
-        <div className="dock-body">
+        <div className="dock-body"><label className="readability-switch"><input type="checkbox" checked={readable} onChange={e => useAtlasStore.setState({ readable: e.target.checked })} /> Enhance fine structures</label><small className="faint">Display aid. Turn off to view original surfaces.</small>
           <div className="dock-row">
             <label htmlFor="dock-fade">
               Fade context <b>{Math.round(transparency * 100)}%</b>

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T17:49:57.110Z",
+  "generatedAt": "2026-09-09T18:35:41.367Z",
   "reference": {
     "name": "Terminologia Anatomica 2nd ed. (FIPAT 2019)",
     "citation": "FIPAT. Terminologia Anatomica. 2nd ed. FIPAT.library.dal.ca, 2019.",
@@ -14,13 +14,13 @@
     }
   },
   "shipped": {
-    "meshNodes": 5163,
-    "distinctNames": 4251,
-    "distinctKeys": 2664,
-    "triangles": 12565547,
-    "male": 4197,
+    "meshNodes": 5157,
+    "distinctNames": 4245,
+    "distinctKeys": 2658,
+    "triangles": 12561069,
+    "male": 4191,
     "female": 966,
-    "unmatchedMeshes": 1822,
+    "unmatchedMeshes": 1820,
     "bySource": [
       [
         "bodyparts3d",
@@ -28,7 +28,7 @@
       ],
       [
         "z-anatomy",
-        1963
+        1957
       ],
       [
         "hra",
@@ -43,19 +43,20 @@
   "coverage": {
     "structuresTotal": 5281,
     "exact": 1522,
-    "partial": 368,
-    "missing": 3391
+    "partial": 362,
+    "missing": 3397
   },
   "byChapter": [
     {
       "chapter": "02 Bones",
       "total": 420,
       "exact": 68,
-      "partial": 35,
-      "missing": 317,
-      "pct": 24.5,
+      "partial": 34,
+      "missing": 318,
+      "pct": 24.3,
       "missingExamples": [
         "Musculoskeletal systems",
+        "Skeletal system",
         "Neurocranium",
         "Viscerocranium",
         "Facial bones",
@@ -83,8 +84,7 @@
         "Apophysis",
         "Ossification centers",
         "Primary ossification center",
-        "Secondary ossification center",
-        "CRANIUM"
+        "Secondary ossification center"
       ]
     },
     {
@@ -131,10 +131,11 @@
       "chapter": "04 Muscular System",
       "total": 649,
       "exact": 306,
-      "partial": 58,
-      "missing": 285,
-      "pct": 56.1,
+      "partial": 57,
+      "missing": 286,
+      "pct": 55.9,
       "missingExamples": [
+        "Muscular system",
         "Attachment",
         "Superior attachment",
         "Inferior attachment",
@@ -163,18 +164,18 @@
         "Extraocular muscles",
         "Tendinous sheath of superior oblique muscle",
         "Epicranius muscle",
-        "Occipitofrontalis muscle",
-        "Frontal belly of occipitofrontalis muscle"
+        "Occipitofrontalis muscle"
       ]
     },
     {
       "chapter": "05 Digestive System",
       "total": 283,
       "exact": 51,
-      "partial": 34,
-      "missing": 198,
-      "pct": 30,
+      "partial": 32,
+      "missing": 200,
+      "pct": 29.3,
       "missingExamples": [
+        "Visceral systems",
         "Digestive system",
         "Papilla of parotid duct",
         "Palatine raphe",
@@ -203,8 +204,7 @@
         "Dorsum of tongue",
         "Anterior part of tongue",
         "(Thyroglossal duct)",
-        "Lingual tonsil",
-        "Fimbriated fold"
+        "Lingual tonsil"
       ]
     },
     {
@@ -526,10 +526,11 @@
       "chapter": "14 Nervous System",
       "total": 1224,
       "exact": 264,
-      "partial": 79,
-      "missing": 881,
-      "pct": 28,
+      "partial": 78,
+      "missing": 882,
+      "pct": 27.9,
       "missingExamples": [
+        "Nervous system",
         "Gray matter",
         "Reticular formation",
         "Ependyma",
@@ -558,18 +559,18 @@
         "Posterior cerebellomedullary cistern",
         "Spinal arachnoid",
         "Lumbar cistern",
-        "Pia",
-        "Cranial pia"
+        "Pia"
       ]
     },
     {
       "chapter": "15 Sense Organs",
       "total": 219,
       "exact": 30,
-      "partial": 12,
-      "missing": 177,
-      "pct": 19.2,
+      "partial": 11,
+      "missing": 178,
+      "pct": 18.7,
       "missingExamples": [
+        "Sense organs",
         "OLFACTORY ORGAN",
         "Olfactory part of nasal mucosa",
         "Olfactory epithelium",
@@ -598,8 +599,7 @@
         "Intraocular part of optic nerve",
         "Depression of optic disc",
         "Iridocorneal angle",
-        "Posterior chamber of eyeball",
-        "Ciliary zonule"
+        "Posterior chamber of eyeball"
       ]
     },
     {
@@ -648,11 +648,12 @@
       "kind": "other",
       "total": 1660,
       "exact": 332,
-      "partial": 111,
-      "missing": 1217,
-      "pct": 26.7,
+      "partial": 107,
+      "missing": 1221,
+      "pct": 26.4,
       "missingExamples": [
         "Musculoskeletal systems",
+        "Skeletal system",
         "Neurocranium",
         "Viscerocranium",
         "Facial bones",
@@ -690,8 +691,7 @@
         "Inion",
         "Pterion",
         "Asterion",
-        "Porion",
-        "Basion"
+        "Porion"
       ]
     },
     {
@@ -848,10 +848,11 @@
       "kind": "muscle / tendon",
       "total": 375,
       "exact": 180,
-      "partial": 42,
-      "missing": 153,
-      "pct": 59.2,
+      "partial": 41,
+      "missing": 154,
+      "pct": 58.9,
       "missingExamples": [
+        "Muscular system",
         "Muscle fascicle",
         "Muscular trochlea",
         "Extraocular muscles",
@@ -890,8 +891,7 @@
         "Transversus linguae muscle",
         "Verticalis linguae muscle",
         "Palatine aponeurosis",
-        "Palatoglossus muscle",
-        "Anterior fascicle of palatopharyngeus muscle"
+        "Palatoglossus muscle"
       ]
     },
     {
@@ -948,9 +948,9 @@
       "kind": "viscus (thorax / abdomen / pelvis)",
       "total": 350,
       "exact": 65,
-      "partial": 55,
-      "missing": 230,
-      "pct": 34.3,
+      "partial": 54,
+      "missing": 231,
+      "pct": 34,
       "missingExamples": [
         "Fibroelastic membrane of larynx",
         "Submucosa of pharynx",
@@ -5867,14 +5867,10 @@
       "chapterName": "Bones",
       "class": "structure",
       "kind": "other",
-      "match": "partial",
-      "meshCount": 1,
-      "meshes": [
-        "male:skeletal-system-g"
-      ],
-      "sexes": [
-        "male"
-      ]
+      "match": "none",
+      "meshCount": 0,
+      "meshes": [],
+      "sexes": []
     },
     {
       "ta2Id": 353,
@@ -28550,14 +28546,10 @@
       "chapterName": "Muscular System",
       "class": "structure",
       "kind": "muscle / tendon",
-      "match": "partial",
-      "meshCount": 1,
-      "meshes": [
-        "male:muscular-system-g"
-      ],
-      "sexes": [
-        "male"
-      ]
+      "match": "none",
+      "meshCount": 0,
+      "meshes": [],
+      "sexes": []
     },
     {
       "ta2Id": 1975,
@@ -40859,14 +40851,10 @@
       "chapterName": "Digestive System",
       "class": "structure",
       "kind": "other",
-      "match": "partial",
-      "meshCount": 1,
-      "meshes": [
-        "male:visceral-systems-g"
-      ],
-      "sexes": [
-        "male"
-      ]
+      "match": "none",
+      "meshCount": 0,
+      "meshes": [],
+      "sexes": []
     },
     {
       "ta2Id": 2773,
@@ -45977,17 +45965,10 @@
       "chapterName": "Digestive System",
       "class": "structure",
       "kind": "viscus (thorax / abdomen / pelvis)",
-      "match": "partial",
-      "meshCount": 4,
-      "meshes": [
-        "male:visceral-systems-g",
-        "male:muscular-system-g",
-        "male:nervous-system-sense-organs-g",
-        "male:skeletal-system-g"
-      ],
-      "sexes": [
-        "male"
-      ]
+      "match": "none",
+      "meshCount": 0,
+      "meshes": [],
+      "sexes": []
     },
     {
       "ta2Id": 3133,
@@ -78854,14 +78835,10 @@
       "chapterName": "Nervous System",
       "class": "structure",
       "kind": "other",
-      "match": "partial",
-      "meshCount": 1,
-      "meshes": [
-        "male:nervous-system-sense-organs-g"
-      ],
-      "sexes": [
-        "male"
-      ]
+      "match": "none",
+      "meshCount": 0,
+      "meshes": [],
+      "sexes": []
     },
     {
       "ta2Id": 5364,
@@ -98416,14 +98393,10 @@
       "chapterName": "Sense Organs",
       "class": "structure",
       "kind": "other",
-      "match": "partial",
-      "meshCount": 1,
-      "meshes": [
-        "male:nervous-system-sense-organs-g"
-      ],
-      "sexes": [
-        "male"
-      ]
+      "match": "none",
+      "meshCount": 0,
+      "meshes": [],
+      "sexes": []
     },
     {
       "ta2Id": 6730,

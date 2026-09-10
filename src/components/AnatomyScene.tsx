@@ -267,11 +267,13 @@ function SystemPack({ url }: { url: string }) {
   const muscleLayer = useAtlasStore((s) => s.muscleLayer);
   const tissueFocus = useAtlasStore((s) => s.tissueFocus);
 
+  const regionFocus = useAtlasStore(s => s.regionFocus);
   useLayoutEffect(() => {
     const hidden = new Set(hiddenIds);
     const isolated = isolatedIds.length ? new Set(isolatedIds) : null;
     for (const e of entries) {
       let visible = systems[e.system] !== false;
+      if (regionFocus !== "all" && STRUCTURE_BY_ID[e.meshId]?.region !== regionFocus) visible = false;
       if (tissueFocus !== "all" && e.tissue !== tissueFocus) visible = false;
       if (visible && e.sex !== "both" && e.sex !== sex) visible = false;
       if (visible && e.system === "muscular" && e.layer > muscleLayer) {
@@ -281,8 +283,9 @@ function SystemPack({ url }: { url: string }) {
       if (visible && isolated && !isolated.has(e.meshId)) visible = false;
       e.mesh.visible = visible;
     }
+    useAtlasStore.setState(s => ({ sceneRevision: s.sceneRevision + 1 }));
     invalidate();
-  }, [entries, systems, hiddenIds, isolatedIds, sex, muscleLayer, tissueFocus, invalidate]);
+  }, [entries, systems, hiddenIds, isolatedIds, sex, muscleLayer, tissueFocus, regionFocus, invalidate]);
 
   // --- selection ----------------------------------------------------------
   // Most structures worth selecting sit inside the body. Without an x-ray

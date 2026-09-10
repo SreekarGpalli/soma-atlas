@@ -2,17 +2,18 @@
 
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, useProgress } from "@react-three/drei";
 import { Box3, Color, Mesh, PerspectiveCamera, Sphere, Vector3 } from "three";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import { AnatomyScene } from "./AnatomyScene";
-import { ViewDock } from "./ViewDock";
-import { SceneModes } from "./SceneModes";
+
+import { REGION_META, SYSTEM_META } from "@/lib/systems";
+import type { RegionId, SystemId } from "@/lib/types";
 import { useAtlasStore } from "@/store/useAtlasStore";
 import { STRUCTURE_BY_ID } from "@/data/structures";
 
 /** Direction the camera approaches from: front, slightly above and to one side. */
-const APPROACH = new Vector3(0.5, 0.28, 1).normalize();
+const APPROACH = new Vector3(0, 0.05, 1).normalize();
 
 interface Goal {
   pos: Vector3;
@@ -44,6 +45,8 @@ function CameraRig({
   const sex = useAtlasStore((s) => s.sex);
   const fitTrigger = useAtlasStore((s) => s.fitTrigger);
   const focusTrigger = useAtlasStore((s) => s.focusTrigger);
+  const sceneRevision = useAtlasStore(s => s.sceneRevision);
+  const activeSystems = useAtlasStore(s => s.systems);
 
   const goal = useRef<Goal | null>(null);
   /** Retry deadline for framing that could not be satisfied yet. */
@@ -112,6 +115,13 @@ function CameraRig({
     if (focusTrigger) request("focus");
   }, [focusTrigger, request]);
 
+  useEffect(() => {
+    let count = 0;
+    scene.traverse(obj => { if ((obj as Mesh).isMesh && obj.visible) count++; });
+    useAtlasStore.setState({ visibleMeshCount: count });
+    request(useAtlasStore.getState().selectedIds.length ? "focus" : "home");
+  }, [sceneRevision, activeSystems, request, scene]);
+
   // A resize changes the aspect the framing was computed for.
   useEffect(() => {
     invalidate();
@@ -159,6 +169,8 @@ function SceneBackground({ color }: { color: string }) {
 
 export function Viewer() {
   const controls = useRef<OrbitControlsImpl>(null);
+  const loading = useProgress(s => s.active);
+  const visibleCount = useAtlasStore(s => s.visibleMeshCount);
   const selectedIds = useAtlasStore((s) => s.selectedIds);
   const focusedId = useAtlasStore((s) => s.focusedId);
   const hoveredId = useAtlasStore((s) => s.hoveredId);
@@ -198,10 +210,15 @@ export function Viewer() {
       ? STRUCTURE_BY_ID[hoveredId]?.name ?? null
       : null;
 
+  const regionFocus = useAtlasStore(s => s.regionFocus);
+  const systems = useAtlasStore(s => s.systems);
+  const tissueFocus = useAtlasStore(s => s.tissueFocus);
+  const heading = tissueFocus === "all" ? Object.entries(systems).filter(([,on]) => on).map(([id]) => SYSTEM_META[id as SystemId].label).join(" + ") : ({ artery: "Arteries", vein: "Veins", nerve: "Peripheral nerves", lymph: "Lymphatics" }[tissueFocus]);
   const dirty = isolatedIds.length > 0 || hiddenIds.length > 0;
 
   return (
     <div className="viewer">
+      <header className="viewport-heading"><div><span className="studio-kicker">ANATOMY / EXPLORE</span><h1>{pinned ?? (heading || "Choose a system")}</h1></div><label>Region<select aria-label="Visible body region" value={regionFocus} onChange={e => useAtlasStore.setState(s => ({ regionFocus: e.target.value as RegionId | "all", selectedIds: [], focusedId: null, isolatedIds: [], hiddenIds: [], fitTrigger: s.fitTrigger + 1 }))}><option value="all">Whole body</option>{Object.entries(REGION_META).map(([id,r]) => <option key={id} value={id}>{r.label}</option>)}</select></label></header>
       <div className="anatomy-stage"><Canvas
         frameloop="demand"
         dpr={[1, 1.75]}
@@ -227,10 +244,9 @@ export function Viewer() {
           maxDistance={12}
           zoomSpeed={0.8}
         />
-      </Canvas></div>
+      </Canvas>{!loading && visibleCount === 0 && <div className="empty-scene" role="status"><strong>No meshes visible in this view</strong><p>Choose another region or restore all systems. This module may not contain the selected detail.</p><button type="button" onClick={resetVisibility}>Restore all systems</button></div>}</div>
 
-      <SceneModes />
-      <ViewDock />
+      <div className="viewport-tools">
 
       <div className="hud hud-tr">
         <button type="button" onClick={triggerFit} title="Frame the whole body (F)">
@@ -258,22 +274,23 @@ export function Viewer() {
         <button
           type="button"
           onClick={resetVisibility}
-          disabled={!dirty}
           title="Show everything again (R)"
         >
-          Show all
+          All systems
         </button>
       </div>
 
-      <div className="viewer-labels">
+      <button type="button" className="orbit-button" aria-pressed={turntable} onClick={() => useAtlasStore.setState({ turntable: !turntable })}>{turntable ? "Pause orbit" : "Orbit"}</button>
+      </div>
+      <div className="viewer-labels"><span className="viewport-hint">{visibleCount ?? 0} meshes in view / {dirty ? "Some structures are hidden · All systems restores them" : "Drag to rotate · Scroll to zoom · Double-click to isolate"}</span>
         {hoverName && <span className="label label-hover">{hoverName}</span>}
         {pinned && <span className="label label-pin">{pinned}</span>}
       </div>
 
-      {modelLoading && (
+      {(modelLoading || loading) && (
         <div className="label label-load" role="status">
           <span className="spinner" aria-hidden />
-          {modelLoading}
+          {modelLoading ?? "Loading anatomy..."}
         </div>
       )}
     </div>

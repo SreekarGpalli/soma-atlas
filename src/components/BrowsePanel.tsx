@@ -4,7 +4,7 @@ import { useDeferredValue, useMemo, useState } from "react";
 import { STRUCTURES, searchStructures } from "@/data/structures";
 import { REGION_META, SYSTEM_IDS, SYSTEM_META } from "@/lib/systems";
 import { classifyTissue } from "@/lib/tissue";
-import { DEFAULT_SYSTEMS } from "@/lib/systems";
+
 import { useAtlasStore } from "@/store/useAtlasStore";
 import type { RegionId, Structure, SystemId } from "@/lib/types";
 
@@ -17,7 +17,7 @@ function useSystemCounts(sex: "male" | "female") {
     for (const id of SYSTEM_IDS) counts[id] = 0;
     for (const s of STRUCTURES) {
       if (s.sex !== "both" && s.sex !== sex) continue;
-      counts[s.system] += 1;
+      if (s.isLeafMesh) counts[s.system] += 1;
     }
     return counts;
   }, [sex]);
@@ -27,9 +27,9 @@ function SystemFilters() {
   const systems = useAtlasStore((s) => s.systems);
   const toggleSystem = useAtlasStore((s) => s.toggleSystem);
   const soloSystem = useAtlasStore((s) => s.soloSystem);
-  const patchSystems = useAtlasStore((s) => s.patchSystems);
+  const resetVisibility = useAtlasStore(s => s.resetVisibility);
   const sex = useAtlasStore((s) => s.sex);
-  const loaded = useAtlasStore((s) => s.loadedSystems);
+
   const counts = useSystemCounts(sex);
 
   const visible = SYSTEM_IDS.filter((id) => {
@@ -44,14 +44,14 @@ function SystemFilters() {
     <section>
       <div className="filter-head">
         <h3 className="section-label" style={{ margin: 0 }}>
-          Systems · {onCount} on
+          Layers · {onCount} on
         </h3>
         <button
           type="button"
           className="ghost"
-          onClick={() => patchSystems(DEFAULT_SYSTEMS)}
+          onClick={resetVisibility}
         >
-          Reset
+          All on
         </button>
       </div>
 
@@ -60,20 +60,8 @@ function SystemFilters() {
           const on = systems[id];
           const meta = SYSTEM_META[id];
           return (
-            <div
-              key={id}
-              className="filter"
-              role="button"
-              tabIndex={0}
-              aria-pressed={on}
-              onClick={() => toggleSystem(id)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  toggleSystem(id);
-                }
-              }}
-            >
+            <div key={id} className="filter">
+              <button type="button" className="filter-toggle" aria-pressed={on} onClick={() => toggleSystem(id)}>
               <span
                 className="swatch"
                 style={{ background: meta.color }}
@@ -83,22 +71,22 @@ function SystemFilters() {
                 <b>{meta.label}</b>
                 <small>
                   {meta.hint}
-                  {on && loaded.includes(id) ? " · loaded" : ""}
+
                 </small>
               </span>
-              <span className="count">{counts[id]}</span>
-              <span
+              <span className="count" title="Mesh count">{counts[id]}</span>
+              </button>
+              <button
+                type="button"
                 className="solo"
-                role="button"
-                tabIndex={-1}
                 title="Show only this system"
                 onClick={(e) => {
                   e.stopPropagation();
                   soloSystem(id);
                 }}
               >
-                only
-              </span>
+                Only
+              </button>
             </div>
           );
         })}
@@ -115,7 +103,8 @@ function StructureList() {
   const select = useAtlasStore((s) => s.select);
   const focusSelection = useAtlasStore((s) => s.focusSelection);
 
-  const [region, setRegion] = useState<RegionId | "all">("all");
+  const region = useAtlasStore(s => s.regionFocus);
+  const setRegion = (value: RegionId | "all") => useAtlasStore.setState(s => ({ regionFocus: value, isolatedIds: [], hiddenIds: [], selectedIds: [], focusedId: null, fitTrigger: s.fitTrigger + 1 }));
   const [filter, setFilter] = useState("");
   const [shown, setShown] = useState(PAGE);
   const deferred = useDeferredValue(filter);
@@ -123,7 +112,7 @@ function StructureList() {
   const rows: Structure[] = useMemo(() => {
     const base = deferred.trim()
       ? searchStructures(deferred, { sex })
-      : searchStructures("", { sex });
+      : STRUCTURES.filter(s => s.sex === "both" || s.sex === sex);
     const out = base.filter((s) => {
       if (!systems[s.system]) return false;
       if (tissueFocus !== "all" && classifyTissue(s.name) !== tissueFocus) return false;
@@ -137,7 +126,7 @@ function StructureList() {
         (a, b) =>
           Number(Boolean(b.curated)) - Number(Boolean(a.curated)) ||
           Number(Boolean(b.clinical)) - Number(Boolean(a.clinical)) ||
-          (b.meshIds?.length ?? 0) - (a.meshIds?.length ?? 0) ||
+          Number(Boolean(b.isLeafMesh)) - Number(Boolean(a.isLeafMesh)) ||
           a.name.localeCompare(b.name),
       );
     }
@@ -254,7 +243,7 @@ function StructureList() {
 export function BrowsePanel() {
   return (
     <div className="panel-inner">
-      <SystemFilters />
+      <details className="layer-details"><summary>Customise layers <span>All body systems</span></summary><SystemFilters /></details>
       <StructureList />
     </div>
   );

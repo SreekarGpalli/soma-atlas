@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAtlasStore, type PanelId } from "@/store/useAtlasStore";
 import { Viewer } from "./Viewer";
 import { SearchBar } from "./SearchBar";
@@ -12,7 +12,8 @@ import { CompareView } from "./CompareView";
 import { TutorPanel } from "./TutorPanel";
 import { SettingsPanel } from "./SettingsPanel";
 import { InstallBanner } from "./PwaRegister";
-import { TipsBanner } from "./TipsBanner";
+import { ViewDock } from "./ViewDock";
+import { SceneModes } from "./SceneModes";
 import {
   IconCard,
   IconCompare,
@@ -53,6 +54,7 @@ function isTypingTarget(e: KeyboardEvent) {
 }
 
 export function AppShell() {
+  const [explorerOpen, setExplorerOpen] = useState(true);
   const panel = useAtlasStore((s) => s.panel);
   const setPanel = useAtlasStore((s) => s.setPanel);
   const theme = useAtlasStore((s) => s.theme);
@@ -133,6 +135,7 @@ export function AppShell() {
         <SearchBar />
 
         <div className="topbar-right">
+        <button type="button" className="explorer-toggle" aria-expanded={explorerOpen} aria-controls="atlas-panel" onClick={() => setExplorerOpen(v => !v)}>{explorerOpen ? "Hide explorer" : "Open explorer"}</button>
           <div className="segmented" role="group" aria-label="Anatomy module">
             <button
               type="button"
@@ -164,8 +167,9 @@ export function AppShell() {
         </div>
       </header>
 
-      <div className="workspace">
+      <div className={`workspace ${explorerOpen ? "" : "explorer-closed"}`}>
         <Viewer />
+
 
         <aside className="side">
           <nav className="rail" aria-label="Panels">
@@ -175,7 +179,7 @@ export function AppShell() {
                 type="button"
                 className={panel === id ? "is-active" : ""}
                 aria-current={panel === id ? "page" : undefined}
-                onClick={() => setPanel(id)}
+                onClick={() => { setPanel(id); setExplorerOpen(true); }}
                 title={label}
               >
                 <Icon />
@@ -196,9 +200,10 @@ export function AppShell() {
           </nav>
 
           <div className="panel" id="atlas-panel">
-            <TipsBanner />
+
             <InstallBanner />
-            {panel === "browse" && <BrowsePanel />}
+            {panel === "browse" && <><SceneModes /><BrowsePanel /></>}
+            <ViewDock />
             {panel === "card" && (
               <div className="panel-inner">
                 <StructureCard />

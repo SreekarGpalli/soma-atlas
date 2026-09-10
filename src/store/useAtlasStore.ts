@@ -3,6 +3,7 @@
 import { create } from "zustand";
 import { STRUCTURE_BY_ID, meshesFor } from "@/data/structures";
 import { SLICES } from "@/data/slices";
+import { classifyTissue } from "@/lib/tissue";
 import { DEFAULT_SYSTEMS } from "@/lib/systems";
 import { buildQuiz, checkAnswer } from "@/lib/quiz";
 import { loadLocal, saveLocal } from "@/lib/storage";
@@ -10,6 +11,7 @@ import { DEFAULT_TUTOR_MODEL, isAllowedModel } from "@/lib/tutor-models";
 import type {
   Bookmark,
   ClipAxis,
+  RegionId,
   QuizQuestion,
   SexModule,
   SystemId,
@@ -33,6 +35,9 @@ export interface ToolTrace {
 }
 
 interface AtlasState {
+  regionFocus: RegionId | "all";
+  sceneRevision: number;
+  visibleMeshCount: number | null;
   tissueFocus: "all" | "artery" | "vein" | "nerve" | "lymph";
   readable: boolean;
   turntable: boolean;
@@ -151,6 +156,9 @@ function systemsForSex(
 }
 
 export const useAtlasStore = create<AtlasState>((set, get) => ({
+  regionFocus: "all",
+  sceneRevision: 0,
+  visibleMeshCount: null,
   tissueFocus: "all",
   readable: true,
   turntable: false,
@@ -202,6 +210,9 @@ export const useAtlasStore = create<AtlasState>((set, get) => ({
     // model must be cleared or the new body renders empty.
     set((s) => ({
       sex,
+      regionFocus: "all",
+      clipEnabled: false,
+      transparency: 0,
       tissueFocus: "all",
       systems: systemsForSex(
         sex === "female"
@@ -234,7 +245,7 @@ export const useAtlasStore = create<AtlasState>((set, get) => ({
       // A second click on a solo'd system restores the defaults.
       const alreadySolo =
         s.systems[id] && Object.entries(s.systems).every(([k, v]) => v === (k === id));
-      return { tissueFocus: "all", systems: alreadySolo ? { ...DEFAULT_SYSTEMS } : only };
+      return { tissueFocus: "all", hiddenIds: [], isolatedIds: [], clipEnabled: false, transparency: 0, systems: alreadySolo ? { ...DEFAULT_SYSTEMS } : only, fitTrigger: s.fitTrigger + 1 };
     }),
 
   select: (id, opts) => {
@@ -247,8 +258,13 @@ export const useAtlasStore = create<AtlasState>((set, get) => ({
     set((s) => ({
       selectedIds,
       focusedId: id,
-      tissueFocus: "all",
-      systems: { ...s.systems, [meta.system]: true },
+      tissueFocus: meshes.every(m => classifyTissue(STRUCTURE_BY_ID[m]?.name ?? m) === s.tissueFocus) ? s.tissueFocus : "all",
+      regionFocus: meshes.every(m => STRUCTURE_BY_ID[m]?.region === s.regionFocus) ? s.regionFocus : "all",
+      hiddenIds: s.hiddenIds.filter(m => !selectedIds.includes(m)),
+      isolatedIds: s.isolatedIds.length ? selectedIds : [],
+      clipEnabled: false,
+      muscleLayer: 3,
+      systems: { ...s.systems, [meta.system]: true, ...Object.fromEntries(meshes.map(m => [STRUCTURE_BY_ID[m]?.system ?? meta.system, true])) },
       // Only take over the sidebar when the caller asks; browsing a list
       // should not yank the list out from under the pointer.
       panel: opts?.openCard ? "card" : s.panel,
@@ -282,7 +298,7 @@ export const useAtlasStore = create<AtlasState>((set, get) => ({
     if (!next.length) return;
     set({ isolatedIds: next, hiddenIds: [] });
   },
-  resetVisibility: () => set({ tissueFocus: "all", hiddenIds: [], isolatedIds: [] }),
+  resetVisibility: () => set(s => ({ tissueFocus: "all", regionFocus: "all", hiddenIds: [], isolatedIds: [], clipEnabled: false, transparency: 0, muscleLayer: 3, systems: systemsForSex(Object.fromEntries(Object.keys(s.systems).map(k => [k, true])) as Record<SystemId, boolean>, s.sex), fitTrigger: s.fitTrigger + 1 })),
 
   setTransparency: (v) => set({ transparency: Math.min(1, Math.max(0, v)) }),
   setXray: (v) => set({ xray: v }),
@@ -333,6 +349,8 @@ export const useAtlasStore = create<AtlasState>((set, get) => ({
     if (!b) return;
     set((s) => ({
       sex: b.sex,
+      tissueFocus: "all",
+      regionFocus: "all",
       focusedId: b.focusedId ?? null,
       selectedIds: b.selectedIds,
       hiddenIds: b.hiddenIds,

@@ -11,7 +11,7 @@ G.L.S.C Atlas redistributes or will redistribute third-party anatomy data. Keep 
   English concept names and element membership follow the official IS-A tables (3,432 FMA concepts over 2,234 meshes).
 - Z-Anatomy — the libre 3D atlas of anatomy, licensed under CC BY-SA 4.0.
   https://www.z-anatomy.com/ — source `Z-Anatomy.zip` from https://github.com/Z-Anatomy/The-blend
-  1,963 meshes in the male module come from Z-Anatomy: the peripheral nerves and
+  1,957 anatomical meshes in the male module come from Z-Anatomy: the peripheral nerves and
   named ligaments, plus muscle, vessel and lymphoid detail BodyParts3D does not
   model. Z-Anatomy is itself derived from BodyParts3D.
   Adaptations: objects selected where BodyParts3D had no equivalent structure;
