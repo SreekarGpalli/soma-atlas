@@ -49,11 +49,12 @@ export interface Structure {
   muscle?: MuscleFacts;
   parentId?: string;
   fmaId?: string;
-  source?: "bodyparts3d" | "hra" | "osu" | "schematic";
+  source?: "bodyparts3d" | "hra" | "osu" | "schematic" | "z-anatomy" | "hra-v1.10" | "hra-male-v1.10";
   layer?: number;
   meshIds?: string[];
   /** True when this row is itself a mesh in a GLB pack, not a grouping concept. */
   isLeafMesh?: boolean;
+  referenceOnly?: boolean;
   /** True when a hand-written high-yield note contributed to this row. */
   curated?: boolean;
   /**

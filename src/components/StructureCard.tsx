@@ -1,10 +1,36 @@
 "use client";
 
-import { CATALOG_STATS, STRUCTURE_BY_ID, meshesFor } from "@/data/structures";
+import { CATALOG_STATS, STRUCTURE_BY_ID } from "@/data/structures";
+import { selectionMeshes } from "@/lib/lung-views";
 import { REGION_META, SYSTEM_META } from "@/lib/systems";
 import { speak } from "@/lib/tts";
 import { useAtlasStore } from "@/store/useAtlasStore";
+import type { Structure } from "@/lib/types";
 import { IconCard, IconSpeaker } from "./Icons";
+
+const SOURCE_LABELS: Record<string, string> = {
+  bodyparts3d: "BodyParts3D 4.0",
+  hra: "Human Reference Atlas female organ set",
+  "hra-v1.10": "Human Reference Atlas female organ set",
+  "hra-male-v1.10": "Human Reference Atlas male reference organs",
+  "z-anatomy": "Z-Anatomy",
+  osu: "OSU anatomy set",
+  schematic: "Schematic geometry",
+};
+
+/**
+ * Rows unioned across the male and female packs kept the first pack's source
+ * tag, so male lungs credited the female organ set. Name the sources of the
+ * meshes actually on screen instead.
+ */
+function sourceLabel(s: Structure, meshes: string[]): string {
+  const sources = new Set(
+    (meshes.length ? meshes.map((m) => STRUCTURE_BY_ID[m]?.source) : [s.source]).map(
+      (src) => SOURCE_LABELS[src ?? "bodyparts3d"] ?? SOURCE_LABELS.bodyparts3d,
+    ),
+  );
+  return [...sources].join(" · ");
+}
 
 export function StructureCard() {
   const selectedIds = useAtlasStore((s) => s.selectedIds);
@@ -14,6 +40,7 @@ export function StructureCard() {
   const setCompare = useAtlasStore((s) => s.setCompare);
   const setPanel = useAtlasStore((s) => s.setPanel);
   const compareLeft = useAtlasStore((s) => s.compareLeft);
+  const sex = useAtlasStore((s) => s.sex);
 
   const id = focusedId ?? selectedIds[0];
   const s = id ? STRUCTURE_BY_ID[id] : undefined;
@@ -32,7 +59,9 @@ export function StructureCard() {
     );
   }
 
-  const meshes = meshesFor(s.id);
+  // Must match what select() actually shows, or Isolate quietly restores the
+  // 310-mesh mixture the selection just replaced.
+  const meshes = selectionMeshes(s.id, sex);
   const viewable = meshes.length > 0;
 
   return (
@@ -142,9 +171,7 @@ export function StructureCard() {
 
       <p className="disclaimer">
         {s.fmaId && <>Ontology {s.fmaId} · </>}
-        {s.source === "hra"
-          ? "Human Reference Atlas female organ set"
-          : "BodyParts3D 4.0"}
+        {sourceLabel(s, meshes)}
         . Educational reference only — not a diagnosis or a medical device.
       </p>
     </article>

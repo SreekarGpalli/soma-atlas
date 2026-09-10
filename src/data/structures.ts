@@ -20,6 +20,7 @@ type CatalogRow = {
   summary?: string;
   fmaId?: string;
   elementId?: string;
+  referenceOnly?: boolean;
   source?: Structure["source"];
   layer?: number;
   /** Indices into this row's own catalog file. */
@@ -42,8 +43,8 @@ const generated = [
 /** Mirrors generatedSummary() in scripts/taxonomy.mjs. */
 function describe(row: CatalogRow): string {
   const src =
-    row.source === "hra"
-      ? "Human Reference Atlas female v1.5"
+    row.source?.startsWith("hra")
+      ? `Human Reference Atlas (${row.source})`
       : "BodyParts3D 4.0";
   const system = row.system
     .replace("maleReproductive", "male reproductive")
@@ -67,6 +68,7 @@ function fromRow(row: CatalogRow, meshIds: string[]): Structure {
     layer: row.layer ?? 1,
     meshIds,
     isLeafMesh: Boolean(row.elementId) || !row.m,
+    referenceOnly: row.referenceOnly,
   };
 }
 

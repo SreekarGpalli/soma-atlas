@@ -123,7 +123,7 @@ for (const sex of ["male", "female"]) {
 // 6. Every manifest entry resolves to a file on disk.
 for (const sex of ["male", "female"]) {
   for (const [system, url] of Object.entries(manifest[sex] ?? {})) {
-    if (!existsSync(path.join(ROOT, "public", url.replace(/^\//, "")))) {
+    if (!existsSync(path.join(ROOT, "public", url.split("?")[0].replace(/^\//, "")))) {
       fail(`manifest points at a missing file: ${url}`);
     }
     if (!SYSTEMS.has(system)) fail(`manifest has unknown system "${system}"`);

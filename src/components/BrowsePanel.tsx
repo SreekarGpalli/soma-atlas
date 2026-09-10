@@ -104,7 +104,7 @@ function StructureList() {
   const focusSelection = useAtlasStore((s) => s.focusSelection);
 
   const region = useAtlasStore(s => s.regionFocus);
-  const setRegion = (value: RegionId | "all") => useAtlasStore.setState(s => ({ regionFocus: value, isolatedIds: [], hiddenIds: [], selectedIds: [], focusedId: null, fitTrigger: s.fitTrigger + 1 }));
+  const setRegion = (value: RegionId | "all") => useAtlasStore.setState(s => ({ regionFocus: value, isolatedIds: ["Lung shape", "Airways"].includes(s.viewName) ? s.isolatedIds : [], hiddenIds: [], selectedIds: [], focusedId: null, fitTrigger: s.fitTrigger + 1 }));
   const [filter, setFilter] = useState("");
   const [shown, setShown] = useState(PAGE);
   const deferred = useDeferredValue(filter);

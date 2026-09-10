@@ -12,6 +12,7 @@ import { CompareView } from "./CompareView";
 import { TutorPanel } from "./TutorPanel";
 import { SettingsPanel } from "./SettingsPanel";
 import { InstallBanner } from "./PwaRegister";
+import { NavigationHelp } from "./NavigationHelp";
 import { ViewDock } from "./ViewDock";
 import { SceneModes } from "./SceneModes";
 import {
@@ -33,7 +34,7 @@ const TABS: {
   key: string;
 }[] = [
   { id: "browse", label: "Browse", icon: IconLayers, key: "1" },
-  { id: "card", label: "Card", icon: IconCard, key: "2" },
+  { id: "card", label: "Details", icon: IconCard, key: "2" },
   { id: "quiz", label: "Quiz", icon: IconQuiz, key: "3" },
   { id: "slices", label: "Slices", icon: IconSlices, key: "4" },
   { id: "compare", label: "Compare", icon: IconCompare, key: "5" },
@@ -68,6 +69,7 @@ export function AppShell() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (document.querySelector("dialog[open]")) return;
       if (isTypingTarget(e)) {
         if (e.key === "Escape") (e.target as HTMLElement).blur();
         return;
@@ -135,6 +137,7 @@ export function AppShell() {
         <SearchBar />
 
         <div className="topbar-right">
+          <NavigationHelp />
         <button type="button" className="explorer-toggle" aria-expanded={explorerOpen} aria-controls="atlas-panel" onClick={() => setExplorerOpen(v => !v)}>{explorerOpen ? "Hide explorer" : "Open explorer"}</button>
           <div className="segmented" role="group" aria-label="Anatomy module">
             <button
@@ -206,6 +209,7 @@ export function AppShell() {
             <ViewDock />
             {panel === "card" && (
               <div className="panel-inner">
+                <button type="button" className="ghost" onClick={() => setPanel("browse")}>Back to explorer</button>
                 <StructureCard />
               </div>
             )}

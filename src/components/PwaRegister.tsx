@@ -7,6 +7,12 @@ import { IconClose } from "./Icons";
 export function PwaRegister() {
   useEffect(() => {
     if (!("serviceWorker" in navigator)) return;
+    if (process.env.NODE_ENV === "development") {
+      void navigator.serviceWorker.getRegistrations().then(registrations => {
+        for (const r of registrations) if (r.active?.scriptURL === new URL("/sw.js", location.href).href) void r.unregister();
+      });
+      return;
+    }
     // Registering after load keeps the worker off the critical path.
     const register = () => {
       navigator.serviceWorker.register("/sw.js").catch(() => {});

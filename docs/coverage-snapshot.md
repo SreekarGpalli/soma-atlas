@@ -1,6 +1,6 @@
 # Coverage snapshot
 
-Generated 2026-09-09 by `npm run data:coverage`. Do not edit by hand — the method
+Generated 2026-09-10 by `npm run data:coverage`. Do not edit by hand — the method
 is in [anatomy-coverage.md](anatomy-coverage.md), the sources in
 [mesh-sources.md](mesh-sources.md).
 
@@ -11,9 +11,9 @@ This is a heuristic inventory, not validated anatomical completeness. Exact and 
 |---|---|
 | Reference | Terminologia Anatomica 2nd ed. (FIPAT 2019) |
 | TA2 terms | 7113 (5281 modelable) |
-| Meshes shipped | 5157 (4191 male + 966 female) |
-| Distinct mesh names | 4245 |
-| Triangles | 12,561,069 |
+| Meshes shipped | 5177 (4211 male + 966 female) |
+| Distinct mesh names | 4265 |
+| Triangles | 12,574,948 |
 | Exact matches | 1522 |
 | Partial matches | 362 |
 
@@ -63,3 +63,4 @@ This is a heuristic inventory, not validated anatomical completeness. Exact and 
 | z-anatomy | 1957 |
 | hra | 888 |
 | hra-v1.10 | 78 |
+| hra-male-v1.10 | 20 |

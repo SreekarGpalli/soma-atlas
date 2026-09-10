@@ -18,10 +18,10 @@
  * VERSION by hand when the caching strategy changes; leave MEDIA_VERSION alone.
  */
 
-const VERSION = "v7";
+const VERSION = "v8";
 // AUTO-GENERATED — do not edit. `npm run media:stamp`, and automatically by
 // `npm run data:split` and `npm run build`. `npm run data:verify` fails if stale.
-const MEDIA_VERSION = "m-3e4aec09a6935166";
+const MEDIA_VERSION = "m-ce0017f28605fd36";
 
 const SHELL = `glsc-shell-${VERSION}`;
 const ASSETS = `glsc-assets-${VERSION}`;
@@ -84,7 +84,7 @@ function isMedia(pathname) {
 
 function isImmutable(pathname) {
   // Next emits content-hashed filenames under /_next/static.
-  return pathname.startsWith("/_next/static/");
+  return pathname.startsWith("/_next/static/") && /(?:^|[-.])[a-f0-9]{8,}(?:[-.]|$)/i.test(pathname.split("/").pop());
 }
 
 async function trim(cacheName, max) {
@@ -147,6 +147,8 @@ async function staleWhileRevalidate(request, cacheName) {
 
 self.addEventListener("fetch", (event) => {
   const { request } = event;
+  // Development chunk URLs are not content-hashed. Never pin local previews.
+  if (["localhost", "127.0.0.1", "[::1]"].includes(self.location.hostname)) return;
   if (request.method !== "GET") return;
 
   const url = new URL(request.url);
@@ -158,6 +160,10 @@ self.addEventListener("fetch", (event) => {
   if (request.headers.has("range")) return;
 
   if (request.mode === "navigate") {
+    event.respondWith(networkFirst(request, SHELL));
+    return;
+  }
+  if (url.pathname === "/models/manifest.json") {
     event.respondWith(networkFirst(request, SHELL));
     return;
   }

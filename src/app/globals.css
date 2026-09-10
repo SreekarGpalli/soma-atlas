@@ -1663,3 +1663,18 @@ button:focus-visible, summary:focus-visible, select:focus-visible { outline:2px 
 .filter-toggle { display:flex; align-items:center; gap:9px; flex:1; min-width:0; padding:4px 0; text-align:left; background:transparent; border:0; }
 .filter:has(.filter-toggle[aria-pressed="true"]) .swatch { opacity:1; }
 .filter:has(.filter-toggle[aria-pressed="true"]) .filter-label b { color:var(--text); font-weight:600; }
+
+/* Guided help uses the native modal top layer and focus containment. */
+.navigation-help { width:min(500px,calc(100vw - 32px)); max-height:calc(100dvh - 32px); overflow:auto; color:var(--text); background:var(--surface); border:1px solid var(--border-strong); border-radius:22px; padding:26px; box-shadow:0 24px 100px #0008; }
+.navigation-help::backdrop { background:#020810b8; backdrop-filter:blur(6px); }
+.tour-top, .navigation-help footer { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.tour-number { font-size:64px; line-height:1; font-weight:700; color:var(--accent); opacity:.6; margin:24px 0 16px; }
+.navigation-help h2 { font-family:var(--font-sans),sans-serif; font-size:26px; letter-spacing:-.04em; margin:0 0 12px; }
+.navigation-help p { font-size:15px; line-height:1.65; }
+.navigation-help .tour-detail { color:var(--text-dim); font-size:13px; border-left:2px solid var(--accent); padding-left:12px; }
+.tour-progress { display:flex; gap:6px; margin:26px 0; }
+.tour-progress span { height:3px; flex:1; border-radius:3px; background:var(--border); }
+.tour-progress .active { background:var(--accent); }
+.help-button { font-size:11px; white-space:nowrap; }
+.mode-card[aria-pressed="true"] { border-color:var(--mode-color); box-shadow:inset 0 0 0 1px var(--mode-color); }
+@media(max-width:760px) { .topbar-right { flex-wrap:wrap; } .navigation-help { padding:20px; } .navigation-help h2 { font-size:23px; } }

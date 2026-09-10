@@ -2,6 +2,7 @@
 
 import { create } from "zustand";
 import { STRUCTURE_BY_ID, meshesFor } from "@/data/structures";
+import { selectionMeshes } from "@/lib/lung-views";
 import { SLICES } from "@/data/slices";
 import { classifyTissue } from "@/lib/tissue";
 import { DEFAULT_SYSTEMS } from "@/lib/systems";
@@ -34,7 +35,13 @@ export interface ToolTrace {
   status: "running" | "done" | "error";
 }
 
+type ViewSnapshot = Pick<AtlasState, "sex" | "systems" | "selectedIds" | "focusedId" | "hiddenIds" | "isolatedIds" | "regionFocus" | "tissueFocus" | "clipEnabled" | "clipAxis" | "clipValue" | "transparency" | "muscleLayer" | "viewName">;
 interface AtlasState {
+  viewName: string;
+  viewHistory: ViewSnapshot[];
+  navigateView: (patch: Partial<ViewSnapshot>) => void;
+  backView: () => void;
+  homeView: () => void;
   regionFocus: RegionId | "all";
   sceneRevision: number;
   visibleMeshCount: number | null;
@@ -155,7 +162,20 @@ function systemsForSex(
   };
 }
 
+function snapshot(s: AtlasState): ViewSnapshot {
+  const { sex, systems, selectedIds, focusedId, hiddenIds, isolatedIds, regionFocus, tissueFocus, clipEnabled, clipAxis, clipValue, transparency, muscleLayer, viewName } = s;
+  return { sex, systems, selectedIds, focusedId, hiddenIds, isolatedIds, regionFocus, tissueFocus, clipEnabled, clipAxis, clipValue, transparency, muscleLayer, viewName };
+}
+
 export const useAtlasStore = create<AtlasState>((set, get) => ({
+  viewName: "Overview",
+  viewHistory: [],
+  navigateView: patch => set(s => ({ ...patch, viewHistory: [...s.viewHistory.slice(-19), snapshot(s)], hoveredId: null, panel: "browse", turntable: false, fitTrigger: s.fitTrigger + 1 })),
+  backView: () => set(s => {
+    const previous = s.viewHistory.at(-1);
+    return previous ? { ...previous, viewHistory: s.viewHistory.slice(0,-1), hoveredId: null, panel: "browse", turntable: false, fitTrigger: s.fitTrigger + 1 } : {};
+  }),
+  homeView: () => get().navigateView({ viewName: "Overview", systems: { ...DEFAULT_SYSTEMS }, regionFocus: "all", tissueFocus: "all", selectedIds: [], focusedId: null, hiddenIds: [], isolatedIds: [], clipEnabled: false, transparency: 0, muscleLayer: 3 }),
   regionFocus: "all",
   sceneRevision: 0,
   visibleMeshCount: null,
@@ -210,6 +230,8 @@ export const useAtlasStore = create<AtlasState>((set, get) => ({
     // model must be cleared or the new body renders empty.
     set((s) => ({
       sex,
+      viewHistory: [],
+      viewName: "Custom view",
       regionFocus: "all",
       clipEnabled: false,
       transparency: 0,
@@ -235,8 +257,8 @@ export const useAtlasStore = create<AtlasState>((set, get) => ({
   },
 
   toggleSystem: (id) =>
-    set((s) => ({ tissueFocus: "all", systems: { ...s.systems, [id]: !s.systems[id] } })),
-  patchSystems: (patch) => set((s) => ({ systems: { ...s.systems, ...patch }, tissueFocus: "all" })),
+    set((s) => ({ viewName: "Custom view", tissueFocus: "all", systems: { ...s.systems, [id]: !s.systems[id] } })),
+  patchSystems: (patch) => set((s) => ({ viewName: "Custom view", systems: { ...s.systems, ...patch }, tissueFocus: "all" })),
   soloSystem: (id) =>
     set((s) => {
       const only = Object.fromEntries(
@@ -245,23 +267,24 @@ export const useAtlasStore = create<AtlasState>((set, get) => ({
       // A second click on a solo'd system restores the defaults.
       const alreadySolo =
         s.systems[id] && Object.entries(s.systems).every(([k, v]) => v === (k === id));
-      return { tissueFocus: "all", hiddenIds: [], isolatedIds: [], clipEnabled: false, transparency: 0, systems: alreadySolo ? { ...DEFAULT_SYSTEMS } : only, fitTrigger: s.fitTrigger + 1 };
+      return { viewName: "Custom view", tissueFocus: "all", hiddenIds: [], isolatedIds: [], clipEnabled: false, transparency: 0, systems: alreadySolo ? { ...DEFAULT_SYSTEMS } : only, fitTrigger: s.fitTrigger + 1 };
     }),
 
   select: (id, opts) => {
     const meta = STRUCTURE_BY_ID[id];
     if (!meta) return;
-    const meshes = meshesFor(id);
+    const meshes = selectionMeshes(id, get().sex);
     const selectedIds = opts?.additive
       ? [...new Set([...get().selectedIds, ...meshes])]
       : meshes;
     set((s) => ({
+      viewHistory: s.focusedId === id ? s.viewHistory : [...s.viewHistory.slice(-19), snapshot(s)],
       selectedIds,
       focusedId: id,
       tissueFocus: meshes.every(m => classifyTissue(STRUCTURE_BY_ID[m]?.name ?? m) === s.tissueFocus) ? s.tissueFocus : "all",
       regionFocus: meshes.every(m => STRUCTURE_BY_ID[m]?.region === s.regionFocus) ? s.regionFocus : "all",
       hiddenIds: s.hiddenIds.filter(m => !selectedIds.includes(m)),
-      isolatedIds: s.isolatedIds.length ? selectedIds : [],
+      isolatedIds: meshes.some(m => STRUCTURE_BY_ID[m]?.referenceOnly) ? (selectedIds.every(m => s.isolatedIds.includes(m)) ? s.isolatedIds : selectedIds) : (s.isolatedIds.length && !selectedIds.every(m => s.isolatedIds.includes(m)) ? selectedIds : s.isolatedIds),
       clipEnabled: false,
       muscleLayer: 3,
       systems: { ...s.systems, [meta.system]: true, ...Object.fromEntries(meshes.map(m => [STRUCTURE_BY_ID[m]?.system ?? meta.system, true])) },
@@ -296,9 +319,9 @@ export const useAtlasStore = create<AtlasState>((set, get) => ({
   isolate: (ids) => {
     const next = ids && ids.length ? ids : get().selectedIds;
     if (!next.length) return;
-    set({ isolatedIds: next, hiddenIds: [] });
+    set(s => ({ isolatedIds: next, hiddenIds: [], viewHistory: [...s.viewHistory.slice(-19), snapshot(s)], fitTrigger: s.fitTrigger + 1 }));
   },
-  resetVisibility: () => set(s => ({ tissueFocus: "all", regionFocus: "all", hiddenIds: [], isolatedIds: [], clipEnabled: false, transparency: 0, muscleLayer: 3, systems: systemsForSex(Object.fromEntries(Object.keys(s.systems).map(k => [k, true])) as Record<SystemId, boolean>, s.sex), fitTrigger: s.fitTrigger + 1 })),
+  resetVisibility: () => set(s => ({ viewName: "Custom view", tissueFocus: "all", regionFocus: "all", hiddenIds: [], isolatedIds: [], clipEnabled: false, transparency: 0, muscleLayer: 3, systems: systemsForSex(Object.fromEntries(Object.keys(s.systems).map(k => [k, true])) as Record<SystemId, boolean>, s.sex), fitTrigger: s.fitTrigger + 1 })),
 
   setTransparency: (v) => set({ transparency: Math.min(1, Math.max(0, v)) }),
   setXray: (v) => set({ xray: v }),

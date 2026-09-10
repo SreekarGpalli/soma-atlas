@@ -49,3 +49,13 @@ Provenance: data/hra-supplement.json.
 - OpenStax Anatomy and Physiology 2e may be quoted with attribution, CC BY 4.0.
 
 This application is an educational tool, not a medical device. It is not for diagnosis or treatment.
+
+## HRA male lung reference
+
+Human Reference Atlas / HuBMAP United Male v1.10, CC BY 4.0.
+https://lod.humanatlas.io/ref-organ/united-male/v1.10
+Source: https://cdn.humanatlas.io/digital-objects/ref-organ/united-male/v1.10/assets/3d-vh-m-united.glb
+Twenty bronchopulmonary segment surfaces, extracted with world transforms,
+uniformly scaled/translated for isolated display, renamed and Draco compressed.
+Separate donor reference, not validated registration to the BodyParts3D body.
+Provenance and exact transform: data/hra-male-lungs.json.

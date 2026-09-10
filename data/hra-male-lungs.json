@@ -1,0 +1,254 @@
+{
+  "source": "https://cdn.humanatlas.io/digital-objects/ref-organ/united-male/v1.10/assets/3d-vh-m-united.glb",
+  "sha256": "fae3ac193835e9e24cd13a0d0f11e6788183b290b0691b9b83ec81d907d94581",
+  "license": "CC BY 4.0",
+  "scale": 1.152306416288172,
+  "offset": [
+    -0.006098499762798242,
+    0.7226379409553138,
+    0.006108152256829548
+  ],
+  "alignment": "Uniform height/centre fit for isolated display only. Different donor; not validated registration to BodyParts3D.",
+  "added": [
+    {
+      "id": "hra-male-left-lingula-superior-bronchopulmonary-segment",
+      "name": "left lingula superior bronchopulmonary segment (HRA reference)",
+      "system": "respiratory",
+      "region": "thorax",
+      "sex": "male",
+      "source": "hra-male-v1.10",
+      "referenceOnly": true,
+      "aliases": [
+        "VH_M_left_lingula_superior_bronchopulmonary_segment"
+      ]
+    },
+    {
+      "id": "hra-male-left-posterior-bronchopulmonary-segment",
+      "name": "left posterior bronchopulmonary segment (HRA reference)",
+      "system": "respiratory",
+      "region": "thorax",
+      "sex": "male",
+      "source": "hra-male-v1.10",
+      "referenceOnly": true,
+      "aliases": [
+        "VH_M_left_posterior_bronchopulmonary_segment"
+      ]
+    },
+    {
+      "id": "hra-male-left-anterior-bronchopulmonary-segment",
+      "name": "left anterior bronchopulmonary segment (HRA reference)",
+      "system": "respiratory",
+      "region": "thorax",
+      "sex": "male",
+      "source": "hra-male-v1.10",
+      "referenceOnly": true,
+      "aliases": [
+        "VH_M_left_anterior_bronchopulmonary_segment"
+      ]
+    },
+    {
+      "id": "hra-male-left-apical-bronchopulmonary-segment",
+      "name": "left apical bronchopulmonary segment (HRA reference)",
+      "system": "respiratory",
+      "region": "thorax",
+      "sex": "male",
+      "source": "hra-male-v1.10",
+      "referenceOnly": true,
+      "aliases": [
+        "VH_M_left_apical_bronchopulmonary_segment"
+      ]
+    },
+    {
+      "id": "hra-male-left-lingula-inferior-bronchopulmonary-segment",
+      "name": "left lingula inferior bronchopulmonary segment (HRA reference)",
+      "system": "respiratory",
+      "region": "thorax",
+      "sex": "male",
+      "source": "hra-male-v1.10",
+      "referenceOnly": true,
+      "aliases": [
+        "VH_M_left_lingula_inferior_bronchopulmonary_segment"
+      ]
+    },
+    {
+      "id": "hra-male-left-anterior-basal-bronchopulmonary-segment",
+      "name": "left anterior basal bronchopulmonary segment (HRA reference)",
+      "system": "respiratory",
+      "region": "thorax",
+      "sex": "male",
+      "source": "hra-male-v1.10",
+      "referenceOnly": true,
+      "aliases": [
+        "VH_M_left_anterior_basal_bronchopulmonary_segment"
+      ]
+    },
+    {
+      "id": "hra-male-left-lateral-basal-bronchopulmonary-segment",
+      "name": "left lateral basal bronchopulmonary segment (HRA reference)",
+      "system": "respiratory",
+      "region": "thorax",
+      "sex": "male",
+      "source": "hra-male-v1.10",
+      "referenceOnly": true,
+      "aliases": [
+        "VH_M_left_lateral_basal_bronchopulmonary_segment"
+      ]
+    },
+    {
+      "id": "hra-male-left-medial-basal-bronchopulmonary-segment",
+      "name": "left medial basal bronchopulmonary segment (HRA reference)",
+      "system": "respiratory",
+      "region": "thorax",
+      "sex": "male",
+      "source": "hra-male-v1.10",
+      "referenceOnly": true,
+      "aliases": [
+        "VH_M_left_medial_basal_bronchopulmonary_segment"
+      ]
+    },
+    {
+      "id": "hra-male-left-posetrior-basal-bronchopulmonary-segment",
+      "name": "left posterior basal bronchopulmonary segment (HRA reference)",
+      "system": "respiratory",
+      "region": "thorax",
+      "sex": "male",
+      "source": "hra-male-v1.10",
+      "referenceOnly": true,
+      "aliases": [
+        "VH_M_left_posetrior_basal_bronchopulmonary_segment"
+      ]
+    },
+    {
+      "id": "hra-male-left-superior-bronchopulmonary-segment",
+      "name": "left superior bronchopulmonary segment (HRA reference)",
+      "system": "respiratory",
+      "region": "thorax",
+      "sex": "male",
+      "source": "hra-male-v1.10",
+      "referenceOnly": true,
+      "aliases": [
+        "VH_M_left_superior_bronchopulmonary_segment"
+      ]
+    },
+    {
+      "id": "hra-male-right-lateral-bronchopulmonary-segment",
+      "name": "right lateral bronchopulmonary segment (HRA reference)",
+      "system": "respiratory",
+      "region": "thorax",
+      "sex": "male",
+      "source": "hra-male-v1.10",
+      "referenceOnly": true,
+      "aliases": [
+        "VH_M_right_lateral_bronchopulmonary_segment"
+      ]
+    },
+    {
+      "id": "hra-male-right-medial-bronchopulmonary-segment",
+      "name": "right medial bronchopulmonary segment (HRA reference)",
+      "system": "respiratory",
+      "region": "thorax",
+      "sex": "male",
+      "source": "hra-male-v1.10",
+      "referenceOnly": true,
+      "aliases": [
+        "VH_M_right_medial_bronchopulmonary_segment"
+      ]
+    },
+    {
+      "id": "hra-male-right-anterior-basal-bronchopulmonary-segment",
+      "name": "right anterior basal bronchopulmonary segment (HRA reference)",
+      "system": "respiratory",
+      "region": "thorax",
+      "sex": "male",
+      "source": "hra-male-v1.10",
+      "referenceOnly": true,
+      "aliases": [
+        "VH_M_right_anterior_basal_bronchopulmonary_segment"
+      ]
+    },
+    {
+      "id": "hra-male-right-lateral-basal-bronchopulmonary-segment",
+      "name": "right lateral basal bronchopulmonary segment (HRA reference)",
+      "system": "respiratory",
+      "region": "thorax",
+      "sex": "male",
+      "source": "hra-male-v1.10",
+      "referenceOnly": true,
+      "aliases": [
+        "VH_M_right_lateral_basal_bronchopulmonary_segment"
+      ]
+    },
+    {
+      "id": "hra-male-right-medial-basal-bronchopulmonary-segment",
+      "name": "right medial basal bronchopulmonary segment (HRA reference)",
+      "system": "respiratory",
+      "region": "thorax",
+      "sex": "male",
+      "source": "hra-male-v1.10",
+      "referenceOnly": true,
+      "aliases": [
+        "VH_M_right_medial_basal_bronchopulmonary_segment"
+      ]
+    },
+    {
+      "id": "hra-male-right-posterior-basal-bronchopulmonary-segment",
+      "name": "right posterior basal bronchopulmonary segment (HRA reference)",
+      "system": "respiratory",
+      "region": "thorax",
+      "sex": "male",
+      "source": "hra-male-v1.10",
+      "referenceOnly": true,
+      "aliases": [
+        "VH_M_right_posterior_basal_bronchopulmonary_segment"
+      ]
+    },
+    {
+      "id": "hra-male-right-superior-bronchopulmonary-segment",
+      "name": "right superior bronchopulmonary segment (HRA reference)",
+      "system": "respiratory",
+      "region": "thorax",
+      "sex": "male",
+      "source": "hra-male-v1.10",
+      "referenceOnly": true,
+      "aliases": [
+        "VH_M_right_superior_bronchopulmonary_segment"
+      ]
+    },
+    {
+      "id": "hra-male-right-apical-bronchopulmonary-segment",
+      "name": "right apical bronchopulmonary segment (HRA reference)",
+      "system": "respiratory",
+      "region": "thorax",
+      "sex": "male",
+      "source": "hra-male-v1.10",
+      "referenceOnly": true,
+      "aliases": [
+        "VH_M_right_apical_bronchopulmonary_segment"
+      ]
+    },
+    {
+      "id": "hra-male-right-posterior-bronchopulmonary-segment",
+      "name": "right posterior bronchopulmonary segment (HRA reference)",
+      "system": "respiratory",
+      "region": "thorax",
+      "sex": "male",
+      "source": "hra-male-v1.10",
+      "referenceOnly": true,
+      "aliases": [
+        "VH_M_right_posterior_bronchopulmonary_segment"
+      ]
+    },
+    {
+      "id": "hra-male-right-anterior-bronchopulmonary-segment",
+      "name": "right anterior bronchopulmonary segment (HRA reference)",
+      "system": "respiratory",
+      "region": "thorax",
+      "sex": "male",
+      "source": "hra-male-v1.10",
+      "referenceOnly": true,
+      "aliases": [
+        "VH_M_right_anterior_bronchopulmonary_segment"
+      ]
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T18:35:41.367Z",
+  "generatedAt": "2026-09-10T02:13:59.994Z",
   "reference": {
     "name": "Terminologia Anatomica 2nd ed. (FIPAT 2019)",
     "citation": "FIPAT. Terminologia Anatomica. 2nd ed. FIPAT.library.dal.ca, 2019.",
@@ -14,13 +14,13 @@
     }
   },
   "shipped": {
-    "meshNodes": 5157,
-    "distinctNames": 4245,
-    "distinctKeys": 2658,
-    "triangles": 12561069,
-    "male": 4191,
+    "meshNodes": 5177,
+    "distinctNames": 4265,
+    "distinctKeys": 2670,
+    "triangles": 12574948,
+    "male": 4211,
     "female": 966,
-    "unmatchedMeshes": 1820,
+    "unmatchedMeshes": 1839,
     "bySource": [
       [
         "bodyparts3d",
@@ -37,6 +37,10 @@
       [
         "hra-v1.10",
         78
+      ],
+      [
+        "hra-male-v1.10",
+        20
       ]
     ]
   },
@@ -12669,9 +12673,11 @@
       "class": "structure",
       "kind": "other",
       "match": "partial",
-      "meshCount": 1,
+      "meshCount": 3,
       "meshes": [
-        "male:lingula-of-cerebellum"
+        "male:lingula-of-cerebellum",
+        "male:hra-male-left-lingula-superior-bronchopulmonary-segment",
+        "male:hra-male-left-lingula-inferior-bronchopulmonary-segment"
       ],
       "sexes": [
         "male"
@@ -48126,14 +48132,15 @@
       "class": "structure",
       "kind": "other",
       "match": "partial",
-      "meshCount": 20,
+      "meshCount": 40,
       "meshes": [
-        "female:superior-lingular-bronchopulmonary-segment",
-        "female:left-anterior-bronchopulmonary-segment",
-        "female:left-apical-bronchopulmonary-segment",
-        "female:left-posterior-bronchopulmonary-segment"
+        "male:hra-male-left-lingula-superior-bronchopulmonary-segment",
+        "male:hra-male-left-posterior-bronchopulmonary-segment",
+        "male:hra-male-left-anterior-bronchopulmonary-segment",
+        "male:hra-male-left-apical-bronchopulmonary-segment"
       ],
       "sexes": [
+        "male",
         "female"
       ]
     },

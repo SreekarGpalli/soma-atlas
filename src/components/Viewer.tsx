@@ -211,6 +211,9 @@ export function Viewer() {
       : null;
 
   const regionFocus = useAtlasStore(s => s.regionFocus);
+  const viewName = useAtlasStore(s => s.viewName);
+  const canBack = useAtlasStore(s => s.viewHistory.length > 0);
+  const sexModule = useAtlasStore(s => s.sex);
   const systems = useAtlasStore(s => s.systems);
   const tissueFocus = useAtlasStore(s => s.tissueFocus);
   const heading = tissueFocus === "all" ? Object.entries(systems).filter(([,on]) => on).map(([id]) => SYSTEM_META[id as SystemId].label).join(" + ") : ({ artery: "Arteries", vein: "Veins", nerve: "Peripheral nerves", lymph: "Lymphatics" }[tissueFocus]);
@@ -218,7 +221,7 @@ export function Viewer() {
 
   return (
     <div className="viewer">
-      <header className="viewport-heading"><div><span className="studio-kicker">ANATOMY / EXPLORE</span><h1>{pinned ?? (heading || "Choose a system")}</h1></div><label>Region<select aria-label="Visible body region" value={regionFocus} onChange={e => useAtlasStore.setState(s => ({ regionFocus: e.target.value as RegionId | "all", selectedIds: [], focusedId: null, isolatedIds: [], hiddenIds: [], fitTrigger: s.fitTrigger + 1 }))}><option value="all">Whole body</option>{Object.entries(REGION_META).map(([id,r]) => <option key={id} value={id}>{r.label}</option>)}</select></label></header>
+      <header className="viewport-heading"><div><span className="studio-kicker">ANATOMY / EXPLORE</span><h1>{pinned ?? (viewName === "Custom view" ? heading : viewName)}</h1>{viewName === "Lung shape" && sexModule === "male" && <small className="faint">Human Reference Atlas / separate lung reference</small>}</div><label>Region<select aria-label="Visible body region" value={regionFocus} onChange={e => useAtlasStore.setState(s => ({ regionFocus: e.target.value as RegionId | "all", selectedIds: [], focusedId: null, isolatedIds: ["Lung shape", "Airways"].includes(s.viewName) ? s.isolatedIds : [], hiddenIds: [], fitTrigger: s.fitTrigger + 1 }))}><option value="all">Whole body</option>{Object.entries(REGION_META).map(([id,r]) => <option key={id} value={id}>{r.label}</option>)}</select></label></header>
       <div className="anatomy-stage"><Canvas
         frameloop="demand"
         dpr={[1, 1.75]}
@@ -247,10 +250,12 @@ export function Viewer() {
       </Canvas>{!loading && visibleCount === 0 && <div className="empty-scene" role="status"><strong>No meshes visible in this view</strong><p>Choose another region or restore all systems. This module may not contain the selected detail.</p><button type="button" onClick={resetVisibility}>Restore all systems</button></div>}</div>
 
       <div className="viewport-tools">
+      <button type="button" disabled={!canBack} onClick={() => useAtlasStore.getState().backView()}>Back</button>
+      <button type="button" onClick={() => useAtlasStore.getState().homeView()}>Home</button>
 
       <div className="hud hud-tr">
-        <button type="button" onClick={triggerFit} title="Frame the whole body (F)">
-          Reset view
+        <button type="button" onClick={triggerFit} title="Fit visible anatomy to the canvas (F)">
+          Fit view
         </button>
         <button
           type="button"

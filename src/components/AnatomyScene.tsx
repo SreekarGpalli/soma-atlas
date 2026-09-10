@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import {
   Color,
-  FrontSide,
+  DoubleSide,
   Mesh,
   MeshStandardMaterial,
   Object3D,
@@ -102,7 +102,7 @@ function useSystemMaterials() {
           color: new Color(color),
           roughness: 0.55,
           metalness: 0.04,
-          side: FrontSide,
+          side: DoubleSide,
           clipShadows: true,
         });
     for (const id of Object.keys(SYSTEM_META) as SystemId[]) {
@@ -118,7 +118,7 @@ function useSystemMaterials() {
       emissive: new Color(SELECTED_EMISSIVE),
       roughness: 0.4,
       metalness: 0.05,
-      side: FrontSide,
+      side: DoubleSide,
       clipShadows: true,
     });
     const hover = new MeshStandardMaterial({
@@ -126,13 +126,13 @@ function useSystemMaterials() {
       emissive: new Color(HOVER_EMISSIVE),
       roughness: 0.45,
       metalness: 0.05,
-      side: FrontSide,
+      side: DoubleSide,
       clipShadows: true,
     });
     const fallback = new MeshStandardMaterial({
       color: new Color("#a9b2be"),
       roughness: 0.6,
-      side: FrontSide,
+      side: DoubleSide,
     });
     const tubeSelected = applyMinWidth(selected.clone());
     const tubeHover = applyMinWidth(hover.clone());
@@ -268,11 +268,13 @@ function SystemPack({ url }: { url: string }) {
   const tissueFocus = useAtlasStore((s) => s.tissueFocus);
 
   const regionFocus = useAtlasStore(s => s.regionFocus);
+  const selectedIds = useAtlasStore(s => s.selectedIds);
   useLayoutEffect(() => {
     const hidden = new Set(hiddenIds);
     const isolated = isolatedIds.length ? new Set(isolatedIds) : null;
     for (const e of entries) {
       let visible = systems[e.system] !== false;
+      if (STRUCTURE_BY_ID[e.meshId]?.referenceOnly && !isolated?.has(e.meshId) && !selectedIds.includes(e.meshId)) visible = false;
       if (regionFocus !== "all" && STRUCTURE_BY_ID[e.meshId]?.region !== regionFocus) visible = false;
       if (tissueFocus !== "all" && e.tissue !== tissueFocus) visible = false;
       if (visible && e.sex !== "both" && e.sex !== sex) visible = false;
@@ -285,7 +287,7 @@ function SystemPack({ url }: { url: string }) {
     }
     useAtlasStore.setState(s => ({ sceneRevision: s.sceneRevision + 1 }));
     invalidate();
-  }, [entries, systems, hiddenIds, isolatedIds, sex, muscleLayer, tissueFocus, regionFocus, invalidate]);
+  }, [entries, systems, hiddenIds, isolatedIds, sex, muscleLayer, tissueFocus, regionFocus, selectedIds, invalidate]);
 
   // --- selection ----------------------------------------------------------
   // Most structures worth selecting sit inside the body. Without an x-ray
@@ -301,7 +303,6 @@ function SystemPack({ url }: { url: string }) {
     invalidate();
   }, [xray, materials, invalidate]);
 
-  const selectedIds = useAtlasStore((s) => s.selectedIds);
   const selectedRef = useRef<Set<string>>(new Set());
   useLayoutEffect(() => {
     const next = new Set(selectedIds);
