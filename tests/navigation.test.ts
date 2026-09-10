@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { useAtlasStore } from "@/store/useAtlasStore";
 import { lungMeshIds, isLungSurface, selectionMeshes } from "@/lib/lung-views";
-import { STRUCTURE_BY_ID, searchStructures } from "@/data/structures";
+import { STRUCTURE_BY_ID, STRUCTURES, searchStructures } from "@/data/structures";
 import { regionAvailability, systemsRevealing } from "@/lib/regions";
 import { DEFAULT_SYSTEMS, REGION_IDS, SYSTEM_IDS } from "@/lib/systems";
 import type { SystemId, TissueFocus } from "@/lib/types";
@@ -106,4 +106,47 @@ test("a prose mention is not passed off as a name match", () => {
   // module that used to be the top answer for "uterus".
   assert.equal(searchStructures("uterus", { sex: "male", namesOnly: true }).length, 0);
   assert.ok(searchStructures("uterus", { sex: "female", namesOnly: true }).length > 0);
+});
+
+test("changing region never strands you in an isolated view", () => {
+  // Lung shape isolates 20 thoracic meshes. Narrowing to Thorax should keep
+  // them; moving to Head must not leave the canvas isolated to lungs.
+  useAtlasStore.setState({ sex: "male", viewName: "Lung shape", regionFocus: "all", tissueFocus: "all" });
+  useAtlasStore.getState().isolate(lungMeshIds("male", "lungs"));
+  const isolated = useAtlasStore.getState().isolatedIds;
+  assert.ok(isolated.length > 0);
+
+  useAtlasStore.getState().setRegionFocus("thorax");
+  assert.deepEqual(useAtlasStore.getState().isolatedIds, isolated, "thorax keeps the lungs");
+
+  useAtlasStore.setState({ isolatedIds: isolated });
+  useAtlasStore.getState().setRegionFocus("head");
+  assert.deepEqual(useAtlasStore.getState().isolatedIds, [], "head drops an isolation with nothing in it");
+});
+
+test("head and face holds no limb muscles and does hold the eye", () => {
+  const head = STRUCTURES.filter(s => s.isLeafMesh && s.region === "head");
+  const strays = head.filter(s =>
+    /hallucis|biceps femoris|pollicis|flexor carpi|pronator teres|fibular head|ligament of head of (femur|rib)/i.test(s.name));
+  assert.deepEqual(strays.map(s => s.name), [], "limb structures filed under the head");
+  for (const eye of [/lateral rectus/i, /superior oblique/i, /macula/i, /choroid/i]) {
+    assert.ok(head.some(s => eye.test(s.name)), `head region is missing ${eye}`);
+  }
+});
+
+test("leaving a study view gives the body back instead of isolating forever", () => {
+  useAtlasStore.setState({ sex: "male", hiddenIds: [], selectedIds: [], isolatedIds: [] });
+  useAtlasStore.getState().isolate(lungMeshIds("male", "airways"));
+  assert.ok(useAtlasStore.getState().isolatedIds.length > 0);
+
+  // Something unrelated: the airway isolation must not follow it.
+  const femur = STRUCTURES.find(s => /^femur$/i.test(s.name))!;
+  useAtlasStore.getState().select(femur.id);
+  assert.deepEqual(useAtlasStore.getState().isolatedIds, []);
+
+  // Drilling into a structure inside the current isolation keeps the view.
+  const airways = lungMeshIds("male", "airways");
+  useAtlasStore.setState({ isolatedIds: airways, selectedIds: [], focusedId: null });
+  useAtlasStore.getState().select(airways[0]);
+  assert.deepEqual(useAtlasStore.getState().isolatedIds, airways);
 });

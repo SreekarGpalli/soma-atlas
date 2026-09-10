@@ -75,6 +75,7 @@ function rule(words, prefixes = []) {
 
 const NERVOUS = rule(
   [
+    "allen",
     "nerve", "nerves", "nervous", "neural", "ganglion", "ganglia",
     "brain", "pons", "midbrain", "insula", "uncus", "precuneus", "cuneus",
     "operculum", "claustrum", "putamen", "pallidum", "globus pallidus",
@@ -366,13 +367,18 @@ const REGION_RULES = [
     "head",
     rule(
       [
-        "head", "skull", "cranium", "calvaria", "brain", "pons", "midbrain",
+        "skull", "cranium", "calvaria", "brain", "pons", "midbrain",
         "medulla oblongata", "eye", "eyeball", "eyelid", "orbit", "cornea",
         "sclera", "iris", "lens", "retina", "ear", "nose", "scalp", "face",
         "tooth", "teeth", "gingiva", "tongue", "palate", "parotid",
         "maxilla", "mandible", "vomer", "sphenoid", "ethmoid",
         "occipital bone", "frontal bone", "parietal bone", "temporal bone",
         "zygomatic bone", "optic chiasm", "optic nerve", "optic tract",
+        "lateral rectus", "medial rectus", "superior rectus", "inferior rectus",
+        "superior oblique", "inferior oblique", "levator palpebrae",
+        "tendinous ring", "choroid", "vitreous", "aqueous humour", "macula",
+        "fovea", "optic disc", "ora serrata", "pupil", "conjunctiva",
+        "lacrimal", "eyebrow", "eyelash", "canthus", "uvea", "limbus",
         "olfactory bulb", "olfactory tract", "cranial nerve", "trigeminal",
         "oculomotor", "trochlear nerve", "abducens", "facial nerve",
         "vestibulocochlear", "glossopharyngeal", "vagus", "hypoglossal",
@@ -398,13 +404,20 @@ const REGION_RULES = [
         "mandibul", "retromandibul", "temporomandibul", "premolar", "incisor",
         "canine tooth", "molar", "labial", "alveolar", "palatine", "lingual",
         "submandibul", "sublingual", "pterion", "nuchal",
+        // Allen brain-atlas labels carry a unique prefix and are all cerebral.
+        "allen", "corneoscler", "ciliary", "zonul", "scleral",
+        "putamen", "pallidum", "operculum", "callos", "olfactory",
+        "piriform cortex", "chiasma", "insula", "uncus", "precuneus",
+        "claustrum", "substantia nigra", "locus coeruleus", "amygdal",
+        "septum pellucidum", "geniculate", "cerebral peduncle",
+        "cerebellar peduncle", "inferior olive", "tegmentum", "caudate",
       ],
     ),
   ],
   [
     "neck",
     rule(
-      ["neck", "hyoid", "thyroid", "parathyroid", "pharynx", "atlas",
+      ["hyoid", "thyroid", "parathyroid", "pharynx", "atlas",
        "axis vertebra", "platysma", "omohyoid", "sternohyoid", "thyrohyoid",
        "sternocleidomastoid"],
       ["cervical(?! canal)", "laryn", "trache", "carotid", "jugular", "scalen",
@@ -419,7 +432,10 @@ const REGION_RULES = [
        "diaphragm", "azygos", "aorta", "carina"],
       ["thoracic", "cardiac", "myocardi", "pericardi", "atrium", "atrial",
        "pulmon", "bronch", "alveol", "pleura", "mediastin", "aortic",
-       "oesophag", "esophag", "mammary", "intercostal", "pectoral", "coronary"],
+       "oesophag", "esophag", "mammary", "intercostal", "pectoral", "coronary",
+       // the brain's ventricles are named in the head rule, which is tried
+       // first, so a bare "ventricle" here is a cardiac one
+       "ventricle", "ventricular", "papillary muscle", "chordae", "trabecula carnea"],
     ),
   ],
   [
@@ -484,6 +500,7 @@ const REGION_RULES = [
        "coracohumeral", "glenohumeral", "glenoid", "cubital", "anconeus",
        "musculocutaneous", "median nerve", "pronator", "supinator",
        "flexor carpi", "extensor carpi", "brachioradialis", "lumbrical",
+       "pollicis", "digitorum superficialis", "digitorum profundus",
        "sternoclavicular", "interosseous membrane of forearm"],
     ),
   ],
@@ -503,7 +520,8 @@ const REGION_RULES = [
        "calcanea", "calcaneofibular", "patellar", "menisc", "anserine",
        "iliopectineal", "iliotibial", "cruciate", "collateral ligament of knee",
        "digitorum longus", "hallucis", "semitendinos", "semimembranos",
-       "biceps femoris", "pectineus", "popliteus", "tibiofibular",
+       "biceps femoris", "femoris", "fasciae latae", "genicular",
+       "pectineus", "popliteus", "tibiofibular",
        "interosseous membrane of leg", "cuneiform", "lacunar node"],
     ),
   ],
@@ -523,10 +541,28 @@ const REGION_RULES = [
   ],
 ];
 
+/**
+ * "Head" names a body region and also names the part of a muscle or bone that
+ * articulates, and the second sense is far more common in these datasets. Read
+ * as a region word it filed "Long head of biceps femoris" (a thigh muscle),
+ * "Lateral head of flexor hallucis brevis" (a foot muscle) and "ligament of
+ * fibular head" (a knee ligament) under the head, so the Head & face view
+ * showed feet and forearms. Any genuine regional term in the name outranks it.
+ */
+const PART_WORD_REGIONS = [
+  ["head", rule(["head"])],
+  // "neck" the same way: the neck of the femur, of a rib, of a tooth and of
+  // the bladder are all somewhere else.
+  ["neck", rule(["neck"])],
+];
+
 export function classifyRegion(name, fallback = "thorax") {
   const head = headOf(name);
   for (const [region, re] of REGION_RULES) if (re.test(head)) return region;
   for (const [region, re] of REGION_RULES) if (re.test(name)) return region;
+  for (const [region, re] of PART_WORD_REGIONS) {
+    if (re.test(head) || re.test(name)) return region;
+  }
   return fallback;
 }
 

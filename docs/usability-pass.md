@@ -75,3 +75,47 @@ region controls in both the header and the explorer, Male pelvis revealing its
 width, and the tutorial. The preview browser does not run requestAnimationFrame,
 so camera framing was checked by computing the framing goal rather than watching
 it animate.
+
+## Second pass — the student tried it again
+
+Two more reports: "Head & face shows muscles that are not head or face", and
+"click the lungs, then try to go somewhere else and it is stuck".
+
+**The head region was matching the word "head".** In these datasets "head"
+names the part of a muscle or bone that articulates far more often than it
+names the region, so "Long head of biceps femoris" (thigh), "Lateral head of
+flexor hallucis brevis" (foot), "Humeral head of pronator teres" (forearm) and
+"ligament of fibular head" (knee) were all filed under the head — and shown in
+Head & face. `classifyRegion` now treats a bare part-word as last-resort
+evidence that any genuine regional term outranks. "Neck" had the same problem
+and is handled the same way. 38 rows moved out of the head.
+
+**A quarter of all meshes matched no region rule at all** and silently took the
+`thorax` fallback. Many were accidentally right — segmental bronchi really are
+thoracic — but every eye structure was not: the extraocular muscles, choroid,
+macula, fovea, pupil and ora serrata. In the female module those 122 rows had
+landed under *femalePelvis*. So Head & face was simultaneously showing feet and
+missing eyes. Added eye and orbit terms, the deep brain structures the nervous
+system rule already knew, the Allen brain-atlas prefix, the heart's interior,
+and the thigh muscle names. 458 rows corrected across the two catalogs; only
+rows that a rule now actually matches were moved, so nothing was reclassified
+into the fallback on a guess. 56 Allen rows were also tagged `skeletal`, which
+put brain nuclei in the Skeleton view; they are nervous, and the packs were
+re-split accordingly.
+
+**Isolation behaved like a mode instead of a view.** Entering Lung shape
+isolates twenty meshes. Selecting anything afterwards re-isolated *that*, and
+so did the next selection, so after visiting the lungs every structure appeared
+alone with no body around it — which is what being stuck felt like. Changing
+region kept the lung isolation too, so choosing Head from the lung view gave a
+blank canvas. Now isolation survives only while you stay inside it: drilling
+into something already isolated keeps the view, picking something outside it
+brings the body back, and a region change drops an isolation that has nothing
+in the new region. Donor reference geometry stays the exception, since it is
+not aligned to this body.
+
+Verified in the browser: Head & face confined to the head, Lung shape then
+searching a femur now showing 1,046 meshes in context rather than two, and
+Lung shape then choosing Head no longer blank. Lint, typecheck, 51 tests, a
+production build and the model integrity check pass. Coverage is unchanged at
+35.7% — this pass corrected where things are filed, not how much exists.

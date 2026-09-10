@@ -8,7 +8,7 @@ import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import { AnatomyScene } from "./AnatomyScene";
 
 import { REGION_IDS, REGION_META, SYSTEM_META } from "@/lib/systems";
-import { regionAvailability, systemsRevealing } from "@/lib/regions";
+import { regionAvailability } from "@/lib/regions";
 import type { RegionId, SystemId } from "@/lib/types";
 import { useAtlasStore } from "@/store/useAtlasStore";
 import { STRUCTURE_BY_ID } from "@/data/structures";
@@ -215,19 +215,7 @@ export function Viewer() {
   const viewName = useAtlasStore(s => s.viewName);
   const canBack = useAtlasStore(s => s.viewHistory.length > 0);
   const sexModule = useAtlasStore(s => s.sex);
-  const chooseRegion = useCallback((region: RegionId | "all") => {
-    useAtlasStore.setState(s => {
-      const reveal = systemsRevealing(s.sex, region, s.systems, s.tissueFocus);
-      return {
-        regionFocus: region,
-        // A region full of hidden layers must not read as an empty dataset.
-        systems: reveal ?? s.systems,
-        selectedIds: [], focusedId: null,
-        isolatedIds: ["Lung shape", "Airways"].includes(s.viewName) ? s.isolatedIds : [],
-        hiddenIds: [], fitTrigger: s.fitTrigger + 1,
-      };
-    });
-  }, []);
+  const chooseRegion = useAtlasStore(s => s.setRegionFocus);
   const systems = useAtlasStore(s => s.systems);
   const tissueFocus = useAtlasStore(s => s.tissueFocus);
   const availability = useMemo(

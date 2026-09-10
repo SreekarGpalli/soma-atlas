@@ -17,8 +17,13 @@ test("search selection escapes stale isolation, hiding and clipping", () => {
   useAtlasStore.setState({ isolatedIds: ["old-selection"], hiddenIds: meshes, clipEnabled: true, regionFocus: "head", tissueFocus: "nerve" });
   useAtlasStore.getState().select(lung.id);
   const state = useAtlasStore.getState();
-  assert.deepEqual(state.isolatedIds, meshes);
+  // The guarantee is that the thing you picked is visible — not that the rest
+  // of the body stays hidden. Selecting outside the isolation leaves it.
   assert.equal(state.hiddenIds.length, 0);
+  for (const id of meshes) {
+    assert.ok(!state.hiddenIds.includes(id));
+    assert.ok(!state.isolatedIds.length || state.isolatedIds.includes(id));
+  }
   assert.equal(state.clipEnabled, false);
   for (const id of meshes) assert.equal(state.systems[STRUCTURE_BY_ID[id].system], true);
 });

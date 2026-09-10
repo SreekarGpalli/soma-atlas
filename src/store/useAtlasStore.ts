@@ -3,6 +3,7 @@
 import { create } from "zustand";
 import { STRUCTURE_BY_ID, meshesFor } from "@/data/structures";
 import { selectionMeshes } from "@/lib/lung-views";
+import { isolationSurvives, systemsRevealing } from "@/lib/regions";
 import { SLICES } from "@/data/slices";
 import { classifyTissue } from "@/lib/tissue";
 import { DEFAULT_SYSTEMS } from "@/lib/systems";
@@ -44,6 +45,7 @@ interface AtlasState {
   backView: () => void;
   homeView: () => void;
   regionFocus: RegionId | "all";
+  setRegionFocus: (region: RegionId | "all") => void;
   sceneRevision: number;
   visibleMeshCount: number | null;
   tissueFocus: TissueFocus;
@@ -178,6 +180,18 @@ export const useAtlasStore = create<AtlasState>((set, get) => ({
   }),
   homeView: () => get().navigateView({ viewName: "Overview", systems: { ...DEFAULT_SYSTEMS }, regionFocus: "all", tissueFocus: "all", selectedIds: [], focusedId: null, hiddenIds: [], isolatedIds: [], clipEnabled: false, transparency: 0, muscleLayer: 3 }),
   regionFocus: "all",
+  setRegionFocus: (region) =>
+    set((s) => ({
+      regionFocus: region,
+      // A region whose layers are all off must not read as an empty dataset,
+      // and an isolation that has nothing here must not survive the move.
+      systems: systemsRevealing(s.sex, region, s.systems, s.tissueFocus) ?? s.systems,
+      isolatedIds: isolationSurvives(s.isolatedIds, region) ? s.isolatedIds : [],
+      hiddenIds: [],
+      selectedIds: [],
+      focusedId: null,
+      fitTrigger: s.fitTrigger + 1,
+    })),
   sceneRevision: 0,
   visibleMeshCount: null,
   tissueFocus: "all",
@@ -285,7 +299,16 @@ export const useAtlasStore = create<AtlasState>((set, get) => ({
       tissueFocus: meshes.every(m => classifyTissue(STRUCTURE_BY_ID[m]?.name ?? m) === s.tissueFocus) ? s.tissueFocus : "all",
       regionFocus: meshes.every(m => STRUCTURE_BY_ID[m]?.region === s.regionFocus) ? s.regionFocus : "all",
       hiddenIds: s.hiddenIds.filter(m => !selectedIds.includes(m)),
-      isolatedIds: meshes.some(m => STRUCTURE_BY_ID[m]?.referenceOnly) ? (selectedIds.every(m => s.isolatedIds.includes(m)) ? s.isolatedIds : selectedIds) : (s.isolatedIds.length && !selectedIds.every(m => s.isolatedIds.includes(m)) ? selectedIds : s.isolatedIds),
+      // Isolation is a view you are inside, not a mode that follows you.
+      // Drilling into something already isolated keeps the view; picking
+      // something outside it means you have left, so the body comes back.
+      // Entering Lung shape and then searching a femur used to isolate the
+      // femur too, and every structure after it, which read as being stuck.
+      // Donor reference geometry is the exception: it is not aligned to this
+      // body, so it is only ever shown on its own.
+      isolatedIds: meshes.some(m => STRUCTURE_BY_ID[m]?.referenceOnly)
+        ? (selectedIds.every(m => s.isolatedIds.includes(m)) ? s.isolatedIds : selectedIds)
+        : (selectedIds.every(m => s.isolatedIds.includes(m)) ? s.isolatedIds : []),
       clipEnabled: false,
       muscleLayer: 3,
       systems: { ...s.systems, [meta.system]: true, ...Object.fromEntries(meshes.map(m => [STRUCTURE_BY_ID[m]?.system ?? meta.system, true])) },

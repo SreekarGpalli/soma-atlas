@@ -1,3 +1,4 @@
+import { STRUCTURE_BY_ID } from "@/data/structures";
 import maleCatalog from "@/data/catalog-male.json";
 import femaleCatalog from "@/data/catalog-female.json";
 import { classifyTissue } from "@/lib/tissue";
@@ -111,4 +112,19 @@ export function systemsRevealing(
   return Object.fromEntries(
     SYSTEM_IDS.map((id) => [id, systems[id] !== false || needed.has(id)]),
   ) as Record<SystemId, boolean>;
+}
+
+/**
+ * Whether an isolated set should survive a move to `region`.
+ *
+ * Isolation used to be kept unconditionally inside the lung views so that
+ * narrowing to Thorax did not throw the lungs away. But choosing Head kept the
+ * twenty lung meshes isolated too, so the canvas went blank with no hint of
+ * why — the classic "I clicked something and got stuck". Isolation is worth
+ * keeping only while it still has something to show where you are going.
+ */
+export function isolationSurvives(isolatedIds: string[], region: RegionId | "all"): boolean {
+  if (!isolatedIds.length) return false;
+  if (region === "all") return true;
+  return isolatedIds.some((id) => STRUCTURE_BY_ID[id]?.region === region);
 }

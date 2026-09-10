@@ -4,7 +4,7 @@ import { useDeferredValue, useMemo, useState } from "react";
 import { STRUCTURES, searchStructures } from "@/data/structures";
 import { REGION_META, SYSTEM_IDS, SYSTEM_META } from "@/lib/systems";
 import { classifyTissue } from "@/lib/tissue";
-import { regionAvailability, systemsRevealing } from "@/lib/regions";
+import { regionAvailability } from "@/lib/regions";
 
 import { useAtlasStore } from "@/store/useAtlasStore";
 import type { RegionId, Structure, SystemId } from "@/lib/types";
@@ -106,13 +106,7 @@ function StructureList() {
   const focusSelection = useAtlasStore((s) => s.focusSelection);
 
   const region = useAtlasStore(s => s.regionFocus);
-  const setRegion = (value: RegionId | "all") => useAtlasStore.setState(s => ({
-    regionFocus: value,
-    // Choosing a region reveals what is in it; see src/lib/regions.ts.
-    systems: systemsRevealing(s.sex, value, s.systems, s.tissueFocus) ?? s.systems,
-    isolatedIds: ["Lung shape", "Airways"].includes(s.viewName) ? s.isolatedIds : [],
-    hiddenIds: [], selectedIds: [], focusedId: null, fitTrigger: s.fitTrigger + 1,
-  }));
+  const setRegion = useAtlasStore(s => s.setRegionFocus);
   const [filter, setFilter] = useState("");
   const [shown, setShown] = useState(PAGE);
   const deferred = useDeferredValue(filter);

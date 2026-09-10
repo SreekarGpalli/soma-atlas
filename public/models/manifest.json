@@ -14,13 +14,13 @@
     "urinary": "/models/male/urinary.glb?v=f9c59ac72cbc"
   },
   "female": {
-    "nervous": "/models/female/nervous.glb?v=a383e4251c38",
-    "skeletal": "/models/female/skeletal.glb?v=8c2cc4d35a1b",
+    "nervous": "/models/female/nervous.glb?v=80fb00385be3",
+    "skeletal": "/models/female/skeletal.glb?v=00e9df16f590",
     "cardiovascular": "/models/female/cardiovascular.glb?v=c0830707e4b7",
     "urinary": "/models/female/urinary.glb?v=98c97c981677",
     "digestive": "/models/female/digestive.glb?v=ab35e6c00788",
     "respiratory": "/models/female/respiratory.glb?v=6fc443e992a2",
-    "sensory": "/models/female/sensory.glb?v=27748eabbd13",
+    "sensory": "/models/female/sensory.glb?v=e882f1dc367e",
     "femaleReproductive": "/models/female/femaleReproductive.glb?v=87c96e346a14",
     "lymphatic": "/models/female/lymphatic.glb?v=52fad47dff03",
     "integumentary": "/models/female/integumentary.glb?v=bff38cb7a4fa",

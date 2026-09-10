@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-10T02:13:59.994Z",
+  "generatedAt": "2026-09-10T04:25:18.016Z",
   "reference": {
     "name": "Terminologia Anatomica 2nd ed. (FIPAT 2019)",
     "citation": "FIPAT. Terminologia Anatomica. 2nd ed. FIPAT.library.dal.ca, 2019.",
@@ -80310,10 +80310,10 @@
       "match": "partial",
       "meshCount": 4,
       "meshes": [
-        "female:anterior-segment-of-paracentral-lobule",
         "female:allen-paracentral-lobule-caudal-part-l",
-        "female:anterior-segment-of-paracentral-lobule-2",
-        "female:allen-paracentral-lobule-caudal-part-r"
+        "female:allen-paracentral-lobule-caudal-part-r",
+        "female:anterior-segment-of-paracentral-lobule",
+        "female:anterior-segment-of-paracentral-lobule-2"
       ],
       "sexes": [
         "female"
@@ -83569,8 +83569,8 @@
       "meshCount": 4,
       "meshes": [
         "female:allen-ventral-lateral-nucleus-of-thalamus-l",
-        "female:allen-ventral-lateral-nucleus-of-thalamus-r",
         "female:allen-ventral-posterior-lateral-nucleus-l",
+        "female:allen-ventral-lateral-nucleus-of-thalamus-r",
         "female:allen-ventral-posterior-lateral-nucleus-r"
       ],
       "sexes": [
@@ -83697,8 +83697,8 @@
       "meshCount": 4,
       "meshes": [
         "female:allen-lateral-posterior-nucleus-of-thalamus-l",
-        "female:allen-lateral-posterior-nucleus-of-thalamus-r",
         "female:allen-ventral-posterior-lateral-nucleus-l",
+        "female:allen-lateral-posterior-nucleus-of-thalamus-r",
         "female:allen-ventral-posterior-lateral-nucleus-r"
       ],
       "sexes": [
