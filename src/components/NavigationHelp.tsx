@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { loadLocal, saveLocal } from "@/lib/storage";
+import { useAtlasStore } from "@/store/useAtlasStore";
 import { openStudyView } from "./SceneModes";
 const STEPS = [
   { title: "Start with one view", number: "01", body: "Choose Lung shape, Nerves or another view in the explorer. Each view removes unrelated layers so the anatomy is easier to see.", detail: "Lung shape shows outer surfaces. Airways shows the branching tubes inside. These are separate views of the available models." },
@@ -12,7 +13,13 @@ export function NavigationHelp() {
   const dialog = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(0);
-  useEffect(() => { if (!loadLocal("navigationTutorial-v1", false)) setOpen(true); }, []);
+  // Wait for the opening reveal: a dialog over a loading screen, or over the
+  // reveal itself, is the first thing a new user would have to dismiss.
+  const intro = useAtlasStore(s => s.intro);
+  useEffect(() => {
+    if (intro !== "done") return;
+    if (!loadLocal("navigationTutorial-v1", false)) setOpen(true);
+  }, [intro]);
   useEffect(() => {
     if (open && !dialog.current?.open) dialog.current?.showModal();
     if (!open && dialog.current?.open) dialog.current?.close();

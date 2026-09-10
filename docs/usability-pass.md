@@ -119,3 +119,34 @@ searching a femur now showing 1,046 meshes in context rather than two, and
 Lung shape then choosing Head no longer blank. Lint, typecheck, 51 tests, a
 production build and the model integrity check pass. Coverage is unchanged at
 35.7% — this pass corrected where things are filed, not how much exists.
+
+## Opening reveal
+
+The app opened on a static grey body, which said nothing about the one idea it
+is built on: that the body is stacked in layers you can take off. The first
+visit now plays a short reveal — the skin envelope dissolving to muscle, muscle
+thinning to bone, and on a good connection the arterial, venous and nerve trees
+lighting up through it — with each layer named as it appears. It is the product
+demo and the explanation in the same five seconds.
+
+Cost was the deciding constraint. The skin is a single 231 KB mesh and the
+first two layers are the ones the app downloads anyway, so the core reveal adds
+one small request. The vessel and nerve packs are 7 MB together and are worth
+downloading on a link that will not notice, so the last two beats play only
+when `navigator.connection` reports 4g and Save Data is off; everything else
+gets the three-layer version. Those packs stay resident afterwards, so opening
+Arteries or Nerves is then instant.
+
+It runs once per browser, any click, key or scroll skips it, it is off entirely
+under prefers-reduced-motion, and Setup has a Replay control for showing
+someone else. It waits for the first geometry — a reveal of an empty canvas is
+not a reveal — and the quick-start dialog waits for it to finish rather than
+opening on top of it.
+
+Two implementation notes worth keeping. React's development double-mount
+cancelled the timeline while a ref still said it had started, so the reveal set
+its layers up and never played a beat; the guard is now cleared alongside the
+timers. And giving each beat its own tween chain meant a slow frame let two
+overlap, with the stale one writing its opacities over the newer beat — the
+caption read "Nerves" while the body was already reassembling. The whole
+timeline now runs off one clock and reads elapsed time, which is self-correcting.

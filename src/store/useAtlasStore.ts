@@ -46,6 +46,15 @@ interface AtlasState {
   homeView: () => void;
   regionFocus: RegionId | "all";
   setRegionFocus: (region: RegionId | "all") => void;
+  /** Per-system opacity multiplier, used by the opening reveal. Empty = normal. */
+  systemOpacity: Partial<Record<SystemId, number>>;
+  setSystemOpacity: (next: Partial<Record<SystemId, number>>) => void;
+  /**
+   * Opening reveal: "pending" until it has played or been ruled out, so the
+   * quick-start dialog does not open on top of it or over a loading screen.
+   */
+  intro: "pending" | "playing" | "done";
+  setIntro: (phase: "pending" | "playing" | "done") => void;
   sceneRevision: number;
   visibleMeshCount: number | null;
   tissueFocus: TissueFocus;
@@ -180,6 +189,10 @@ export const useAtlasStore = create<AtlasState>((set, get) => ({
   }),
   homeView: () => get().navigateView({ viewName: "Overview", systems: { ...DEFAULT_SYSTEMS }, regionFocus: "all", tissueFocus: "all", selectedIds: [], focusedId: null, hiddenIds: [], isolatedIds: [], clipEnabled: false, transparency: 0, muscleLayer: 3 }),
   regionFocus: "all",
+  systemOpacity: {},
+  setSystemOpacity: (next) => set({ systemOpacity: next }),
+  intro: "pending",
+  setIntro: (phase) => set({ intro: phase }),
   setRegionFocus: (region) =>
     set((s) => ({
       regionFocus: region,

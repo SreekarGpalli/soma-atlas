@@ -6,6 +6,7 @@ import { OrbitControls, useProgress } from "@react-three/drei";
 import { Box3, Color, Mesh, PerspectiveCamera, Sphere, Vector3 } from "three";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import { AnatomyScene } from "./AnatomyScene";
+import { IntroReveal } from "./IntroReveal";
 
 import { REGION_IDS, REGION_META, SYSTEM_META } from "@/lib/systems";
 import { regionAvailability } from "@/lib/regions";
@@ -253,7 +254,7 @@ export function Viewer() {
           maxDistance={12}
           zoomSpeed={0.8}
         />
-      </Canvas>{!loading && visibleCount === 0 && <div className="empty-scene" role="status"><strong>Nothing to show here</strong><p>This combination of view and body region has no models. Go back to what you were looking at, or start again from the whole body.</p><div className="tag-row">{canBack && <button type="button" onClick={() => useAtlasStore.getState().backView()}>Back</button>}<button type="button" onClick={() => useAtlasStore.getState().homeView()}>Start again</button><button type="button" className="ghost" onClick={resetVisibility}>Turn on every layer</button></div></div>}</div>
+      </Canvas><IntroReveal />{!loading && visibleCount === 0 && <div className="empty-scene" role="status"><strong>Nothing to show here</strong><p>This combination of view and body region has no models. Go back to what you were looking at, or start again from the whole body.</p><div className="tag-row">{canBack && <button type="button" onClick={() => useAtlasStore.getState().backView()}>Back</button>}<button type="button" onClick={() => useAtlasStore.getState().homeView()}>Start again</button><button type="button" className="ghost" onClick={resetVisibility}>Turn on every layer</button></div></div>}</div>
 
       <div className="viewport-tools">
       <button type="button" disabled={!canBack} onClick={() => useAtlasStore.getState().backView()}>Back</button>

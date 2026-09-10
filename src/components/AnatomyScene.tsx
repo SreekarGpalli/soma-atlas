@@ -234,6 +234,7 @@ function SystemPack({ url }: { url: string }) {
 
   // --- shared appearance: clipping + fade --------------------------------
   const transparency = useAtlasStore((s) => s.transparency);
+  const systemOpacity = useAtlasStore((s) => s.systemOpacity);
   useLayoutEffect(() => {
     const opacity = 1 - transparency * 0.85;
     const all = [
@@ -248,16 +249,20 @@ function SystemPack({ url }: { url: string }) {
       m.clippingPlanes = clippingPlanes;
       m.needsUpdate = true;
     }
-    // Fade unselected context so the selection reads through it.
-    for (const m of Object.values(materials.base)) {
-      m.transparent = opacity < 1;
-      m.opacity = opacity;
-      m.depthWrite = opacity >= 1;
+    // Fade unselected context so the selection reads through it. The opening
+    // reveal dissolves one layer at a time, so a per-system multiplier rides
+    // on top: material keys are "<system>" and "<system>:<tissue>".
+    for (const [key, m] of Object.entries(materials.base)) {
+      const layer = systemOpacity[key.split(":")[0] as SystemId] ?? 1;
+      const value = opacity * layer;
+      m.transparent = value < 1;
+      m.opacity = value;
+      m.depthWrite = value >= 1;
     }
     materials.fallback.transparent = opacity < 1;
     materials.fallback.opacity = opacity;
     invalidate();
-  }, [clippingPlanes, transparency, materials, invalidate]);
+  }, [clippingPlanes, transparency, systemOpacity, materials, invalidate]);
 
   // --- visibility ---------------------------------------------------------
   const systems = useAtlasStore((s) => s.systems);

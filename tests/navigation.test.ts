@@ -5,6 +5,7 @@ import { lungMeshIds, isLungSurface, selectionMeshes } from "@/lib/lung-views";
 import { STRUCTURE_BY_ID, STRUCTURES, searchStructures } from "@/data/structures";
 import { regionAvailability, systemsRevealing } from "@/lib/regions";
 import { DEFAULT_SYSTEMS, REGION_IDS, SYSTEM_IDS } from "@/lib/systems";
+import { CORE as INTRO_CORE, EXTENDED as INTRO_EXTENDED, CLOSE as INTRO_CLOSE } from "@/components/IntroReveal";
 import type { SystemId, TissueFocus } from "@/lib/types";
 
 const ALL_SYSTEMS = Object.fromEntries(SYSTEM_IDS.map(id => [id, true])) as Record<SystemId, boolean>;
@@ -149,4 +150,24 @@ test("leaving a study view gives the body back instead of isolating forever", ()
   useAtlasStore.setState({ isolatedIds: airways, selectedIds: [], focusedId: null });
   useAtlasStore.getState().select(airways[0]);
   assert.deepEqual(useAtlasStore.getState().isolatedIds, airways);
+});
+
+test("the opening reveal names every layer it dissolves and lands on Overview", () => {
+  // Each beat may only mention systems that exist, and the closing beat must
+  // restore the two default layers so the app opens where it normally would.
+  const beats = [...INTRO_CORE, ...INTRO_EXTENDED, INTRO_CLOSE];
+  for (const beat of beats) {
+    for (const id of Object.keys(beat.to)) {
+      assert.ok(SYSTEM_IDS.includes(id as SystemId), `${id} is not a system`);
+    }
+  }
+  assert.equal(INTRO_CLOSE.to.muscular, 1);
+  assert.equal(INTRO_CLOSE.to.skeletal, 1);
+  assert.equal(INTRO_CLOSE.to.integumentary, 0);
+  // Every visible beat carries a name; the closing one is deliberately silent.
+  for (const beat of [...INTRO_CORE, ...INTRO_EXTENDED]) assert.ok(beat.caption.length > 0);
+  assert.equal(INTRO_CLOSE.caption, "");
+  // The whole thing has to be short enough that nobody sits through it twice.
+  const runtime = beats.reduce((sum, b) => sum + b.ms, 0);
+  assert.ok(runtime <= 9000, `reveal runs ${runtime}ms`);
 });

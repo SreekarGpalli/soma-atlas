@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { replayIntro } from "./IntroReveal";
 import { CATALOG_STATS } from "@/data/structures";
 import { TUTOR_MODELS } from "@/lib/tutor-models";
 import { useAtlasStore } from "@/store/useAtlasStore";
@@ -143,6 +144,17 @@ export function SettingsPanel() {
               <span>{what}</span>
             </span>
           ))}
+        </div>
+      </section>
+
+      <section style={{ display: "grid", gap: 8 }}>
+        <h3 className="section-label">Opening reveal</h3>
+        <p className="muted">
+          The layer-by-layer opening plays once. Replay it to see how the body
+          comes apart, or to show someone else.
+        </p>
+        <div className="tag-row">
+          <button type="button" onClick={replayIntro}>Replay the reveal</button>
         </div>
       </section>
 
