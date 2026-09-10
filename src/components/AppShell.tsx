@@ -121,9 +121,6 @@ export function AppShell() {
     <div className="shell">
       <header className="topbar">
         <div className="brand">
-          <div className="brand-mark" aria-hidden>
-            G
-          </div>
           <div className="brand-text">
             <strong>G.L.S.C Atlas</strong>
             <span>

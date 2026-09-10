@@ -36,6 +36,9 @@ export interface MuscleFacts {
   action: string;
 }
 
+/** Tissue subdivision a study view can filter on, or "all" for none. */
+export type TissueFocus = "all" | "artery" | "vein" | "nerve" | "lymph";
+
 export interface Structure {
   id: string;
   name: string;

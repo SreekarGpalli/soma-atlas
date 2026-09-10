@@ -304,21 +304,6 @@ input[type="checkbox"] {
   flex-shrink: 0;
 }
 
-.brand-mark {
-  width: 30px;
-  height: 30px;
-  border-radius: 9px;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(150deg, var(--surface-3), var(--surface));
-  border: 1px solid var(--border-strong);
-  color: var(--gold);
-  font-family: var(--font-serif), Georgia, serif;
-  font-size: 16px;
-  font-weight: 600;
-  flex-shrink: 0;
-}
-
 .brand-text strong {
   display: block;
   font-family: var(--font-serif), Georgia, serif;
@@ -475,6 +460,16 @@ input[type="checkbox"] {
   color: var(--text-faint);
   font-size: 13px;
   text-align: center;
+}
+
+.search-empty .link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 /* ==========================================================================
@@ -1583,9 +1578,11 @@ input[type="checkbox"] {
 /* Explorer layout: every control occupies its own grid space. */
 .workspace { grid-template-columns: 350px minmax(0,1fr); grid-template-rows:minmax(0,1fr); }
 .side { grid-column:1; grid-row:1; grid-template-columns:1fr; grid-template-rows:auto minmax(0,1fr); border-left:0; border-right:1px solid var(--border); }
-.rail { flex-direction:row; flex-wrap:wrap; border:0; border-bottom:1px solid var(--border); padding:8px; gap:3px; grid-row:1; }
-.rail button { flex:1; width:auto; min-width:38px; height:45px; }
-.rail button span { font-size:9px; }
+/* One row of equal cells whatever the tab count: a lone "Setup" wrapping
+   onto its own line read as a broken layout. */
+.rail { display:grid; grid-auto-flow:column; grid-auto-columns:minmax(0,1fr); border:0; border-bottom:1px solid var(--border); padding:8px; gap:3px; grid-row:1; }
+.rail button { width:auto; min-width:0; height:45px; padding:0 2px; }
+.rail button span { font-size:9px; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .rail-spacer { display:none; }
 .panel { grid-row:2; background:var(--surface); }
 .viewer { grid-column:2; grid-row:1; display:grid; grid-template-rows:auto minmax(0,1fr) auto auto; min-height:0; background:#0b1420; }
@@ -1626,7 +1623,7 @@ input[type="checkbox"] {
 .explorer-toggle { font-size:11px; padding:6px 10px; }
 [data-theme="light"] .viewer { background:#e7e5e2; }
 button:focus-visible, summary:focus-visible, select:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
-@media (max-width:1050px) and (min-width:761px) { .workspace { grid-template-columns:300px minmax(0,1fr); } .workspace.explorer-closed { grid-template-columns:1fr; } .scene-modes { padding:18px 12px 8px; } .mode-card { padding:10px 7px; gap:6px; } .mode-arrow { display:none; } }
+@media (max-width:1050px) and (min-width:761px) { .rail button span { font-size:8px; letter-spacing:-.02em; } .workspace { grid-template-columns:300px minmax(0,1fr); } .workspace.explorer-closed { grid-template-columns:1fr; } .scene-modes { padding:18px 12px 8px; } .mode-card { padding:10px 7px; gap:6px; } .mode-arrow { display:none; } }
 @media (max-width:760px) {
  .workspace { grid-template-columns:1fr; grid-template-rows:minmax(310px,56%) minmax(0,1fr); }
  .viewer { grid-column:1; grid-row:1; }
@@ -1643,7 +1640,6 @@ button:focus-visible, summary:focus-visible, select:focus-visible { outline:2px 
  .mode-strip { grid-template-columns:repeat(2,minmax(0,1fr)); }
  .explorer-title h2 { font-size:24px; }
  .topbar { padding:8px 10px; gap:7px; }
- .brand-mark { display:none; }
  .brand-text strong { font-size:14px; }
  .topbar-right { gap:5px; margin-left:auto; }
  .topbar-right button { font-size:10px; padding:5px 7px; }

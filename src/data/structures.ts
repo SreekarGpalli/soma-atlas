@@ -237,16 +237,72 @@ interface IndexRow {
   s: Structure;
   name: string;
   id: string;
+  /** Name with spacing, punctuation and ae/oe spelling levelled out. */
+  flat: string;
   /** Everything else worth matching, lowercased once at startup. */
   blob: string;
+  /** Name and aliases, levelled the same way as `flat`. */
+  blobFlat: string;
   /** Grouping structures and curated notes rank above raw leaf meshes. */
   weight: number;
 }
+
+/**
+ * How a student types is not how the datasets spell.
+ *
+ * "gall bladder" found nothing because the mesh is "Gallbladder"; "oesophagus"
+ * found only three of the nine oesophageal rows because BodyParts3D spells six
+ * of them "esophagus". An Indian MBBS course teaches the British spellings, so
+ * half the catalog was invisible to the spelling the student was taught.
+ *
+ * Levelling spacing, punctuation, accents and the ae/oe digraphs on both the
+ * query and the index makes those the same string. Collisions this creates are
+ * harmless: it only ever widens a search that would otherwise return nothing.
+ */
+function normalise(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/æ/g, "ae")
+    .replace(/œ/g, "oe")
+    .replace(/ae|oe/g, "e")
+    .replace(/[^a-z0-9]/g, "");
+}
+
+/**
+ * Everyday names for structures the datasets only list under their anatomical
+ * ones. Kept deliberately short: each entry is a term a first-year would use
+ * out loud, not a synonym list.
+ */
+const LAY_TERMS: Record<string, string> = {
+  windpipe: "trachea",
+  voicebox: "larynx",
+  adamsapple: "thyroid cartilage",
+  collarbone: "clavicle",
+  shoulderblade: "scapula",
+  kneecap: "patella",
+  shinbone: "tibia",
+  thighbone: "femur",
+  breastbone: "sternum",
+  backbone: "vertebral column",
+  tailbone: "coccyx",
+  jawbone: "mandible",
+  cheekbone: "zygomatic bone",
+  eardrum: "tympanic membrane",
+  womb: "uterus",
+  gullet: "esophagus",
+  foodpipe: "esophagus",
+  voicecord: "vocal fold",
+  funnybone: "ulnar nerve",
+  wisdomtooth: "third molar",
+};
 
 const INDEX: IndexRow[] = STRUCTURES.map((s) => ({
   s,
   name: s.name.toLowerCase(),
   id: s.id.toLowerCase(),
+  flat: normalise(s.name),
   blob: [
     s.summary,
     s.relations ?? "",
@@ -257,6 +313,9 @@ const INDEX: IndexRow[] = STRUCTURES.map((s) => ({
   ]
     .join(" ")
     .toLowerCase(),
+  blobFlat: normalise(
+    [s.name, ...(s.aliases ?? [])].join(" "),
+  ),
   weight:
     (s.curated ? 30 : 0) +
     (s.clinical ? 10 : 0) +
@@ -268,6 +327,12 @@ export interface SearchOptions {
   /** Restrict to structures visible in the given module. */
   sex?: "male" | "female";
   limit?: number;
+  /**
+   * Ignore rows matched only through their prose. Searching "uterus" in the
+   * male module hit the urinary bladder's clinical note and so looked like a
+   * real answer; the caller needs to know that nothing was matched by name.
+   */
+  namesOnly?: boolean;
 }
 
 export function searchStructures(
@@ -275,7 +340,7 @@ export function searchStructures(
   options: SearchOptions = {},
 ): Structure[] {
   const q = query.trim().toLowerCase();
-  const { sex, limit } = options;
+  const { sex, limit, namesOnly } = options;
   const matchesSex = (s: Structure) =>
     !sex || s.sex === "both" || s.sex === sex;
 
@@ -285,6 +350,10 @@ export function searchStructures(
       .map((r) => r.s);
     return limit ? base.slice(0, limit) : base;
   }
+
+  const flat = normalise(q);
+  const lay = LAY_TERMS[flat];
+  const flats = (lay ? [flat, normalise(lay)] : [flat]).filter((f) => f.length > 1);
 
   const scored: { s: Structure; score: number }[] = [];
   for (const row of INDEX) {
@@ -297,7 +366,12 @@ export function searchStructures(
     else if (row.id === q) score = 450;
     else if (row.id.startsWith(q)) score = 380;
     else if (row.name.includes(q)) score = 300;
-    else if (row.blob.includes(q)) score = 100;
+    else if (!namesOnly && row.blob.includes(q)) score = 100;
+    // Spelling- and spacing-insensitive fallback, always below a literal hit.
+    else if (flats.some((f) => row.flat === f)) score = 280;
+    else if (flats.some((f) => row.flat.startsWith(f))) score = 260;
+    else if (flats.some((f) => row.flat.includes(f))) score = 240;
+    else if (!namesOnly && flats.some((f) => row.blobFlat.includes(f))) score = 80;
     else continue;
     // Prefer the shortest name that still contains the query, so "lung" ranks
     // "Left lung" above "Lateral basal segment of left lung".

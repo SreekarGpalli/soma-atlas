@@ -452,8 +452,10 @@ const REGION_RULES = [
     rule(
       ["cervix", "oviduct", "broad ligament", "round ligament of uterus",
        "rectouterine", "vesicouterine"],
-      ["uter", "myometri", "endometri", "ovary", "ovarian", "fallopian",
-       "salping", "vagina", "mesovarium", "mesosalpinx"],
+      // salpingopharyngeus is a pharyngeal muscle, not a uterine tube: the
+       // bare "salping" rule filed it under the female pelvis.
+       ["uter", "myometri", "endometri", "ovary", "ovarian", "fallopian",
+       "salping(?!opharyng)", "vagina", "mesovarium", "mesosalpinx"],
     ),
   ],
   [

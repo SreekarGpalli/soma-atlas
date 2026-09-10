@@ -16,6 +16,7 @@ import type {
   QuizQuestion,
   SexModule,
   SystemId,
+  TissueFocus,
   TutorMessage,
 } from "@/lib/types";
 
@@ -45,7 +46,7 @@ interface AtlasState {
   regionFocus: RegionId | "all";
   sceneRevision: number;
   visibleMeshCount: number | null;
-  tissueFocus: "all" | "artery" | "vein" | "nerve" | "lymph";
+  tissueFocus: TissueFocus;
   readable: boolean;
   turntable: boolean;
   sex: SexModule;

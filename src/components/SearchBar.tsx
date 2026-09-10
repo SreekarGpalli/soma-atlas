@@ -28,6 +28,7 @@ export function SearchBar() {
   const select = useAtlasStore((s) => s.select);
   const focusSelection = useAtlasStore((s) => s.focusSelection);
   const sex = useAtlasStore((s) => s.sex);
+  const setSex = useAtlasStore((s) => s.setSex);
 
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
@@ -42,6 +43,17 @@ export function SearchBar() {
     const q = deferred.trim();
     if (!q) return [];
     return searchStructures(q, { sex, limit: MAX_HITS });
+  }, [deferred, sex]);
+
+  // "uterus" in the male module matched the urinary bladder's clinical note
+  // and reported it as the answer. When nothing here matches by name but the
+  // other module has one, say so rather than letting a prose hit stand in.
+  const elsewhere = useMemo(() => {
+    const q = deferred.trim();
+    if (!q) return null;
+    if (searchStructures(q, { sex, namesOnly: true, limit: 1 })[0]) return null;
+    const other = sex === "male" ? "female" : "male";
+    return searchStructures(q, { sex: other, namesOnly: true, limit: 1 })[0] ? other : null;
   }, [deferred, sex]);
 
   useEffect(() => setActive(0), [deferred]);
@@ -110,10 +122,20 @@ export function SearchBar() {
 
       {showList && (
         <ul className="search-results" id={listId} role="listbox">
-          {hits.length === 0 ? (
+          {elsewhere && (
             <li className="search-empty" role="presentation">
-              Nothing in the catalog matches “{query.trim()}”.
+              “{query.trim()}” is in the {elsewhere} module.{" "}
+              <button type="button" className="link" onClick={() => setSex(elsewhere)}>
+                Switch to {elsewhere === "female" ? "Female" : "Male"}
+              </button>
             </li>
+          )}
+          {hits.length === 0 ? (
+            !elsewhere && (
+              <li className="search-empty" role="presentation">
+                Nothing in the catalog matches “{query.trim()}”. Try a shorter word, or the anatomical name.
+              </li>
+            )
           ) : (
             hits.map((s, i) => (
               <li key={s.id} role="presentation">

@@ -4,6 +4,7 @@ import { useDeferredValue, useMemo, useState } from "react";
 import { STRUCTURES, searchStructures } from "@/data/structures";
 import { REGION_META, SYSTEM_IDS, SYSTEM_META } from "@/lib/systems";
 import { classifyTissue } from "@/lib/tissue";
+import { regionAvailability, systemsRevealing } from "@/lib/regions";
 
 import { useAtlasStore } from "@/store/useAtlasStore";
 import type { RegionId, Structure, SystemId } from "@/lib/types";
@@ -99,12 +100,19 @@ function StructureList() {
   const tissueFocus = useAtlasStore(s => s.tissueFocus);
   const sex = useAtlasStore((s) => s.sex);
   const systems = useAtlasStore((s) => s.systems);
+  const availability = useMemo(() => regionAvailability(sex, systems, tissueFocus), [sex, systems, tissueFocus]);
   const focusedId = useAtlasStore((s) => s.focusedId);
   const select = useAtlasStore((s) => s.select);
   const focusSelection = useAtlasStore((s) => s.focusSelection);
 
   const region = useAtlasStore(s => s.regionFocus);
-  const setRegion = (value: RegionId | "all") => useAtlasStore.setState(s => ({ regionFocus: value, isolatedIds: ["Lung shape", "Airways"].includes(s.viewName) ? s.isolatedIds : [], hiddenIds: [], selectedIds: [], focusedId: null, fitTrigger: s.fitTrigger + 1 }));
+  const setRegion = (value: RegionId | "all") => useAtlasStore.setState(s => ({
+    regionFocus: value,
+    // Choosing a region reveals what is in it; see src/lib/regions.ts.
+    systems: systemsRevealing(s.sex, value, s.systems, s.tissueFocus) ?? s.systems,
+    isolatedIds: ["Lung shape", "Airways"].includes(s.viewName) ? s.isolatedIds : [],
+    hiddenIds: [], selectedIds: [], focusedId: null, fitTrigger: s.fitTrigger + 1,
+  }));
   const [filter, setFilter] = useState("");
   const [shown, setShown] = useState(PAGE);
   const deferred = useDeferredValue(filter);
@@ -177,6 +185,8 @@ function StructureList() {
               key={r}
               type="button"
               className={region === r ? "is-active" : ""}
+              disabled={!availability[r].available && region !== r}
+              title={availability[r].available ? undefined : "Nothing in this region for the current view"}
               onClick={() => {
                 setRegion(region === r ? "all" : r);
                 setShown(PAGE);
